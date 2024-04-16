@@ -1,0 +1,35 @@
+@startuml
+
+object user_settings {
+    <#white>| char | user_id | PK | NOT NULL |
+    <#white>| varchar | user_name | | NOT NULL |
+    <#white>| varchar | email | | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+    <#white>| timestamp | updated_at | | NOT NULL |
+}
+
+object tweets {
+    <#white>| char | tweet_id | PK | NOT NULL |
+    <#white>| char | user_id |  | NOT NULL |
+    <#white>| varchar | tweet_text | | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+    <#white>| timestamp | updated_at | | NOT NULL |
+}
+
+object follows{
+    <#white>| char | user_id | PK | NOT NULL |
+    <#white>| char | follow_id |  | NOT NULL |
+
+}
+
+object followers {
+    <#white>| char | user_id | PK | NOT NULL |
+    <#white>| char | follower_id |  | NOT NULL |
+}
+
+subjects ||--|{ examinations
+subjects ||--|{ sheets
+examinations ||--|{ sheets
+sheets ||--o| sheet_corrections
+
+@enduml
