@@ -1,0 +1,39 @@
+users:
+    post:
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_name
+                - email
+              properties:
+                user_name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          description: Created
+
+user:
+    get:
+      summary: Get a user by ID
+      operationId: getUser
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi.yaml#/components/schemas/User'

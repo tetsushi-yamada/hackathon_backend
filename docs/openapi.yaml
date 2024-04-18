@@ -1,0 +1,201 @@
+openapi: 3.0.0
+info:
+  title: Simple Twitter API
+  description: API for a simple Twitter-like application.
+  version: 1.0.0
+servers:
+  - url: 'https://api.simpletwitter.com/v1'
+
+paths:
+  /users:
+    post:
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_name
+                - email
+              properties:
+                user_name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          description: Created
+
+  /users/{user_id}:
+    get:
+      summary: Get a user by ID
+      operationId: getUser
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /tweets:
+    post:
+      summary: Create a new tweet
+      operationId: createTweet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - tweet_text
+              properties:
+                user_id:
+                  type: string
+                tweet_text:
+                  type: string
+      responses:
+        '201':
+          description: Created
+
+  /tweets/{tweet_id}:
+    get:
+      summary: Get a tweet by ID
+      operationId: getTweet
+      parameters:
+        - name: tweet_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweet'
+
+  /follows:
+    get:
+      summary: Get all followers for a specific user
+      operationId: getFollowsForUser
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          description: The ID of the user to retrieve followers for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of followers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Follow'
+      tags:
+        - Follows
+    post:
+      summary: Create a follow relationship
+      operationId: createFollow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - follow_id
+              properties:
+                user_id:
+                  type: string
+                follow_id:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /followers:
+    get:
+      summary: Get all followees for a specific user
+      operationId: getFollowersForUser
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          description: The ID of the user to retrieve followees for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of followees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Follower'
+      tags:
+        - Followers
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+        user_name:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Tweet:
+      type: object
+      properties:
+        tweet_id:
+          type: string
+        user_id:
+          type: string
+        tweet_text:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Follow:
+      type: object
+      properties:
+        user_id:
+          type: string
+        follow_id:
+          type: string
+    Follower:
+      type: object
+      properties:
+        user_id:
+          type: string
+        follower_id:
+          type: string

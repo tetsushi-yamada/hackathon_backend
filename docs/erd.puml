@@ -1,0 +1,23 @@
+@startuml
+
+object user_settings {
+    | char | user_id | PK | NOT NULL |
+    | varchar | user_name | | NOT NULL |
+    | varchar | email | | NOT NULL |
+}
+
+object tweets {
+    | char | tweet_id | PK | NOT NULL |
+    | char | user_id | FK | NOT NULL |
+    | varchar | tweet_text | | NOT NULL |
+}
+
+object follows {
+    | char | user_id | PK, FK | NOT NULL |
+    | char | follow_id | PK, FK | NOT NULL |
+}
+
+user_settings ||--o{ tweets
+user_settings ||--o{ follows
+
+@enduml
