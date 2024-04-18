@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/erd.puml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/erd.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
