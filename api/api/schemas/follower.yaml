@@ -1,0 +1,7 @@
+Follower:
+      type: object
+      properties:
+        user_id:
+          type: string
+        follower_id:
+          type: string

@@ -1,0 +1,22 @@
+followers:
+    get:
+      summary: Get all followees for a specific user
+      operationId: getFollowersForUser
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          description: The ID of the user to retrieve followees for
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of followees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../openapi.yaml#/components/schemas/Follower'
+      tags:
+        - Followers

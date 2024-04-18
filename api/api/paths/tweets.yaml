@@ -1,0 +1,39 @@
+tweets:
+    post:
+      summary: Create a new tweet
+      operationId: createTweet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - tweet_text
+              properties:
+                user_id:
+                  type: string
+                tweet_text:
+                  type: string
+      responses:
+        '201':
+          description: Created
+
+tweet:
+    get:
+      summary: Get a tweet by ID
+      operationId: getTweet
+      parameters:
+        - name: tweet_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi.yaml#/components/schemas/Tweet'

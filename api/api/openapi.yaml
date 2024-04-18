@@ -1,0 +1,34 @@
+openapi: 3.0.0
+
+info:
+  title: Simple Twitter API
+  description: API for a simple Twitter-like application.
+  version: 1.0.0
+
+servers:
+  - url: 'https://api.simpletwitter.com/v1'
+
+paths:
+  /users:
+    $ref: './paths/users.yaml#/users'
+  /users/{user_id}:
+    $ref: './paths/users.yaml#/user'
+  /tweets:
+    $ref: './paths/tweets.yaml#/tweets'
+  /tweets/{tweet_id}:
+    $ref: './paths/tweets.yaml#/tweet'
+  /follows:
+    $ref: './paths/follows.yaml#/follows'
+  /followers:
+    $ref: './paths/followers.yaml#/followers'
+
+components:
+  schemas:
+    User:
+      $ref: './schemas/user.yaml#/User'
+    Tweet:
+      $ref: './schemas/tweet.yaml#/Tweet'
+    Follow:
+      $ref: './schemas/follow.yaml#/Follow'
+    Follower:
+      $ref: './schemas/follower.yaml#/Follower'
