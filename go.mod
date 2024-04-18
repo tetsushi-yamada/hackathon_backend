@@ -1,4 +1,4 @@
-module main
+module hackathon_backend
 
 go 1.22
 

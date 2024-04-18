@@ -5,13 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
-      <change afterPath="$PROJECT_DIR$/api/api-codegen/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/handler/follow.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/handler/follower.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/handler/handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/handler/tweet.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/handler/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/user.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
   </component>
   <component name="GOROOT" url="file:///opt/homebrew/opt/go/libexec" />
   <component name="Git.Settings">
@@ -30,6 +46,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
     "Go ビルド.go build hackathon_backend/cmd.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
