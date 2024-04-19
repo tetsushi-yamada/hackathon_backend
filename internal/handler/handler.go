@@ -1,8 +1,8 @@
 package handler
 
 type handlers struct {
-	tweet    *tweetHandler
-	user     *userHandler
-	follow   *followHandler
-	follower *followerHandler
+	tweet    *TweetHandler
+	user     *UserHandler
+	follow   *FollowHandler
+	follower *FollowerHandler
 }

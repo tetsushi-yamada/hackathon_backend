@@ -2,7 +2,7 @@ package handler
 
 import "net/http"
 
-type followHandler struct{}
+type FollowHandler struct{}
 
 func CreateFollow(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
