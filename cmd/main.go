@@ -7,15 +7,11 @@ import (
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	e := echo.New()
 	router := server.NewRouter()
 	log.Fatal(http.ListenAndServe(":8080", router))
-	e.Logger.Fatal(e.Start(":8000"))
 }
 
 func StartDB() *sql.DB {
