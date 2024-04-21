@@ -61,12 +61,12 @@ var routes = Routes{
 		handler.CreateTweet,
 	},
 
-	Route{
-		"CreateUser",
-		strings.ToUpper("Post"),
-		"/v1/users",
-		handler.CreateUser,
-	},
+	//Route{
+	//	"CreateUser",
+	//	strings.ToUpper("Post"),
+	//	"/v1/users",
+	//	handler.CreateUserHandler,
+	//},
 
 	Route{
 		"GetTweet",
@@ -75,12 +75,12 @@ var routes = Routes{
 		handler.GetTweet,
 	},
 
-	Route{
-		"GetUser",
-		strings.ToUpper("Get"),
-		"/v1/users/{user_id}",
-		handler.GetUser,
-	},
+	//Route{
+	//	"GetUser",
+	//	strings.ToUpper("Get"),
+	//	"/v1/users/{user_id}",
+	//	handler.GetUser,
+	//},
 
 	Route{
 		"GetFollowersForUser",
