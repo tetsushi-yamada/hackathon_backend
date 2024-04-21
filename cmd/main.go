@@ -11,8 +11,7 @@ import (
 
 func main() {
 	router := server.NewRouter()
-	port := os.Getenv("PORT")
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func StartDB() *sql.DB {
