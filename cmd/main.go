@@ -8,9 +8,14 @@ import (
 )
 
 func main() {
-	db := init_query.StartDB()
+	router := server.NewRouter()
+	err := http.ListenAndServe(":8080", router)
+	if err != nil {
+		log.Fatalf("Server failed to start: %v", err)
+	}
 
-	err := init_query.CreateUserTable(db)
+	db := init_query.StartDB()
+	err = init_query.CreateUserTable(db)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,6 +30,4 @@ func main() {
 		log.Fatal(err)
 	}
 
-	router := server.NewRouter()
-	log.Fatal(http.ListenAndServe(":8080", router))
 }
