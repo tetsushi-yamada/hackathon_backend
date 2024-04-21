@@ -1,30 +1,30 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
+	"github.com/tetsushi-yamada/hackathon_backend/init_query"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/server"
 	"log"
 	"net/http"
-	"os"
 )
 
 func main() {
-	router := server.NewRouter()
-	log.Fatal(http.ListenAndServe(":8080", router))
-}
+	db := init_query.StartDB()
 
-func StartDB() *sql.DB {
-	// DB接続のための準備
-	mysqlUser := os.Getenv("MYSQL_USER")
-	mysqlPwd := os.Getenv("MYSQL_PWD")
-	mysqlHost := os.Getenv("MYSQL_HOST")
-	mysqlDatabase := os.Getenv("MYSQL_DATABASE")
-
-	connStr := fmt.Sprintf("%s:%s@%s/%s", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
-	db, err := sql.Open("mysql", connStr)
+	err := init_query.CreateUserTable(db)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return db
+
+	err = init_query.CreateTweetTable(db)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = init_query.CreateFollowTable(db)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	router := server.NewRouter()
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
