@@ -15,19 +15,8 @@ func main() {
 	}
 
 	db := init_query.StartDB()
-	err = init_query.CreateUserTable(db)
+	err = init_query.Init_table(db)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	err = init_query.CreateTweetTable(db)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = init_query.CreateFollowTable(db)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 }

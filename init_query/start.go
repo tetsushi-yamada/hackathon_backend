@@ -21,3 +21,22 @@ func StartDB() *sql.DB {
 	}
 	return db
 }
+
+func Init_table(db *sql.DB) error {
+	err := CreateUserTable(db)
+	if err != nil {
+		return err
+	}
+
+	err = CreateTweetTable(db)
+	if err != nil {
+		return err
+	}
+
+	err = CreateFollowTable(db)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
