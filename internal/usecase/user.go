@@ -11,8 +11,11 @@ type UserUsecase struct {
 	sql          *sql.DB
 }
 
-func NewUserUsecase(ud *database.UserDatabase) *UserUsecase {
-	return &UserUsecase{UserDatabase: ud}
+func NewUserUsecase(db *sql.DB, ud *database.UserDatabase) *UserUsecase {
+	return &UserUsecase{
+		UserDatabase: ud,
+		sql:          db,
+	}
 }
 
 func (uu *UserUsecase) CreateUserUsecase(user domain.User) error {

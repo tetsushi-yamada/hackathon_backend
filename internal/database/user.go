@@ -7,6 +7,8 @@ import (
 
 type UserDatabase struct{}
 
+func NewUserDatabase() *UserDatabase { return &UserDatabase{} }
+
 func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, user domain.User) error {
 	query := `INSERT INTO users (user_id, user_name, email) VALUES (?, ?, ?)`
 	_, err := tx.Exec(query, user.UserId, user.UserName, user.Email)

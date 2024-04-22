@@ -24,18 +24,15 @@ func StartDB() *sql.DB {
 }
 
 func Init_table(db *sql.DB) error {
-	err := CreateUserTable(db)
-	if err != nil {
+	if err := CreateUserTable(db); err != nil {
 		return err
 	}
 
-	err = CreateTweetTable(db)
-	if err != nil {
+	if err := CreateTweetTable(db); err != nil {
 		return err
 	}
 
-	err = CreateFollowTable(db)
-	if err != nil {
+	if err := CreateFollowTable(db); err != nil {
 		return err
 	}
 

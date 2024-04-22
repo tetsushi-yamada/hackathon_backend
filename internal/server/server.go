@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/handler"
-	"github.com/tetsushi-yamada/hackathon_backend/internal/logger"
 	"net/http"
 	"strings"
 )
@@ -18,20 +17,10 @@ type Route struct {
 
 type Routes []Route
 
-func NewRouter() *mux.Router {
+func NewRouter(handlers *handler.Handlers) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	for _, route := range routes {
-		var handler http.Handler
-		handler = route.HandlerFunc
-		handler = logger.Logger(handler, route.Name)
-
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
-	}
-
+	router.HandleFunc("/v1/users", handlers.User.CreateUserHandler).Methods("POST")
+	router.HandleFunc("/v1/users", handlers.User.GetUserHandler).Methods("GET")
 	return router
 }
 
@@ -61,27 +50,12 @@ var routes = Routes{
 		handler.CreateTweet,
 	},
 
-	//Route{
-	//	"CreateUser",
-	//	strings.ToUpper("Post"),
-	//	"/v1/users",
-	//	handler.CreateUserHandler,
-	//},
-
 	Route{
 		"GetTweet",
 		strings.ToUpper("Get"),
 		"/v1/tweets/{tweet_id}",
 		handler.GetTweet,
 	},
-
-	//Route{
-	//	"GetUser",
-	//	strings.ToUpper("Get"),
-	//	"/v1/users/{user_id}",
-	//	handler.GetUser,
-	//},
-
 	Route{
 		"GetFollowersForUser",
 		strings.ToUpper("Get"),
