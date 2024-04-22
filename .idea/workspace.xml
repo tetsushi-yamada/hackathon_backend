@@ -7,6 +7,7 @@
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/database/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/user.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +66,7 @@
       <recent name="$PROJECT_DIR$/internal" />
     </key>
   </component>
-  <component name="RunManager" selected="HTTP リクエスト.rest-api_3 | #2">
+  <component name="RunManager" selected="HTTP リクエスト.rest-api_3 | #1">
     <configuration name="go build hackathon_backend/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="hackathon_backend" />
       <working_directory value="$PROJECT_DIR$" />
@@ -83,8 +84,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP リクエスト.rest-api_3 | #2" />
         <item itemvalue="HTTP リクエスト.rest-api_3 | #1" />
+        <item itemvalue="HTTP リクエスト.rest-api_3 | #2" />
         <item itemvalue="Go ビルド.go build hackathon_backend/cmd" />
       </list>
     </recent_temporary>

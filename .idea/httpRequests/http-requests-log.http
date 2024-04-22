@@ -4,6 +4,50 @@ Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
+<> 2024-04-22T123651.404.txt
+
+###
+
+POST https://hackathon-backend-d3qlanjkpa-uc.a.run.app/v1/users
+Content-Type: application/json
+Content-Length: 119
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+    "user_id": "374970eb-8495-cf33-5e20-54dcbf008896",
+    "user_name": "John Doe",
+    "email": "hello@google.com"
+}
+
+<> 2024-04-22T123519.500.txt
+
+###
+
+POST https://hackathon-backend-d3qlanjkpa-uc.a.run.app/v1/users
+Content-Type: application/json
+Content-Length: 119
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+    "user_id": "374970eb-8495-cf33-5e20-54dcbf008896",
+    "user_name": "John Doe",
+    "email": "hello@google.com"
+}
+
+<> 2024-04-22T123455.500.txt
+
+###
+
+GET https://hackathon-backend-d3qlanjkpa-uc.a.run.app/v1/users?user_id=374970eb-8495-cf33-5e20-54dcbf008896
+Accept: application/json
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
 <> 2024-04-22T121150.404.txt
 
 ###
