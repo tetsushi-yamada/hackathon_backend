@@ -932,7 +932,7 @@ hackathon|schema||te||UPDATE|G</Grants>
     </schema>
     <schema id="290" parent="1" name="hackathon">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-04-22.01:42:29</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-04-22.05:22:30</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="291" parent="1" name="te"/>

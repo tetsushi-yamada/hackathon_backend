@@ -19,8 +19,11 @@ type Routes []Route
 
 func NewRouter(handlers *handler.Handlers) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
+
+	//user
 	router.HandleFunc("/v1/users", handlers.User.CreateUserHandler).Methods("POST")
 	router.HandleFunc("/v1/users", handlers.User.GetUserHandler).Methods("GET")
+	router.HandleFunc("/v1/users", handlers.User.DeleteUserHandler).Methods("DELETE")
 	return router
 }
 

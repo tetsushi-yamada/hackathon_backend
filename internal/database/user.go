@@ -11,8 +11,16 @@ type UserDatabase struct{}
 func NewUserDatabase() *UserDatabase { return &UserDatabase{} }
 
 func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, user domain.User) error {
-	query := `INSERT INTO users (user_id, user_name, email) VALUES (?, ?, ?)`
-	_, err := tx.Exec(query, user.UserId, user.UserName, user.Email)
+	query := `DELETE FROM users WHERE user_id = ?`
+	_, err := tx.Exec(query, user.UserId)
+	if err != nil {
+		return err
+	}
+	query = `INSERT INTO users (user_id, user_name, email) VALUES (?, ?, ?)`
+	_, err = tx.Exec(query, user.UserId, user.UserName, user.Email)
+	if err != nil {
+		return err
+	}
 	return err
 }
 
@@ -33,4 +41,13 @@ func (repo *UserDatabase) GetUserTx(tx *sql.Tx, userID string) (*domain.User, er
 		return nil, err
 	}
 	return user, nil
+}
+
+func (repo *UserDatabase) DeleteUserTx(tx *sql.Tx, userID string) error {
+	query := `DELETE FROM users WHERE user_id = ?`
+	_, err := tx.Exec(query, userID)
+	if err != nil {
+		return err
+	}
+	return nil
 }

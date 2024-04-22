@@ -33,12 +33,21 @@ func (uh *UserHandler) GetUserHandler(w http.ResponseWriter, r *http.Request) {
 	userID := r.URL.Query().Get("user_id")
 	user, err := uh.UserUsecase.GetUserUsecase(userID)
 	if err != nil {
-		http.Error(w, "User not found: "+err.Error(), http.StatusNotFound)
+		http.Error(w, "User not found"+err.Error(), http.StatusNotFound)
 		return
 	}
 	err = json.NewEncoder(w).Encode(user)
 	if err != nil {
 		http.Error(w, "Failed to encode user", http.StatusInternalServerError)
+		return
+	}
+}
+
+func (uh *UserHandler) DeleteUserHandler(w http.ResponseWriter, r *http.Request) {
+	userID := r.URL.Query().Get("user_id")
+	err := uh.UserUsecase.DeleteUserUsecase(userID)
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
 		return
 	}
 }

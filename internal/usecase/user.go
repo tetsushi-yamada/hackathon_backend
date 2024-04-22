@@ -50,3 +50,22 @@ func (uu *UserUsecase) GetUserUsecase(userID string) (*domain.User, error) {
 	}
 	return user, nil
 }
+
+func (uu *UserUsecase) DeleteUserUsecase(userID string) error {
+	db := uu.sql
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback() // ensures rollback if next steps fail
+
+	err = uu.UserDatabase.DeleteUserTx(tx, userID)
+	if err != nil {
+		return err
+	}
+	err = tx.Commit() // commit the transaction
+	if err != nil {
+		return err
+	}
+	return nil
+}
