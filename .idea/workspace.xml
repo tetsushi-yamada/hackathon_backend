@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/945ca0fc-7029-4747-8f0f-f600f15d8c69.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/945ca0fc-7029-4747-8f0f-f600f15d8c69.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init_query/start.go" beforeDir="false" afterPath="$PROJECT_DIR$/init_query/start.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/database/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/handler/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/usecase/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/domain/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/user.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
