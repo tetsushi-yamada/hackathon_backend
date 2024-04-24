@@ -3,7 +3,7 @@ package usecase
 import (
 	"database/sql"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/database"
-	"github.com/tetsushi-yamada/hackathon_backend/internal/domain"
+	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/user"
 )
 
 type UserUsecase struct {
@@ -18,7 +18,7 @@ func NewUserUsecase(db *sql.DB, ud *database.UserDatabase) *UserUsecase {
 	}
 }
 
-func (uu *UserUsecase) CreateUserUsecase(user domain.User) error {
+func (uu *UserUsecase) CreateUserUsecase(user user.User) error {
 	db := uu.sql
 	tx, err := db.Begin()
 	if err != nil {
@@ -32,7 +32,7 @@ func (uu *UserUsecase) CreateUserUsecase(user domain.User) error {
 	return tx.Commit() // commit the transaction
 }
 
-func (uu *UserUsecase) GetUserUsecase(userID string) (*domain.User, error) {
+func (uu *UserUsecase) GetUserUsecase(userID string) (*user.User, error) {
 	db := uu.sql
 	tx, err := db.Begin()
 	if err != nil {

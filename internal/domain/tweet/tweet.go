@@ -1,13 +1,18 @@
-package domain
+package tweet
 
 import (
 	"time"
 )
 
 type Tweet struct {
-	TweetId   string    `json:"tweet_id,omitempty"`
-	UserId    string    `json:"user_id,omitempty"`
-	TweetText string    `json:"tweet_text,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	TweetID   string    `json:"tweet_id" db:"tweet_id"`
+	UserID    string    `json:"user_id" db:"user_id"`
+	TweetText string    `json:"tweet_text" db:"tweet_text"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+}
+
+type Tweets struct {
+	Tweets []*Tweet `json:"tweets"`
+	Count  int      `json:"count"`
 }

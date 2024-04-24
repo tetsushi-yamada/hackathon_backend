@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/tetsushi-yamada/hackathon_backend/internal/domain"
+	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/user"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
 	"net/http"
 )
@@ -16,7 +16,7 @@ func NewUserHandler(uu *usecase.UserUsecase) *UserHandler {
 }
 
 func (uh *UserHandler) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
-	var user domain.User
+	var user user.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
