@@ -10,7 +10,7 @@ services:
     ports:
       - 3306:3306
     environment:
-      - TZ=Asia/Tokyo
+      TZ: Asia/Tokyo
     env_file:
       - ./.env
     volumes:

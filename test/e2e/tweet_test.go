@@ -10,16 +10,16 @@ import (
 	"time"
 )
 
-func TestCreateUserHandler(t *testing.T) {
+func TestCreateTweetHandler(t *testing.T) {
 	type args struct {
-		UserId   string
-		UserName string
-		Email    string
+		TweetID   string
+		UserID    string
+		TweetText string
 	}
-	type User struct {
-		UserId   string `json:"user_id"`
-		UserName string `json:"user_name"`
-		Email    string `json:"email"`
+	type Tweet struct {
+		TweetID   string `json:"tweet_id"`
+		UserID    string `json:"user_id"`
+		TweetText string `json:"tweet_text"`
 	}
 	type want struct {
 		statusCode int
@@ -32,9 +32,9 @@ func TestCreateUserHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
-				UserId:   "3",
-				UserName: "test_user",
-				Email:    "test@hello.jp",
+				TweetID:   "10",
+				UserID:    "1",
+				TweetText: "test_tweet",
 			},
 			want: want{
 				statusCode: http.StatusCreated,
@@ -43,9 +43,9 @@ func TestCreateUserHandler(t *testing.T) {
 		{
 			name: "same id case",
 			args: args{
-				UserId:   "1",
-				UserName: "JohnDoe",
-				Email:    "john2@example.jp",
+				TweetID:   "2",
+				UserID:    "1",
+				TweetText: "edit test",
 			},
 			want: want{
 				statusCode: http.StatusCreated,
@@ -55,10 +55,10 @@ func TestCreateUserHandler(t *testing.T) {
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			data := User{
-				UserId:   tt.args.UserId,
-				UserName: tt.args.UserName,
-				Email:    tt.args.Email,
+			data := Tweet{
+				TweetID:   tt.args.TweetID,
+				UserID:    tt.args.UserID,
+				TweetText: tt.args.TweetText,
 			}
 			payloadBytes, err := json.Marshal(data)
 			if err != nil {
@@ -67,7 +67,7 @@ func TestCreateUserHandler(t *testing.T) {
 			}
 			body := bytes.NewReader(payloadBytes)
 
-			resp, err := http.Post("http://localhost:8000/v1/users", "application/json", body)
+			resp, err := http.Post("http://localhost:8000/v1/tweets", "application/json", body)
 			if err != nil {
 				fmt.Println("Error sending request:", err)
 				return
@@ -82,21 +82,24 @@ func TestCreateUserHandler(t *testing.T) {
 	}
 }
 
-func TestGetUserHandler(t *testing.T) {
+func TestGetTweetsHandler(t *testing.T) {
 	type args struct {
 		UserID string
 	}
 	type want struct {
-		UserName   string
-		Email      string
+		TweetID    string
+		TweetText  string
 		statusCode int
 	}
-	type User struct {
-		UserId    string `json:"user_id"`
-		UserName  string `json:"user_name"`
-		Email     string `json:"email"`
+	type Tweet struct {
+		TweetID   string `json:"tweet_id"`
+		UserID    string `json:"user_id"`
+		TweetText string `json:"tweet_text"`
 		CreatedAt string `json:"created_at"`
 		UpdatedAt string `json:"updated_at"`
+	}
+	type Tweets struct {
+		Tweets []Tweet `json:"tweets"`
 	}
 	tests := []struct {
 		name string
@@ -106,11 +109,11 @@ func TestGetUserHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
-				UserID: "1",
+				UserID: "2",
 			},
 			want: want{
-				UserName:   "JohnDoe",
-				Email:      "john2@example.jp",
+				TweetID:    "3",
+				TweetText:  "I am Te!",
 				statusCode: http.StatusOK,
 			},
 		},
@@ -119,32 +122,37 @@ func TestGetUserHandler(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			now := time.Now().UTC().Add(time.Hour * 9) // 現在の時刻を取得
 
-			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/users?user_id=%s", tt.args.UserID))
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/tweets?user_id=%s", tt.args.UserID))
 			if err != nil {
 				t.Fatalf("Error making GET request: %v", err)
 			}
 			defer resp.Body.Close()
 
-			var user User
-			if err := json.NewDecoder(resp.Body).Decode(&user); err != nil {
+			var tweets Tweets
+			if err := json.NewDecoder(resp.Body).Decode(&tweets); err != nil {
 				t.Fatalf("Error decoding response body: %v", err)
 			}
 
-			createdAt, err := time.Parse(time.RFC3339, user.CreatedAt)
-			if now.Before(createdAt) || now.After(createdAt.Add(time.Hour)) {
-				t.Errorf("now is not within one hour of CreatedAt: %v %v", now, createdAt)
-			}
+			for i := 0; i < len(tweets.Tweets); i++ {
+				createdAt, err := time.Parse(time.RFC3339, tweets.Tweets[i].CreatedAt)
+				if err != nil {
+					t.Fatalf("Error parsing CreatedAt: %v", err)
+				}
+				if now.Before(createdAt) || now.After(createdAt.Add(time.Hour)) {
+					t.Errorf("now is not within one hour of CreatedAt: %v %v", now, createdAt)
+				}
 
-			assert.Equal(t, tt.want.UserName, user.UserName, "UserName does not match")
-			assert.Equal(t, tt.want.Email, user.Email, "Email does not match")
+				assert.Equal(t, tt.want.TweetID, tweets.Tweets[i].TweetID, "TweetID does not match")
+				assert.Equal(t, tt.want.TweetText, tweets.Tweets[i].TweetText, "TweetText does not match")
+			}
 			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
 		})
 	}
 }
 
-func TestDeleteUserHandler(t *testing.T) {
+func TestDeleteTweetHandler(t *testing.T) {
 	type args struct {
-		UserID string
+		TweetID string
 	}
 	type want struct {
 		statusCode int
@@ -157,7 +165,7 @@ func TestDeleteUserHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
-				UserID: "1",
+				TweetID: "2",
 			},
 			want: want{
 				statusCode: http.StatusOK,
@@ -166,7 +174,7 @@ func TestDeleteUserHandler(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/users?user_id=%s", tt.args.UserID), nil)
+			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/tweets?tweets_id=%s", tt.args.TweetID), nil)
 			if err != nil {
 				t.Fatalf("Error creating DELETE request: %v", err)
 			}
