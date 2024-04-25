@@ -40,3 +40,22 @@ follows:
       responses:
         '201':
           description: Created
+    delete:
+        summary: Delete a follow relationship
+        operationId: deleteFollow
+        parameters:
+            - name: user_id
+              in: query
+              required: true
+              schema:
+                type: string
+            - name: follow_id
+              in: query
+              required: true
+              schema:
+                type: string
+        responses:
+            '204':
+              description: No Content
+            '404':
+              description: Follow not found
