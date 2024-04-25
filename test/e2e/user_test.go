@@ -54,7 +54,7 @@ func TestCreateUserHandler(t *testing.T) {
 			}
 			body := bytes.NewReader(payloadBytes)
 
-			req, err := http.NewRequest("PUT", "http://localhost:8000/v1/users", body)
+			req, err := http.NewRequest("POST", "http://localhost:8000/v1/users", body)
 			if err != nil {
 				fmt.Println("Error sending request:", err)
 				return

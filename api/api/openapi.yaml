@@ -13,8 +13,8 @@ paths:
     $ref: './paths/users.yaml#/users'
   /tweets:
     $ref: './paths/tweets.yaml#/tweets'
-  /follow:
-    $ref: './paths/follow.yaml#/follow'
+  /follow_or_not:
+    $ref: './paths/follow_or_not.yaml#/follow_or_not'
   /follows:
     $ref: './paths/follows.yaml#/follows'
   /followers:

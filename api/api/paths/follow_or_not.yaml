@@ -1,4 +1,4 @@
-follow:
+follow_or_not:
   get:
     summary: Check if a user is following another user
     operationId: checkFollow

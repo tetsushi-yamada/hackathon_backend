@@ -1,5 +1,5 @@
 tweets:
-    put:
+    post:
       summary: Create a new tweet
       operationId: createTweet
       requestBody:

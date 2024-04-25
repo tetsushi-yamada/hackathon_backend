@@ -1,5 +1,5 @@
 users:
-    put:
+    post:
       summary: Create a new user
       operationId: createUser
       requestBody:
