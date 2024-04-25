@@ -5,19 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
-      <change beforePath="$PROJECT_DIR$/api/api/openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/openapi.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/paths/tweets.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/paths/tweets.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/paths/users.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/paths/users.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/follow.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/e2e/follow_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/seed/03_follow.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/database/tweet.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/tweet.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/init_query/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/init_query/follow.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/database/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/follow.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/database/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/domain/tweet/tweet.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/tweet/tweet.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/domain/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/user/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/handler/tweet.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/tweet.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/handler/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/domain/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/follow/follow.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/handler/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/follow.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/usecase/tweet.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/tweet.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/usecase/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/e2e/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/e2e/main_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/e2e/tweet_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/e2e/tweet_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/seed/01_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/test/seed/01_user.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +54,8 @@
     "Go ビルド.go build hackathon_backend/cmd.executor": "Run",
     "HTTP リクエスト.rest-api_3 | #1.executor": "Run",
     "HTTP リクエスト.rest-api_3 | #2.executor": "Run",
+    "HTTP リクエスト.rest-api_4 | #1.executor": "Run",
+    "HTTP リクエスト.rest-api_4 | #2.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
@@ -73,13 +77,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/internal/domain/follow" />
       <recent name="$PROJECT_DIR$/internal/domain/tweet" />
       <recent name="$PROJECT_DIR$/internal/domain/user" />
       <recent name="$PROJECT_DIR$/test/e2e" />
       <recent name="$PROJECT_DIR$/internal" />
     </key>
   </component>
-  <component name="RunManager" selected="HTTP リクエスト.rest-api_3 | #2">
+  <component name="RunManager" selected="HTTP リクエスト.rest-api_4 | #2">
     <configuration name="go build hackathon_backend/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="hackathon_backend" />
       <working_directory value="$PROJECT_DIR$" />
@@ -95,8 +100,16 @@
     <configuration name="rest-api_3 | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api_3.http" index="2" requestIdentifier="#2" runType="単一リクエストの実行">
       <method v="2" />
     </configuration>
+    <configuration name="rest-api_4 | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api_4.http" requestIdentifier="#1" runType="単一リクエストの実行">
+      <method v="2" />
+    </configuration>
+    <configuration name="rest-api_4 | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api_4.http" index="2" requestIdentifier="#2" runType="単一リクエストの実行">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP リクエスト.rest-api_4 | #2" />
+        <item itemvalue="HTTP リクエスト.rest-api_4 | #1" />
         <item itemvalue="HTTP リクエスト.rest-api_3 | #2" />
         <item itemvalue="HTTP リクエスト.rest-api_3 | #1" />
         <item itemvalue="Go ビルド.go build hackathon_backend/cmd" />

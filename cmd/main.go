@@ -21,18 +21,22 @@ func main() {
 	//database層
 	userDatabase := database.NewUserDatabase()
 	tweetDatabase := database.NewTweetDatabase()
+	followDatabase := database.NewFollowDatabase()
 
 	//usecase層
 	userUsecase := usecase.NewUserUsecase(db, userDatabase)
 	tweetUsecase := usecase.NewTweetUsecase(db, tweetDatabase)
+	followUsecase := usecase.NewFollowUsecase(db, followDatabase)
 
 	//handler層
 	userHandler := handler.NewUserHandler(userUsecase)
 	tweetHandler := handler.NewTweetHandler(tweetUsecase)
+	followHandler := handler.NewFollowHandler(followUsecase)
 
 	handlers := handler.Handlers{
-		User:  userHandler,
-		Tweet: tweetHandler,
+		User:   userHandler,
+		Tweet:  tweetHandler,
+		Follow: followHandler,
 	}
 
 	router := server.NewRouter(&handlers)

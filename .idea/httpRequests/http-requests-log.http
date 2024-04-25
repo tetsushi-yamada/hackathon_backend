@@ -1,0 +1,47 @@
+POST https://hackathon-backend-d3qlanjkpa-uc.a.run.app/v1/tweets
+Content-Type: application/json
+Content-Length: 168
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "tweet_id": "affee2ec-93e5-77d6-d9b9-0f18bdd2bb31",
+  "user_id": "65ad91c3-b083-5c46-4dec-3a47dbbf4eb0",
+  "tweet_text": "数理工学わからんくてガチ鬱"
+}
+
+###
+
+POST https://hackathon-backend-d3qlanjkpa-uc.a.run.app/v1/tweets
+Content-Type: application/json
+Content-Length: 141
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "tweet_id": "affee2ec-93e5-77d6-d9b9-0f18bdd2bb31",
+  "user_name": "koo9257",
+  "tweet_text": "数理工学わからんくてガチ鬱"
+}
+
+<> 2024-04-24T115235.500.txt
+
+###
+
+POST https://hackathon-backend-d3qlanjkpa-uc.a.run.app/v1/users
+Content-Type: application/json
+Content-Length: 109
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "user_id": "65ad91c3-b083-5c46-4dec-3a47dbbf4eb0",
+  "user_name": "koo9257",
+  "email": "ka@example.jp"
+}
+
+###
+

@@ -10,16 +10,14 @@ import (
 	"time"
 )
 
-func TestCreateTweetHandler(t *testing.T) {
+func TestCreateFollowHandler(t *testing.T) {
 	type args struct {
-		TweetID   string
-		UserID    string
-		TweetText string
+		UserID   string
+		FollowID string
 	}
-	type Tweet struct {
-		TweetID   string `json:"tweet_id"`
-		UserID    string `json:"user_id"`
-		TweetText string `json:"tweet_text"`
+	type Follow struct {
+		UserID   string `json:"user_id"`
+		FollowID string `json:"follow_id"`
 	}
 	type want struct {
 		statusCode int
@@ -32,33 +30,30 @@ func TestCreateTweetHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
-				TweetID:   "10",
-				UserID:    "1",
-				TweetText: "test_tweet",
+				FollowID: "2",
+				UserID:   "1",
 			},
 			want: want{
 				statusCode: http.StatusCreated,
 			},
 		},
 		{
-			name: "same id case",
+			name: "invalid case",
 			args: args{
-				TweetID:   "2",
-				UserID:    "1",
-				TweetText: "edit test",
+				FollowID: "1",
+				UserID:   "1",
 			},
 			want: want{
-				statusCode: http.StatusCreated,
+				statusCode: http.StatusBadRequest,
 			},
 		},
 	}
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			data := Tweet{
-				TweetID:   tt.args.TweetID,
-				UserID:    tt.args.UserID,
-				TweetText: tt.args.TweetText,
+			data := Follow{
+				UserID:   tt.args.UserID,
+				FollowID: tt.args.FollowID,
 			}
 			payloadBytes, err := json.Marshal(data)
 			if err != nil {
@@ -67,7 +62,7 @@ func TestCreateTweetHandler(t *testing.T) {
 			}
 			body := bytes.NewReader(payloadBytes)
 
-			resp, err := http.Post("http://localhost:8000/v1/tweets", "application/json", body)
+			resp, err := http.Post("http://localhost:8000/v1/follows", "application/json", body)
 			if err != nil {
 				fmt.Println("Error sending request:", err)
 				return
@@ -82,23 +77,21 @@ func TestCreateTweetHandler(t *testing.T) {
 	}
 }
 
-func TestGetTweetsHandler(t *testing.T) {
+func TestGetFollowsHandler(t *testing.T) {
 	type args struct {
 		UserID string
 	}
-	type Tweet struct {
-		TweetID   string `json:"tweet_id"`
+	type Follow struct {
 		UserID    string `json:"user_id"`
-		TweetText string `json:"tweet_text"`
+		FollowID  string `json:"follow_id"`
 		CreatedAt string `json:"created_at"`
-		UpdatedAt string `json:"updated_at"`
 	}
-	type Tweets struct {
-		Tweets []Tweet `json:"tweets"`
-		Count  int     `json:"count"`
+	type Follows struct {
+		Follows []Follow `json:"follows"`
+		Count   int      `json:"count"`
 	}
 	type want struct {
-		Tweets     Tweets
+		Follows    Follows
 		statusCode int
 	}
 	tests := []struct {
@@ -112,11 +105,11 @@ func TestGetTweetsHandler(t *testing.T) {
 				UserID: "2",
 			},
 			want: want{
-				Tweets: Tweets{
-					Tweets: []Tweet{
+				Follows: Follows{
+					Follows: []Follow{
 						{
-							TweetID:   "3",
-							TweetText: "I am Te!",
+							UserID:   "2",
+							FollowID: "100",
 						},
 					},
 					Count: 1,
@@ -129,19 +122,19 @@ func TestGetTweetsHandler(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			now := time.Now().UTC().Add(time.Hour * 9) // 現在の時刻を取得
 
-			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/tweets?user_id=%s", tt.args.UserID))
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/follows?user_id=%s", tt.args.UserID))
 			if err != nil {
 				t.Fatalf("Error making GET request: %v", err)
 			}
 			defer resp.Body.Close()
 
-			var tweets Tweets
-			if err := json.NewDecoder(resp.Body).Decode(&tweets); err != nil {
+			var follows Follows
+			if err := json.NewDecoder(resp.Body).Decode(&follows); err != nil {
 				t.Fatalf("Error decoding response body: %v", err)
 			}
 
-			for i := 0; i < len(tweets.Tweets); i++ {
-				createdAt, err := time.Parse(time.RFC3339, tweets.Tweets[i].CreatedAt)
+			for i := 0; i < len(follows.Follows); i++ {
+				createdAt, err := time.Parse(time.RFC3339, follows.Follows[i].CreatedAt)
 				if err != nil {
 					t.Fatalf("Error parsing CreatedAt: %v", err)
 				}
@@ -149,18 +142,19 @@ func TestGetTweetsHandler(t *testing.T) {
 					t.Errorf("now is not within one hour of CreatedAt: %v %v", now, createdAt)
 				}
 
-				assert.Equal(t, tt.want.Tweets.Tweets[i].TweetID, tweets.Tweets[i].TweetID, "TweetID does not match")
-				assert.Equal(t, tt.want.Tweets.Tweets[i].TweetText, tweets.Tweets[i].TweetText, "TweetText does not match")
+				assert.Equal(t, tt.want.Follows.Follows[i].UserID, follows.Follows[i].UserID, "UserID does not match")
+				assert.Equal(t, tt.want.Follows.Follows[i].FollowID, follows.Follows[i].FollowID, "FollowID does not match")
 			}
-			assert.Equal(t, tt.want.Tweets.Count, tweets.Count, "Count does not match")
+			assert.Equal(t, tt.want.Follows.Count, follows.Count, "Count does not match")
 			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
 		})
 	}
 }
 
-func TestDeleteTweetHandler(t *testing.T) {
+func TestDeleteFollowHandler(t *testing.T) {
 	type args struct {
-		TweetID string
+		UserID   string
+		FollowID string
 	}
 	type want struct {
 		statusCode int
@@ -173,7 +167,8 @@ func TestDeleteTweetHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
-				TweetID: "2",
+				UserID:   "2",
+				FollowID: "100",
 			},
 			want: want{
 				statusCode: http.StatusOK,
@@ -182,7 +177,7 @@ func TestDeleteTweetHandler(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/tweets?tweets_id=%s", tt.args.TweetID), nil)
+			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/follows?user_id=%s&follow_id=%s", tt.args.UserID, tt.args.FollowID), nil)
 			if err != nil {
 				t.Fatalf("Error creating DELETE request: %v", err)
 			}

@@ -5,7 +5,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/handler"
 	"net/http"
-	"strings"
 )
 
 type Route struct {
@@ -30,6 +29,11 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 	router.HandleFunc("/v1/tweets", handlers.Tweet.GetTweetsHandlerByUserID).Methods("GET")
 	router.HandleFunc("/v1/tweets", handlers.Tweet.DeleteTweetHandler).Methods("DELETE")
 
+	// /v1/follows
+	router.HandleFunc("/v1/follows", handlers.Follow.CreateFollowHandler).Methods("POST")
+	router.HandleFunc("/v1/follows", handlers.Follow.GetFollowsHandler).Methods("GET")
+	router.HandleFunc("/v1/follows", handlers.Follow.DeleteFollowHandler).Methods("DELETE")
+
 	return router
 }
 
@@ -43,25 +47,5 @@ var routes = Routes{
 		"GET",
 		"/v1/",
 		Index,
-	},
-
-	Route{
-		"CreateFollow",
-		strings.ToUpper("Post"),
-		"/v1/follows",
-		handler.CreateFollow,
-	},
-	Route{
-		"GetFollowersForUser",
-		strings.ToUpper("Get"),
-		"/v1/followers",
-		handler.GetFollowersForUser,
-	},
-
-	Route{
-		"GetFollowsForUser",
-		strings.ToUpper("Get"),
-		"/v1/follows",
-		handler.GetFollowsForUser,
 	},
 }

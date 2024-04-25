@@ -39,8 +39,10 @@ func (repo *UserDatabase) GetUserTx(tx *sql.Tx, userID string) (*user.User, erro
 }
 
 func (repo *UserDatabase) DeleteUserTx(tx *sql.Tx, userID string) error {
-	query := `DELETE FROM tweets WHERE user_id = ?`
+	query := `DELETE FROM follows WHERE user_id = ?`
 	_, err := tx.Exec(query, userID)
+	query = `DELETE FROM tweets WHERE user_id = ?`
+	_, err = tx.Exec(query, userID)
 	query = `DELETE FROM users WHERE user_id = ?`
 	_, err = tx.Exec(query, userID)
 	if err != nil {
