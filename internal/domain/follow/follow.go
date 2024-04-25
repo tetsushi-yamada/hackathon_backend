@@ -12,3 +12,7 @@ type Follows struct {
 	Follows []*Follow `json:"follows"`
 	Count   int
 }
+
+type FollowOrNot struct {
+	Bool bool `json:"bool"`
+}

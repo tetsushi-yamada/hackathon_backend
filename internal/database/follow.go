@@ -11,8 +11,13 @@ type FollowDatabase struct{}
 func NewFollowDatabase() *FollowDatabase { return &FollowDatabase{} }
 
 func (repo *FollowDatabase) CreateFollowTx(tx *sql.Tx, follow follow.Follow) error {
-	query := `INSERT INTO follows (user_id, follow_id) VALUES (?, ?)`
+	query := `DELETE FROM follows WHERE user_id = ? AND follow_id = ?`
 	_, err := tx.Exec(query, follow.UserID, follow.FollowID)
+	if err != nil {
+		return err
+	}
+	query = `INSERT INTO follows (user_id, follow_id) VALUES (?, ?)`
+	_, err = tx.Exec(query, follow.UserID, follow.FollowID)
 	if err != nil {
 		return err
 	}
@@ -80,4 +85,14 @@ func (repo *FollowDatabase) GetFollowersTx(tx *sql.Tx, followID string) ([]*foll
 		return nil, err
 	}
 	return followers, nil
+}
+
+func (repo *FollowDatabase) GetFollowOrNotTx(tx *sql.Tx, userID string, followID string) (*follow.FollowOrNot, error) {
+	var followOrNot follow.FollowOrNot
+	query := `SELECT EXISTS(SELECT * FROM follows WHERE user_id = ? AND follow_id = ?) AS bool`
+	err := tx.QueryRow(query, userID, followID).Scan(&followOrNot.Bool)
+	if err != nil {
+		return nil, err
+	}
+	return &followOrNot, nil
 }

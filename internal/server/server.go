@@ -37,6 +37,9 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 	// /v1/followers
 	router.HandleFunc("/v1/followers", handlers.Follower.GetFollowersHandler).Methods("GET")
 
+	// /v1/follow_or_not
+	router.HandleFunc("/v1/follow_or_not", handlers.FollowOrNot.GetFollowOrNotHandler).Methods("GET")
+
 	return router
 }
 

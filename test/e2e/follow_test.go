@@ -269,3 +269,62 @@ func TestGetFollowersHandler(t *testing.T) {
 		})
 	}
 }
+
+func TestGetFollowOrNotHandler(t *testing.T) {
+	type args struct {
+		UserID   string
+		FollowID string
+	}
+	type FollowOrNot struct {
+		Bool bool `json:"bool"`
+	}
+	type want struct {
+		FollowOrNot FollowOrNot
+	}
+	tests := []struct {
+		name string
+		args args
+		want want
+	}{
+		{
+			name: "successful case",
+			args: args{
+				UserID:   "101",
+				FollowID: "100",
+			},
+			want: want{
+				FollowOrNot: FollowOrNot{
+					Bool: true,
+				},
+			},
+		},
+		{
+			name: "invalid case",
+			args: args{
+				UserID:   "100",
+				FollowID: "101",
+			},
+			want: want{
+				FollowOrNot: FollowOrNot{
+					Bool: false,
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/follow_or_not?user_id=%s&follow_id=%s", tt.args.UserID, tt.args.FollowID))
+			if err != nil {
+				t.Fatalf("Error making GET request: %v", err)
+			}
+			defer resp.Body.Close()
+
+			var followOrNot FollowOrNot
+			if err := json.NewDecoder(resp.Body).Decode(&followOrNot); err != nil {
+				t.Fatalf("Error decoding response body: %v", err)
+			}
+
+			assert.Equal(t, tt.want.FollowOrNot.Bool, followOrNot.Bool, "Bool does not match")
+		})
+	}
+}
