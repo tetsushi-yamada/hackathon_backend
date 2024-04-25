@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"net/http"
 	"testing"
 	"time"
@@ -12,12 +13,11 @@ import (
 
 func TestCreateTweetHandler(t *testing.T) {
 	type args struct {
-		TweetID   string
 		UserID    string
 		TweetText string
 	}
 	type Tweet struct {
-		TweetID   string `json:"tweet_id"`
+		TweetID   string
 		UserID    string `json:"user_id"`
 		TweetText string `json:"tweet_text"`
 	}
@@ -32,20 +32,8 @@ func TestCreateTweetHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
-				TweetID:   "10",
 				UserID:    "1",
 				TweetText: "test_tweet",
-			},
-			want: want{
-				statusCode: http.StatusCreated,
-			},
-		},
-		{
-			name: "same id case",
-			args: args{
-				TweetID:   "2",
-				UserID:    "1",
-				TweetText: "edit test",
 			},
 			want: want{
 				statusCode: http.StatusCreated,
@@ -56,7 +44,6 @@ func TestCreateTweetHandler(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			data := Tweet{
-				TweetID:   tt.args.TweetID,
 				UserID:    tt.args.UserID,
 				TweetText: tt.args.TweetText,
 			}
@@ -67,10 +54,16 @@ func TestCreateTweetHandler(t *testing.T) {
 			}
 			body := bytes.NewReader(payloadBytes)
 
-			resp, err := http.Post("http://localhost:8000/v1/tweets", "application/json", body)
+			req, err := http.NewRequest("PUT", "http://localhost:8000/v1/tweets", body)
 			if err != nil {
 				fmt.Println("Error sending request:", err)
 				return
+			}
+			req.Header.Set("Content-Type", "application/json")
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				log.Fatal(err)
 			}
 			defer resp.Body.Close()
 

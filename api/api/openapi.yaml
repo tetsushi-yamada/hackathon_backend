@@ -26,5 +26,3 @@ components:
       $ref: './schemas/tweet.yaml#/Tweet'
     Follow:
       $ref: './schemas/follow.yaml#/Follow'
-    Follower:
-      $ref: './schemas/follower.yaml#/Follower'

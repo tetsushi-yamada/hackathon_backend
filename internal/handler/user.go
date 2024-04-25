@@ -2,6 +2,8 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/google/uuid"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/user"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
 	"net/http"
@@ -17,11 +19,17 @@ func NewUserHandler(uu *usecase.UserUsecase) *UserHandler {
 
 func (uh *UserHandler) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	var user user.User
+	newUUID, err := uuid.NewRandom()
+	if err != nil {
+		fmt.Printf("Failed to generate UUID: %v", err)
+		return
+	}
+	user.UserID = newUUID.String()
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	err := uh.UserUsecase.CreateUserUsecase(user)
+	err = uh.UserUsecase.CreateUserUsecase(user)
 	if err != nil {
 		http.Error(w, "Failed to create user", http.StatusInternalServerError)
 		return

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"net/http"
 	"testing"
 	"time"
@@ -12,7 +13,6 @@ import (
 
 func TestCreateUserHandler(t *testing.T) {
 	type args struct {
-		UserId   string
 		UserName string
 		Email    string
 	}
@@ -32,20 +32,8 @@ func TestCreateUserHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
-				UserId:   "3",
 				UserName: "test_user",
 				Email:    "test@hello.jp",
-			},
-			want: want{
-				statusCode: http.StatusCreated,
-			},
-		},
-		{
-			name: "same id case",
-			args: args{
-				UserId:   "1",
-				UserName: "JohnDoe",
-				Email:    "john2@example.jp",
 			},
 			want: want{
 				statusCode: http.StatusCreated,
@@ -56,7 +44,6 @@ func TestCreateUserHandler(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			data := User{
-				UserId:   tt.args.UserId,
 				UserName: tt.args.UserName,
 				Email:    tt.args.Email,
 			}
@@ -67,10 +54,16 @@ func TestCreateUserHandler(t *testing.T) {
 			}
 			body := bytes.NewReader(payloadBytes)
 
-			resp, err := http.Post("http://localhost:8000/v1/users", "application/json", body)
+			req, err := http.NewRequest("PUT", "http://localhost:8000/v1/users", body)
 			if err != nil {
 				fmt.Println("Error sending request:", err)
 				return
+			}
+			req.Header.Set("Content-Type", "application/json")
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				log.Fatal(err)
 			}
 			defer resp.Body.Close()
 
@@ -110,7 +103,7 @@ func TestGetUserHandler(t *testing.T) {
 			},
 			want: want{
 				UserName:   "JohnDoe",
-				Email:      "john2@example.jp",
+				Email:      "john@example.com",
 				statusCode: http.StatusOK,
 			},
 		},

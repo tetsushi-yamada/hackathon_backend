@@ -11,13 +11,8 @@ type TweetDatabase struct{}
 func NewTweetDatabase() *TweetDatabase { return &TweetDatabase{} }
 
 func (repo *TweetDatabase) CreateTweetTx(tx *sql.Tx, tweet tweet.Tweet) error {
-	query := `DELETE FROM tweets WHERE tweet_id = ?`
-	_, err := tx.Exec(query, tweet.TweetID)
-	if err != nil {
-		return err
-	}
-	query = `INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES (?, ?, ?)`
-	_, err = tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText)
+	query := `INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES (?, ?, ?)`
+	_, err := tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText)
 	if err != nil {
 		return err
 	}

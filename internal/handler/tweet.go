@@ -2,6 +2,8 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/google/uuid"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/tweet"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
 	"net/http"
@@ -17,11 +19,17 @@ func NewTweetHandler(tu *usecase.TweetUsecase) *TweetHandler {
 
 func (th *TweetHandler) CreateTweetHandler(w http.ResponseWriter, r *http.Request) {
 	var tweet tweet.Tweet
+	newUUID, err := uuid.NewRandom()
+	if err != nil {
+		fmt.Printf("Failed to generate UUID: %v", err)
+		return
+	}
+	tweet.TweetID = newUUID.String()
 	if err := json.NewDecoder(r.Body).Decode(&tweet); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	err := th.TweetUsecase.CreateTweetUsecase(tweet)
+	err = th.TweetUsecase.CreateTweetUsecase(tweet)
 	if err != nil {
 		http.Error(w, "Failed to create tweet", http.StatusInternalServerError)
 		return
