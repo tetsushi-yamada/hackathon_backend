@@ -54,3 +54,30 @@ func (repo *FollowDatabase) DeleteFollowTx(tx *sql.Tx, userID string, followID s
 	}
 	return nil
 }
+
+func (repo *FollowDatabase) GetFollowersTx(tx *sql.Tx, followID string) ([]*follow.Follow, error) {
+	var followers []*follow.Follow
+	query := `SELECT user_id, follow_id, created_at FROM follows WHERE follow_id = ?`
+	rows, err := tx.Query(query, followID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		follower := new(follow.Follow)
+		var createdAt []byte
+		if err := rows.Scan(&follower.UserID, &follower.FollowID, &createdAt); err != nil {
+			return nil, err
+		}
+		follower.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
+		if err != nil {
+			return nil, err
+		}
+		followers = append(followers, follower)
+	}
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+	return followers, nil
+}

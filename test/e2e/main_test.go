@@ -35,16 +35,19 @@ func TestMain(m *testing.M) {
 	userUsecase := usecase.NewUserUsecase(db, userDatabase)
 	tweetUsecase := usecase.NewTweetUsecase(db, tweetDatabase)
 	followUsecase := usecase.NewFollowUsecase(db, followDatabase)
+	followerUsecase := usecase.NewFollowerUsecase(db, followDatabase)
 
 	//handler層
 	userHandler := handler.NewUserHandler(userUsecase)
 	tweetHandler := handler.NewTweetHandler(tweetUsecase)
 	followHandler := handler.NewFollowHandler(followUsecase)
+	followerHandler := handler.NewFollowerHandler(followerUsecase)
 
 	handlers := handler.Handlers{
-		User:   userHandler,
-		Tweet:  tweetHandler,
-		Follow: followHandler,
+		User:     userHandler,
+		Tweet:    tweetHandler,
+		Follow:   followHandler,
+		Follower: followerHandler,
 	}
 
 	router := server.NewRouter(&handlers)

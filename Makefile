@@ -15,10 +15,14 @@ down:
 go-test:
 	cd test && go test -v ./...
 
+.PHONY: log
+log:
+	docker logs hackathon_test
+
 .PHONY: test
 test:
 	-$(MAKE) up
-	sleep 10
+	sleep 15
 	-$(MAKE) go-test
 	-$(MAKE) down
 

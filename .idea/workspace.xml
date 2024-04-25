@@ -5,21 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
-      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/usecase/follow.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/e2e/follow_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/seed/03_follow.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/internal/usecase/follower.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init_query/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/init_query/follow.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/database/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/follow.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/database/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/domain/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/follow/follow.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/handler/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/follow.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/handler/follower.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/follower.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/e2e/follow_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/e2e/follow_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/e2e/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/e2e/main_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/e2e/tweet_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/e2e/tweet_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/seed/01_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/test/seed/01_user.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/seed/03_follow.sql" beforeDir="false" afterPath="$PROJECT_DIR$/test/seed/03_follow.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

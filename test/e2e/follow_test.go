@@ -195,3 +195,77 @@ func TestDeleteFollowHandler(t *testing.T) {
 		})
 	}
 }
+
+func TestGetFollowersHandler(t *testing.T) {
+	type args struct {
+		FollowID string
+	}
+	type Follow struct {
+		UserID    string `json:"user_id"`
+		FollowID  string `json:"follow_id"`
+		CreatedAt string `json:"created_at"`
+	}
+	type Follows struct {
+		Follows []Follow `json:"follows"`
+		Count   int      `json:"count"`
+	}
+	type want struct {
+		Follows    Follows
+		statusCode int
+	}
+	tests := []struct {
+		name string
+		args args
+		want want
+	}{
+		{
+			name: "successful case",
+			args: args{
+				FollowID: "100",
+			},
+			want: want{
+				Follows: Follows{
+					Follows: []Follow{
+						{
+							UserID:   "101",
+							FollowID: "100",
+						},
+					},
+					Count: 1,
+				},
+				statusCode: http.StatusOK,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			now := time.Now().UTC().Add(time.Hour * 9) // 現在の時刻を取得
+
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/followers?follow_id=%s", tt.args.FollowID))
+			if err != nil {
+				t.Fatalf("Error making GET request: %v", err)
+			}
+			defer resp.Body.Close()
+
+			var follows Follows
+			if err := json.NewDecoder(resp.Body).Decode(&follows); err != nil {
+				t.Fatalf("Error decoding response body: %v", err)
+			}
+
+			for i := 0; i < len(follows.Follows); i++ {
+				createdAt, err := time.Parse(time.RFC3339, follows.Follows[i].CreatedAt)
+				if err != nil {
+					t.Fatalf("Error parsing CreatedAt: %v", err)
+				}
+				if now.Before(createdAt) || now.After(createdAt.Add(time.Hour)) {
+					t.Errorf("now is not within one hour of CreatedAt: %v %v", now, createdAt)
+				}
+
+				assert.Equal(t, tt.want.Follows.Follows[i].UserID, follows.Follows[i].UserID, "UserID does not match")
+				assert.Equal(t, tt.want.Follows.Follows[i].FollowID, follows.Follows[i].FollowID, "FollowID does not match")
+			}
+			assert.Equal(t, tt.want.Follows.Count, follows.Count, "Count does not match")
+			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
+		})
+	}
+}
