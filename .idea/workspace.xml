@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/openapi.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/paths/follow.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/paths/follow_or_not.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/api/paths/tweets.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/paths/tweets.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/paths/users.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/paths/users.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/e2e/tweet_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/e2e/tweet_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/e2e/user_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/e2e/user_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/openapi.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

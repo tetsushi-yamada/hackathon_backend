@@ -20,10 +20,10 @@ tweets:
         '201':
           description: Created
     get:
-      summary: Get a tweet by ID
-      operationId: getTweet
+      summary: Get tweets by UserID
+      operationId: getTweetsByUserID
       parameters:
-        - name: tweet_id
+        - name: user_id
           in: query
           required: true
           schema:
