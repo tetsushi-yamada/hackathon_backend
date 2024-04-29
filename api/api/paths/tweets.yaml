@@ -19,14 +19,12 @@ tweets:
       responses:
         '201':
           description: Created
-
-tweet:
     get:
-      summary: Get a tweet by ID
-      operationId: getTweet
+      summary: Get tweets by UserID
+      operationId: getTweetsByUserID
       parameters:
-        - name: tweet_id
-          in: path
+        - name: user_id
+          in: query
           required: true
           schema:
             type: string
@@ -37,3 +35,17 @@ tweet:
             application/json:
               schema:
                 $ref: '../openapi.yaml#/components/schemas/Tweet'
+    delete:
+      summary: Delete a tweet by ID
+      operationId: deleteTweet
+      parameters:
+        - name: tweet_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Tweet not found

@@ -1,21 +1,29 @@
-package main
+package e2e
 
 import (
-	"github.com/tetsushi-yamada/hackathon_backend/init_query"
+	"database/sql"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/database"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/handler"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/server"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
 	"log"
 	"net/http"
+	"os"
+	"testing"
 )
 
-func main() {
+func TestMain(m *testing.M) {
+	// DB
+	mysqlUser := "user"
+	mysqlPwd := "password"
+	mysqlDatabase := "hackathon_test"
 
-	db := init_query.StartDB()
-	err := init_query.Init_table(db)
+	connStr := fmt.Sprintf("%s:%s@(localhost:3306)/%s", mysqlUser, mysqlPwd, mysqlDatabase)
+	db, err := sql.Open("mysql", connStr)
 	if err != nil {
-		log.Fatal(err)
+		os.Exit(1)
 	}
 
 	//database層
@@ -46,8 +54,10 @@ func main() {
 	}
 
 	router := server.NewRouter(&handlers)
-	err = http.ListenAndServe(":8080", router)
-	if err != nil {
-		log.Fatalf("Server failed to start: %v", err)
-	}
+	go func() {
+		if err := http.ListenAndServe(":8000", router); err != nil {
+			log.Fatalf("Server failed to start: %v", err)
+		}
+	}()
+	os.Exit(m.Run())
 }

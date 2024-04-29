@@ -1,0 +1,34 @@
+follow_or_not:
+  get:
+    summary: Check if a user is following another user
+    operationId: checkFollow
+    parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The user ID of the person checking the follow status
+      - name: follow_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The user ID of the person to check if they are being followed
+    responses:
+      '200':
+        description: Follow status returned successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isFollowing:
+                  type: boolean
+                  description: Whether the user is following the other user
+      '400':
+        description: Invalid request parameters
+      '404':
+        description: User not found
+      '500':
+        description: Internal server error

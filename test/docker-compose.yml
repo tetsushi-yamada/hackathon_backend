@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  hackathon_test:
+    container_name: hackathon_test
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - 3306:3306
+    environment:
+      TZ: Asia/Tokyo
+    env_file:
+      - ./.env
+    volumes:
+      - type: volume
+        source: mysql_test
+        target: /var/lib/mysql
+      - type: bind
+        source: ./seed
+        target: /docker-entrypoint-initdb.d
+
+volumes:
+  mysql_test:
+    name: mysql_test

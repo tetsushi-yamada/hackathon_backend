@@ -11,12 +11,10 @@ servers:
 paths:
   /users:
     $ref: './paths/users.yaml#/users'
-  /users/{user_id}:
-    $ref: './paths/users.yaml#/user'
   /tweets:
     $ref: './paths/tweets.yaml#/tweets'
-  /tweets/{tweet_id}:
-    $ref: './paths/tweets.yaml#/tweet'
+  /follow_or_not:
+    $ref: './paths/follow_or_not.yaml#/follow_or_not'
   /follows:
     $ref: './paths/follows.yaml#/follows'
   /followers:
@@ -30,5 +28,3 @@ components:
       $ref: './schemas/tweet.yaml#/Tweet'
     Follow:
       $ref: './schemas/follow.yaml#/Follow'
-    Follower:
-      $ref: './schemas/follower.yaml#/Follower'

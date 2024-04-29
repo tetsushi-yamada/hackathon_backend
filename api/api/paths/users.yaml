@@ -19,14 +19,12 @@ users:
       responses:
         '201':
           description: Created
-
-user:
     get:
       summary: Get a user by ID
       operationId: getUser
       parameters:
         - name: user_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -37,3 +35,17 @@ user:
             application/json:
               schema:
                 $ref: '../openapi.yaml#/components/schemas/User'
+    delete:
+      summary: Delete a user by ID
+      operationId: deleteUser
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: User not found

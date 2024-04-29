@@ -1,20 +1,26 @@
 @startuml
 
 object user_settings {
-    | char | user_id | PK | NOT NULL |
-    | varchar | user_name | | NOT NULL |
-    | varchar | email | | NOT NULL |
+    <#white>| char | user_id | PK | NOT NULL |
+    <#white>| varchar | user_name | | NOT NULL |
+    <#white>| varchar | email | | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+    <#white>| timestamp | updated_at | | NOT NULL |
 }
 
 object tweets {
-    | char | tweet_id | PK | NOT NULL |
-    | char | user_id | FK | NOT NULL |
-    | varchar | tweet_text | | NOT NULL |
+    <#white>| char | tweet_id | PK | NOT NULL |
+    <#white>| char | user_id | FK | NOT NULL |
+    <#white>| varchar | tweet_text | | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+    <#white>| timestamp | updated_at | | NOT NULL |
 }
 
 object follows {
-    | char | user_id | PK, FK | NOT NULL |
-    | char | follow_id | PK, FK | NOT NULL |
+    <#white>| char | user_id | PK, FK | NOT NULL |
+    <#white>| char | follow_id | PK, FK | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+    <#white>| timestamp | updated_at | | NOT NULL |
 }
 
 user_settings ||--o{ tweets

@@ -17,6 +17,6 @@ followers:
               schema:
                 type: array
                 items:
-                  $ref: '../openapi.yaml#/components/schemas/Follower'
+                  $ref: '../openapi.yaml#/components/schemas/Follow'
       tags:
         - Followers
