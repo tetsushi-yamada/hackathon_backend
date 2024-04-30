@@ -4,11 +4,11 @@ import "database/sql"
 
 func CreateUserTable(db *sql.DB) error {
 	// テーブル作成用のSQL文
+	dropTableSQL := `DROP TABLE IF EXISTS users;`
 	createTableSQL := `
 	CREATE TABLE IF NOT EXISTS users (
 		user_id char(36) not null,
 		user_name varchar(32) not null,
-		email varchar(255) not null,
 		created_at timestamp not null default current_timestamp,
 		updated_at timestamp not null default current_timestamp on update current_timestamp,
 		PRIMARY KEY (user_id)
@@ -16,7 +16,11 @@ func CreateUserTable(db *sql.DB) error {
 	`
 
 	// SQL文の実行
-	_, err := db.Exec(createTableSQL)
+	_, err := db.Exec(dropTableSQL)
+	if err != nil {
+		return err
+	}
+	_, err = db.Exec(createTableSQL)
 	if err != nil {
 		return err
 	}
