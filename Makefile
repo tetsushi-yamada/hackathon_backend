@@ -26,3 +26,8 @@ test:
 	-$(MAKE) go-test
 	-$(MAKE) down
 
+.PHONY: add-to-push
+add-to-push:
+	git add .
+	git commit -m "push"
+	git push git@github.com:tetsushi-yamada/hackathon_backend.git
