@@ -14,12 +14,10 @@ import (
 func TestCreateUserHandler(t *testing.T) {
 	type args struct {
 		UserName string
-		Email    string
 	}
 	type User struct {
 		UserId   string `json:"user_id"`
 		UserName string `json:"user_name"`
-		Email    string `json:"email"`
 	}
 	type want struct {
 		statusCode int
@@ -33,7 +31,6 @@ func TestCreateUserHandler(t *testing.T) {
 			name: "successful case",
 			args: args{
 				UserName: "test_user",
-				Email:    "test@hello.jp",
 			},
 			want: want{
 				statusCode: http.StatusCreated,
@@ -45,7 +42,6 @@ func TestCreateUserHandler(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			data := User{
 				UserName: tt.args.UserName,
-				Email:    tt.args.Email,
 			}
 			payloadBytes, err := json.Marshal(data)
 			if err != nil {
@@ -81,13 +77,11 @@ func TestGetUserHandler(t *testing.T) {
 	}
 	type want struct {
 		UserName   string
-		Email      string
 		statusCode int
 	}
 	type User struct {
 		UserId    string `json:"user_id"`
 		UserName  string `json:"user_name"`
-		Email     string `json:"email"`
 		CreatedAt string `json:"created_at"`
 		UpdatedAt string `json:"updated_at"`
 	}
@@ -103,7 +97,6 @@ func TestGetUserHandler(t *testing.T) {
 			},
 			want: want{
 				UserName:   "JohnDoe",
-				Email:      "john@example.com",
 				statusCode: http.StatusOK,
 			},
 		},
@@ -129,7 +122,6 @@ func TestGetUserHandler(t *testing.T) {
 			}
 
 			assert.Equal(t, tt.want.UserName, user.UserName, "UserName does not match")
-			assert.Equal(t, tt.want.Email, user.Email, "Email does not match")
 			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
 		})
 	}

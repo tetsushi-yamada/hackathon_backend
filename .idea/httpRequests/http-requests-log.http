@@ -1,0 +1,14 @@
+POST https://hackathon-backend-d3qlanjkpa-uc.a.run.app/v1/users
+Content-Type: application/json
+Content-Length: 58
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.10)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "user_name": "syunki",
+  "email": "ueta@example.com"
+}
+
+###
+

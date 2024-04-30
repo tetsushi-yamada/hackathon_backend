@@ -11,8 +11,8 @@ type UserDatabase struct{}
 func NewUserDatabase() *UserDatabase { return &UserDatabase{} }
 
 func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, user user.User) error {
-	query := `INSERT INTO users (user_id, user_name, email) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE user_name = VALUES(user_name), email = VALUES(email)`
-	_, err := tx.Exec(query, user.UserID, user.UserName, user.Email)
+	query := `INSERT INTO users (user_id, user_name) VALUES (?, ?) ON DUPLICATE KEY UPDATE user_name = VALUES(user_name)`
+	_, err := tx.Exec(query, user.UserID, user.UserName)
 	if err != nil {
 		return err
 	}
@@ -21,9 +21,9 @@ func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, user user.User) error {
 
 func (repo *UserDatabase) GetUserTx(tx *sql.Tx, userID string) (*user.User, error) {
 	user := new(user.User)
-	query := `SELECT user_id, user_name, email, created_at, updated_at FROM users WHERE user_id = ?`
+	query := `SELECT user_id, user_name, created_at, updated_at FROM users WHERE user_id = ?`
 	var createdAt, updatedAt []byte
-	err := tx.QueryRow(query, userID).Scan(&user.UserID, &user.UserName, &user.Email, &createdAt, &updatedAt)
+	err := tx.QueryRow(query, userID).Scan(&user.UserID, &user.UserName, &createdAt, &updatedAt)
 	if err != nil {
 		return nil, err
 	}
