@@ -2,6 +2,18 @@ package init_query
 
 import "database/sql"
 
+func DropTweetTable(db *sql.DB) error {
+	// テーブル削除用のSQL文
+	dropTableSQL := `DROP TABLE IF EXISTS tweets;`
+
+	// SQL文の実行
+	_, err := db.Exec(dropTableSQL)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func CreateTweetTable(db *sql.DB) error {
 	// テーブル作成用のSQL文
 	createTableSQL := `
