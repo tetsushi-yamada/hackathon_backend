@@ -28,7 +28,7 @@ paths:
     $ref: './paths/follows.yaml#/follows_user'
   /follows/{user_id}/{follow_id}:
     $ref: './paths/follows.yaml#/follows_user_follow_id'
-  /follows/check:
+  /follows/{user_id}/{follow_id}/check:
     $ref: './paths/follows.yaml#/follow_check'
   /followers/{user_id}:
     $ref: './paths/followers.yaml#/followers'

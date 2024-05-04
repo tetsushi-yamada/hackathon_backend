@@ -70,13 +70,13 @@ follow_check:
     operationId: checkFollow
     parameters:
       - name: user_id
-        in: query
+        in: path
         required: true
         schema:
           type: string
         description: The user ID of the person checking the follow status
       - name: follow_id
-        in: query
+        in: path
         required: true
         schema:
           type: string
