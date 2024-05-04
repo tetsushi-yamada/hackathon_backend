@@ -122,7 +122,7 @@ func TestGetFollowsHandler(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			now := time.Now().UTC().Add(time.Hour * 9) // 現在の時刻を取得
 
-			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/follows?user_id=%s", tt.args.UserID))
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/follows/%s", tt.args.UserID))
 			if err != nil {
 				t.Fatalf("Error making GET request: %v", err)
 			}
@@ -177,7 +177,7 @@ func TestDeleteFollowHandler(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/follows?user_id=%s&follow_id=%s", tt.args.UserID, tt.args.FollowID), nil)
+			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/follows/%s/%s", tt.args.UserID, tt.args.FollowID), nil)
 			if err != nil {
 				t.Fatalf("Error creating DELETE request: %v", err)
 			}
@@ -240,12 +240,13 @@ func TestGetFollowersHandler(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			now := time.Now().UTC().Add(time.Hour * 9) // 現在の時刻を取得
-
-			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/followers?follow_id=%s", tt.args.FollowID))
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/followers/%s", tt.args.FollowID))
 			if err != nil {
 				t.Fatalf("Error making GET request: %v", err)
 			}
 			defer resp.Body.Close()
+
+			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
 
 			var follows Follows
 			if err := json.NewDecoder(resp.Body).Decode(&follows); err != nil {
@@ -265,7 +266,6 @@ func TestGetFollowersHandler(t *testing.T) {
 				assert.Equal(t, tt.want.Follows.Follows[i].FollowID, follows.Follows[i].FollowID, "FollowID does not match")
 			}
 			assert.Equal(t, tt.want.Follows.Count, follows.Count, "Count does not match")
-			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
 		})
 	}
 }
@@ -313,7 +313,7 @@ func TestGetFollowOrNotHandler(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/follow_or_not?user_id=%s&follow_id=%s", tt.args.UserID, tt.args.FollowID))
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/follows/%s/%s/check", tt.args.UserID, tt.args.FollowID))
 			if err != nil {
 				t.Fatalf("Error making GET request: %v", err)
 			}

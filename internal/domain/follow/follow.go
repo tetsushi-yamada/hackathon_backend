@@ -10,7 +10,7 @@ type Follow struct {
 
 type Follows struct {
 	Follows []*Follow `json:"follows"`
-	Count   int
+	Count   int       `json:"count"`
 }
 
 type FollowOrNot struct {

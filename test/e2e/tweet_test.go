@@ -122,7 +122,7 @@ func TestGetTweetsHandler(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			now := time.Now().UTC().Add(time.Hour * 9) // 現在の時刻を取得
 
-			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/tweets?user_id=%s", tt.args.UserID))
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/tweets/%s", tt.args.UserID))
 			if err != nil {
 				t.Fatalf("Error making GET request: %v", err)
 			}
@@ -175,7 +175,7 @@ func TestDeleteTweetHandler(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/tweets?tweets_id=%s", tt.args.TweetID), nil)
+			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/tweets/%s", tt.args.TweetID), nil)
 			if err != nil {
 				t.Fatalf("Error creating DELETE request: %v", err)
 			}

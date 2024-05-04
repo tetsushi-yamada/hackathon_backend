@@ -5,11 +5,11 @@ ARCH := $(shell go env GOARCH)
 
 .PHONY: up
 up:
-	cd test && docker compose up -d
+	docker compose up -d
 
 .PHONY: down
 down:
-	cd test && docker compose down -v
+	docker compose down -v
 
 .PHONY: go-test
 go-test:
@@ -25,6 +25,14 @@ test:
 	sleep 15
 	-$(MAKE) go-test
 	-$(MAKE) down
+
+.PHONY: dev-up
+dev-up:
+	docker compose --file docker-compose.dev.yml up -d
+
+.PHONY: dev-down
+dev-down:
+	docker compose --file docker-compose.dev.yml down -v
 
 .PHONY: add-to-push
 add-to-push:

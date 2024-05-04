@@ -6,18 +6,31 @@ info:
   version: 1.0.0
 
 servers:
-  - url: 'https://api.simpletwitter.com/v1'
+  - url: 'https://hackathon-backend-d3qlanjkpa-uc.a.run.app'
+    description: prod API
+  - url: 'http://localhost:8001'
+    description: local dev API
 
 paths:
   /users:
     $ref: './paths/users.yaml#/users'
+  /users/{user_id}:
+    $ref: './paths/users.yaml#/user'
   /tweets:
     $ref: './paths/tweets.yaml#/tweets'
-  /follow_or_not:
-    $ref: './paths/follow_or_not.yaml#/follow_or_not'
+  /tweets/{user_id}:
+    $ref: './paths/tweets.yaml#/tweet_user'
+  /tweets/{tweet_id}:
+    $ref: './paths/tweets.yaml#/tweet_tweet_id'
   /follows:
     $ref: './paths/follows.yaml#/follows'
-  /followers:
+  /follows/{user_id}:
+    $ref: './paths/follows.yaml#/follows_user'
+  /follows/{user_id}/{follow_id}:
+    $ref: './paths/follows.yaml#/follows_user_follow_id'
+  /follows/check:
+    $ref: './paths/follows.yaml#/follow_check'
+  /followers/{user_id}:
     $ref: './paths/followers.yaml#/followers'
 
 components:

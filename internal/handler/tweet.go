@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/tweet"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
 	"net/http"
@@ -38,7 +39,8 @@ func (th *TweetHandler) CreateTweetHandler(w http.ResponseWriter, r *http.Reques
 }
 
 func (th *TweetHandler) GetTweetsHandlerByUserID(w http.ResponseWriter, r *http.Request) {
-	userID := r.URL.Query().Get("user_id")
+	vars := mux.Vars(r)
+	userID := vars["user_id"]
 	tweets, err := th.TweetUsecase.GetTweetsUsecase(userID)
 	if err != nil {
 		http.Error(w, "Tweet not found", http.StatusNotFound)
@@ -53,7 +55,8 @@ func (th *TweetHandler) GetTweetsHandlerByUserID(w http.ResponseWriter, r *http.
 }
 
 func (th *TweetHandler) DeleteTweetHandler(w http.ResponseWriter, r *http.Request) {
-	tweetID := r.URL.Query().Get("tweet_id")
+	vars := mux.Vars(r)
+	tweetID := vars["tweet_id"]
 	err := th.TweetUsecase.DeleteTweetUsecase(tweetID)
 	if err != nil {
 		http.Error(w, "User not found", http.StatusNotFound)

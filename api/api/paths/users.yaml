@@ -19,12 +19,13 @@ users:
       responses:
         '201':
           description: Created
+user:
     get:
       summary: Get a user by ID
       operationId: getUser
       parameters:
         - name: user_id
-          in: query
+          in: path
           required: true
           schema:
             type: string
