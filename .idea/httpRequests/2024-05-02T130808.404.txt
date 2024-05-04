@@ -1,1 +1,0 @@
-User not foundError 1054 (42S22): Unknown column 'email' in 'field list'
