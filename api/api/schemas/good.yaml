@@ -1,0 +1,20 @@
+Good:
+  type: object
+  properties:
+    tweet_id:
+      type: string
+    user_id:
+      type: string
+    created_at:
+      type: string
+      format: date-time
+
+Goods:
+  type: object
+  properties:
+    goods:
+      type: array
+      items:
+      $ref: '../openapi.yaml#/components/schemas/Good'
+    count:
+      type: integer

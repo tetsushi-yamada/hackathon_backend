@@ -1,15 +1,33 @@
 Tweet:
-      type: object
-      properties:
-        tweet_id:
-          type: string
-        user_id:
-          type: string
-        tweet_text:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
+  type: object
+  properties:
+    tweet_id:
+      type: string
+    user_id:
+      type: string
+    tweet_text:
+      type: string
+    parent_tweet_id:
+      type: string
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time
+  required:
+    - tweet_id
+    - user_id
+    - tweet_text
+    - created_at
+    - updated_at
+
+Tweets:
+  type: object
+  properties:
+    tweets:
+      type: array
+      items:
+        $ref: '../openapi.yaml#/components/schemas/Tweet'
+    count:
+      type: integer

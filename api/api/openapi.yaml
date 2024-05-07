@@ -16,12 +16,16 @@ paths:
     $ref: './paths/users.yaml#/users'
   /users/{user_id}:
     $ref: './paths/users.yaml#/user'
+  /users/search/{search_word}:
+    $ref: './paths/users.yaml#/user_search'
   /tweets:
     $ref: './paths/tweets.yaml#/tweets'
   /tweets/{user_id}:
     $ref: './paths/tweets.yaml#/tweet_user'
   /tweets/{tweet_id}:
     $ref: './paths/tweets.yaml#/tweet_tweet_id'
+  /tweets/reply/{tweet_id}:
+    $ref: './paths/tweets.yaml#/tweet_reply'
   /follows:
     $ref: './paths/follows.yaml#/follows'
   /follows/{user_id}:
@@ -32,12 +36,26 @@ paths:
     $ref: './paths/follows.yaml#/follow_check'
   /followers/{user_id}:
     $ref: './paths/followers.yaml#/followers'
+  /goods:
+    $ref: './paths/goods.yaml#/goods'
+  /goods/{tweet_id}:
+    $ref: './paths/goods.yaml#/goods_tweet_id'
+  /goods/{tweet_id}/{user_id}:
+    $ref: './paths/goods.yaml#/goods_tweet_user'
 
 components:
   schemas:
     User:
       $ref: './schemas/user.yaml#/User'
+    Users:
+      $ref: './schemas/user.yaml#/Users'
     Tweet:
       $ref: './schemas/tweet.yaml#/Tweet'
+    Tweets:
+      $ref: './schemas/tweet.yaml#/Tweets'
     Follow:
       $ref: './schemas/follow.yaml#/Follow'
+    Good:
+      $ref: './schemas/good.yaml#/Good'
+    Goods:
+      $ref: './schemas/good.yaml#/Goods'

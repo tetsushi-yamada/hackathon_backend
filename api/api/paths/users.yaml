@@ -17,6 +17,8 @@ users:
                 email:
                   type: string
       responses:
+        user_id:
+          type: string
         '201':
           description: Created
 user:
@@ -35,7 +37,7 @@ user:
           content:
             application/json:
               schema:
-                $ref: '../openapi.yaml#/components/schemas/User'
+                $ref: '../openapi.yaml#/components/schemas/Users'
     delete:
       summary: Delete a user by ID
       operationId: deleteUser
@@ -50,3 +52,31 @@ user:
           description: No Content
         '404':
           description: User not found
+
+user_search:
+    get:
+      summary: Search users by name
+      operationId: searchUsers
+      parameters:
+        - name: query
+          in: path
+          description: Query string for performing search
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of users that match the query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '../openapi.yaml#/components/schemas/User'
+        '400':
+          description: Invalid request parameters
+        '500':
+          description: Internal server error
