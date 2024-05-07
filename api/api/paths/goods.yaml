@@ -19,15 +19,18 @@ goods:
     responses:
       '201':
         description: Created
-
-goods_tweet_id:
   get:
     summary: Get goods by tweet_id
     operationId: getGoods
     parameters:
       - name: tweet_id
-        in: path
-        required: true
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        required: false
         schema:
           type: string
     responses:

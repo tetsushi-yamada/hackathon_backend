@@ -24,8 +24,6 @@ paths:
     $ref: './paths/tweets.yaml#/tweet_user'
   /tweets/{tweet_id}:
     $ref: './paths/tweets.yaml#/tweet_tweet_id'
-  /tweets/reply/{parent_id}:
-    $ref: './paths/tweets.yaml#/tweet_reply'
   /follows:
     $ref: './paths/follows.yaml#/follows'
   /follows/{user_id}:
@@ -38,8 +36,6 @@ paths:
     $ref: './paths/followers.yaml#/followers'
   /goods:
     $ref: './paths/goods.yaml#/goods'
-  /goods/{tweet_id}:
-    $ref: './paths/goods.yaml#/goods_tweet_id'
   /goods/{tweet_id}/{user_id}:
     $ref: './paths/goods.yaml#/goods_tweet_user'
 

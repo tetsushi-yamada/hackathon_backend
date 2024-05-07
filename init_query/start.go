@@ -24,6 +24,10 @@ func StartDB() *sql.DB {
 }
 
 func Init_table(db *sql.DB) error {
+	if err := DropGoodTable(db); err != nil {
+		return err
+	}
+
 	if err := DropFollowTable(db); err != nil {
 		return err
 	}
@@ -45,6 +49,10 @@ func Init_table(db *sql.DB) error {
 	}
 
 	if err := CreateFollowTable(db); err != nil {
+		return err
+	}
+
+	if err := CreateGoodTable(db); err != nil {
 		return err
 	}
 

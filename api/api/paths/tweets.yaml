@@ -16,6 +16,8 @@ tweets:
                   type: string
                 tweet_text:
                   type: string
+                parent_id:
+                  type: string
       responses:
         tweet_id:
           type: string
@@ -53,30 +55,3 @@ tweet_tweet_id:
           description: No Content
         '404':
           description: Tweet not found
-
-tweet_reply:
-    post:
-      summary: Create a new reply
-      operationId: createReply
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - user_id
-                - tweet_text
-                - parent_id
-              properties:
-                user_id:
-                  type: string
-                tweet_text:
-                  type: string
-                parent_tweet_id:
-                  type: string
-      responses:
-        tweet_id:
-          type: string
-        '201':
-          description: Created

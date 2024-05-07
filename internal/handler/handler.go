@@ -5,4 +5,5 @@ type Handlers struct {
 	User     *UserHandler
 	Follow   *FollowHandler
 	Follower *FollowerHandler
+	Good     *GoodHandler
 }

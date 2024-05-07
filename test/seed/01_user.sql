@@ -12,3 +12,4 @@ INSERT INTO users (user_id, user_name) VALUES ('1', 'JohnDoe');
 INSERT INTO users (user_id, user_name) VALUES ('2', 'Te');
 INSERT INTO users (user_id, user_name) VALUES ('100', 'FOLLOW ME');
 INSERT INTO users (user_id, user_name) VALUES ('101', 'FOLLOW YOU');
+INSERT INTO users (user_id, user_name) VALUES ('1000', 'GOOD YOU');

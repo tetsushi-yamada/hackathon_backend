@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS tweets (
     created_at timestamp not null default current_timestamp,
     updated_at timestamp not null default current_timestamp on update current_timestamp,
     PRIMARY KEY (tweet_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
     );
 
 INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES ('1', '1', 'Hello, World!');

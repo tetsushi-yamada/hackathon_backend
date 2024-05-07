@@ -17,7 +17,7 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 	// /v1/tweets
 	router.HandleFunc("/v1/tweets", handlers.Tweet.CreateTweetHandler).Methods("POST")
 	router.HandleFunc("/v1/tweets/{user_id}", handlers.Tweet.GetTweetsHandlerByUserID).Methods("GET")
-	router.HandleFunc("/v1/tweets/{tweet_id}", handlers.Tweet.DeleteTweetHandler).Methods("DELETE")
+	router.HandleFunc("/v1/tweets/by-tweet/{tweet_id}", handlers.Tweet.DeleteTweetHandler).Methods("DELETE")
 
 	// /v1/follows
 	router.HandleFunc("/v1/follows", handlers.Follow.CreateFollowHandler).Methods("POST")
@@ -27,6 +27,11 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 
 	// /v1/followers
 	router.HandleFunc("/v1/followers/{follow_id}", handlers.Follower.GetFollowersHandler).Methods("GET")
+
+	// /v1/goods
+	router.HandleFunc("/v1/goods", handlers.Good.CreateGoodHandler).Methods("POST")
+	router.HandleFunc("/v1/goods", handlers.Good.GetGoodsHandler).Methods("GET")
+	router.HandleFunc("/v1/goods/{tweet_id}/{user_id}", handlers.Good.DeleteGoodHandler).Methods("DELETE")
 
 	return router
 }
