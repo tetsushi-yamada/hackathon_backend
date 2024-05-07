@@ -37,6 +37,12 @@ func (uh *UserHandler) CreateUserHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
+	err = json.NewEncoder(w).Encode(User.UserID)
+	if err != nil {
+		http.Error(w, "Failed to encode user", http.StatusInternalServerError)
+		return
+	}
+
 }
 
 func (uh *UserHandler) GetUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -60,6 +66,22 @@ func (uh *UserHandler) DeleteUserHandler(w http.ResponseWriter, r *http.Request)
 	err := uh.UserUsecase.DeleteUserUsecase(userID)
 	if err != nil {
 		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+}
+
+func (uh *UserHandler) SearchUsersHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	searchWord := vars["search_word"]
+	Users, err := uh.UserUsecase.SearchUserUsecase(searchWord)
+	if err != nil {
+		http.Error(w, "User not found"+err.Error(), http.StatusNotFound)
+		return
+	}
+	Users_api := user.Users{Users: Users, Count: len(Users)}
+	err = json.NewEncoder(w).Encode(Users_api)
+	if err != nil {
+		http.Error(w, "Failed to encode user", http.StatusInternalServerError)
 		return
 	}
 }

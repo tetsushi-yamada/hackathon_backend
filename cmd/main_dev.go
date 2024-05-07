@@ -14,6 +14,23 @@ import (
 	"os"
 )
 
+func CORSMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+		// プリフライトリクエストの応答
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		// 次のミドルウェアまたはハンドラを呼び出す
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 
 	mysqlUser := os.Getenv("DB_USER")
@@ -41,25 +58,24 @@ func main() {
 	tweetUsecase := usecase.NewTweetUsecase(db, tweetDatabase)
 	followUsecase := usecase.NewFollowUsecase(db, followDatabase)
 	followerUsecase := usecase.NewFollowerUsecase(db, followDatabase)
-	followOrNotUsecase := usecase.NewFollowOrNotUsecase(db, followDatabase)
 
 	//handler層
 	userHandler := handler.NewUserHandler(userUsecase)
 	tweetHandler := handler.NewTweetHandler(tweetUsecase)
 	followHandler := handler.NewFollowHandler(followUsecase)
 	followerHandler := handler.NewFollowerHandler(followerUsecase)
-	followOrNotHandler := handler.NewFollowOrNotHandler(followOrNotUsecase)
 
 	handlers := handler.Handlers{
-		User:        userHandler,
-		Tweet:       tweetHandler,
-		Follow:      followHandler,
-		Follower:    followerHandler,
-		FollowOrNot: followOrNotHandler,
+		User:     userHandler,
+		Tweet:    tweetHandler,
+		Follow:   followHandler,
+		Follower: followerHandler,
 	}
 
 	router := server.NewRouter(&handlers)
-	err = http.ListenAndServe(":8001", router)
+	corsRouter := CORSMiddleware(router)
+
+	err = http.ListenAndServe(":8001", corsRouter)
 	if err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}

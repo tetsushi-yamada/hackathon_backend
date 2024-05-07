@@ -21,9 +21,10 @@ func CreateTweetTable(db *sql.DB) error {
 		tweet_id char(36) not null,
 		user_id char(36) not null,
 		tweet_text varchar(255) not null,
+	    parent_id char(36) default null,
 		created_at timestamp not null default current_timestamp,
 		updated_at timestamp not null default current_timestamp on update current_timestamp,
-		PRIMARY KEY (user_id),
+		PRIMARY KEY (tweet_id),
 		FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 	`

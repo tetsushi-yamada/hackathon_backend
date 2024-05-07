@@ -69,3 +69,22 @@ func (uu *UserUsecase) DeleteUserUsecase(userID string) error {
 	}
 	return nil
 }
+
+func (uu *UserUsecase) SearchUserUsecase(userName string) ([]*user.User, error) {
+	db := uu.sql
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback() // ensures rollback if next steps fail
+
+	users, err := uu.UserDatabase.SearchUsersTx(tx, userName)
+	if err != nil {
+		return nil, err
+	}
+	err = tx.Commit() // commit the transaction
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}

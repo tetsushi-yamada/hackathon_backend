@@ -36,6 +36,11 @@ func (th *TweetHandler) CreateTweetHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
+	err = json.NewEncoder(w).Encode(tweet.TweetID)
+	if err != nil {
+		http.Error(w, "Failed to encode tweet", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (th *TweetHandler) GetTweetsHandlerByUserID(w http.ResponseWriter, r *http.Request) {

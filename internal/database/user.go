@@ -51,3 +51,31 @@ func (repo *UserDatabase) DeleteUserTx(tx *sql.Tx, userID string) error {
 	}
 	return nil
 }
+
+func (repo *UserDatabase) SearchUsersTx(tx *sql.Tx, userName string) ([]*user.User, error) {
+	var users []*user.User
+	query := `SELECT user_id, user_name, created_at, updated_at FROM users WHERE user_name LIKE ?`
+	rows, err := tx.Query(query, "%"+userName+"%")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		user := new(user.User)
+		var createdAt, updatedAt []byte
+		err = rows.Scan(&user.UserID, &user.UserName, &createdAt, &updatedAt)
+		if err != nil {
+			return nil, err
+		}
+		user.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
+		if err != nil {
+			return nil, err
+		}
+		user.UpdatedAt, err = time.Parse("2006-01-02 15:04:05", string(updatedAt))
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+	return users, nil
+}

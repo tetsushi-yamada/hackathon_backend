@@ -7,7 +7,7 @@ Tweet:
       type: string
     tweet_text:
       type: string
-    parent_tweet_id:
+    parent_id:
       type: string
     created_at:
       type: string

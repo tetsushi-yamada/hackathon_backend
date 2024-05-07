@@ -23,7 +23,8 @@ func CreateFollowTable(db *sql.DB) error {
 		follow_id char(36) not null,
 		created_at timestamp not null default current_timestamp,
 		PRIMARY KEY (user_id, follow_id),
-		FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+		FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+	    FOREIGN KEY (follow_id) REFERENCES users(user_id) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 	`
 

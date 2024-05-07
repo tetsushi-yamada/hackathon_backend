@@ -15,6 +15,7 @@ func TestCreateTweetHandler(t *testing.T) {
 	type args struct {
 		UserID    string
 		TweetText string
+		ParentID  string
 	}
 	type Tweet struct {
 		TweetID   string
@@ -34,6 +35,17 @@ func TestCreateTweetHandler(t *testing.T) {
 			args: args{
 				UserID:    "1",
 				TweetText: "test_tweet",
+			},
+			want: want{
+				statusCode: http.StatusCreated,
+			},
+		},
+		{
+			name: "successful case with parent",
+			args: args{
+				UserID:    "1",
+				TweetText: "test_reply",
+				ParentID:  "1",
 			},
 			want: want{
 				statusCode: http.StatusCreated,
