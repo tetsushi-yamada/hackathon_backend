@@ -1,9 +1,9 @@
 package handler
 
 type Handlers struct {
-	Tweet       *TweetHandler
-	User        *UserHandler
-	Follow      *FollowHandler
-	Follower    *FollowerHandler
-	FollowOrNot *FollowOrNotHandler
+	Tweet    *TweetHandler
+	User     *UserHandler
+	Follow   *FollowHandler
+	Follower *FollowerHandler
+	Good     *GoodHandler
 }

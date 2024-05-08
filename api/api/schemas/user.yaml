@@ -13,3 +13,13 @@ User:
         updated_at:
           type: string
           format: date-time
+
+Users:
+    type: object
+    properties:
+        users:
+          type: array
+        items:
+          $ref: '../openapi.yaml#/components/schemas/User'
+        count:
+          type: integer

@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  mysql_server:
+    container_name: mysql_server
+    image: mysql:5.7
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: testdatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: Asia/Tokyo
+    ports:
+      - "3306:3306"
+    volumes:
+      - type: volume
+        source: mysql_test
+        target: /var/lib/mysql
+
+  app:
+    container_name: hackathon_app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8001:8001"
+    depends_on:
+      - mysql_server
+    environment:
+      DB_HOST: mysql_server
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: testdatabase
+
+volumes:
+  mysql_test:
+    name: mysql_test

@@ -105,7 +105,7 @@ func TestGetUserHandler(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			now := time.Now().UTC().Add(time.Hour * 9) // 現在の時刻を取得
 
-			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/users?user_id=%s", tt.args.UserID))
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/users/%s", tt.args.UserID))
 			if err != nil {
 				t.Fatalf("Error making GET request: %v", err)
 			}
@@ -151,7 +151,7 @@ func TestDeleteUserHandler(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/users?user_id=%s", tt.args.UserID), nil)
+			req, err := http.NewRequest("DELETE", fmt.Sprintf("http://localhost:8000/v1/users/%s", tt.args.UserID), nil)
 			if err != nil {
 				t.Fatalf("Error creating DELETE request: %v", err)
 			}
@@ -166,6 +166,76 @@ func TestDeleteUserHandler(t *testing.T) {
 			if ok := assert.Equal(t, tt.want.statusCode, resp.StatusCode); !ok {
 				t.Fatalf("invalid status code %d", resp.StatusCode)
 			}
+		})
+	}
+}
+
+func TestSearchUsersHandler(t *testing.T) {
+	type args struct {
+		SearchWord string
+	}
+	type User struct {
+		UserId    string `json:"user_id"`
+		UserName  string `json:"user_name"`
+		CreatedAt string `json:"created_at"`
+		UpdatedAt string `json:"updated_at"`
+	}
+	type Users struct {
+		Users []User `json:"users"`
+		Count int    `json:"count"`
+	}
+	type want struct {
+		Users      Users
+		statusCode int
+	}
+	tests := []struct {
+		name string
+		args args
+		want want
+	}{
+		{
+			name: "successful case",
+			args: args{
+				SearchWord: "FOLLOW",
+			},
+			want: want{
+				Users: Users{
+					Users: []User{
+						{
+							UserId:   "100",
+							UserName: "FOLLOW ME",
+						},
+						{
+							UserId:   "101",
+							UserName: "FOLLOW YOU",
+						},
+					},
+					Count: 2,
+				},
+				statusCode: http.StatusOK,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/users/search/%s", tt.args.SearchWord))
+			if err != nil {
+				t.Fatalf("Error making GET request: %v", err)
+			}
+			defer resp.Body.Close()
+
+			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
+
+			var users Users
+			if err := json.NewDecoder(resp.Body).Decode(&users); err != nil {
+				t.Fatalf("Error decoding response body: %v", err)
+			}
+
+			for i := 0; i < len(users.Users); i++ {
+				assert.Equal(t, tt.want.Users.Users[i].UserId, users.Users[i].UserId, "UserID does not match")
+				assert.Equal(t, tt.want.Users.Users[i].UserName, users.Users[i].UserName, "UserName does not match")
+			}
+			assert.Equal(t, tt.want.Users.Count, users.Count, "Count does not match")
 		})
 	}
 }

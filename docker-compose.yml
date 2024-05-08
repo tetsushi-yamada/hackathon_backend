@@ -5,20 +5,20 @@ services:
     container_name: hackathon_test
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.test
     tty: true
     ports:
       - 3306:3306
     environment:
       TZ: Asia/Tokyo
     env_file:
-      - ./.env
+      - .env.local
     volumes:
       - type: volume
         source: mysql_test
         target: /var/lib/mysql
       - type: bind
-        source: ./seed
+        source: ./test/seed
         target: /docker-entrypoint-initdb.d
 
 volumes:

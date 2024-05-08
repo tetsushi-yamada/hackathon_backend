@@ -3,7 +3,6 @@
 object user_settings {
     <#white>| char | user_id | PK | NOT NULL |
     <#white>| varchar | user_name | | NOT NULL |
-    <#white>| varchar | email | | NOT NULL |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |
 }
@@ -11,6 +10,7 @@ object user_settings {
 object tweets {
     <#white>| char | tweet_id | PK | NOT NULL |
     <#white>| char | user_id | FK | NOT NULL |
+    <#white>| char | parent_tweet_id | FK | DEFAULT NULL |
     <#white>| varchar | tweet_text | | NOT NULL |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |
@@ -20,10 +20,18 @@ object follows {
     <#white>| char | user_id | PK, FK | NOT NULL |
     <#white>| char | follow_id | PK, FK | NOT NULL |
     <#white>| timestamp | created_at | | NOT NULL |
-    <#white>| timestamp | updated_at | | NOT NULL |
+}
+
+object goods {
+    <#white>| char | tweet_id | PK, FK | NOT NULL |
+    <#white>| char | user_id | PK, FK | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
 }
 
 user_settings ||--o{ tweets
 user_settings ||--o{ follows
+tweets ||--o{ goods
+user_settings ||--o{ goods
+tweets ||--o{ tweets : parent_tweet_id
 
 @enduml

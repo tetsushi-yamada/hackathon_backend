@@ -2,9 +2,9 @@ package init_query
 
 import "database/sql"
 
-func DropFollowTable(db *sql.DB) error {
+func DropGoodTable(db *sql.DB) error {
 	// テーブル削除用のSQL文
-	dropTableSQL := `DROP TABLE IF EXISTS follows;`
+	dropTableSQL := `DROP TABLE IF EXISTS goods;`
 
 	// SQL文の実行
 	_, err := db.Exec(dropTableSQL)
@@ -12,19 +12,18 @@ func DropFollowTable(db *sql.DB) error {
 		return err
 	}
 	return nil
-
 }
 
-func CreateFollowTable(db *sql.DB) error {
+func CreateGoodTable(db *sql.DB) error {
 	// テーブル作成用のSQL文
 	createTableSQL := `
-	CREATE TABLE IF NOT EXISTS follows (
+	CREATE TABLE IF NOT EXISTS goods (
+		tweet_id char(36) not null,
 		user_id char(36) not null,
-		follow_id char(36) not null,
 		created_at timestamp not null default current_timestamp,
-		PRIMARY KEY (user_id, follow_id),
-		FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-	    FOREIGN KEY (follow_id) REFERENCES users(user_id) ON DELETE CASCADE
+		PRIMARY KEY (tweet_id, user_id),
+	    FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id) ON DELETE CASCADE,
+		FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 	`
 

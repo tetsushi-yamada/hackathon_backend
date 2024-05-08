@@ -2,6 +2,8 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/follow"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
 	"net/http"
@@ -17,9 +19,11 @@ func NewFollowerHandler(fu *usecase.FollowerUsecase) *FollowerHandler {
 }
 
 func (fh *FollowerHandler) GetFollowersHandler(w http.ResponseWriter, r *http.Request) {
-	followID := r.URL.Query().Get("follow_id")
+	vars := mux.Vars(r)
+	followID := vars["follow_id"]
 	followers, err := fh.FollowerUsecase.GetFollowersUsecase(followID)
 	if err != nil {
+		fmt.Printf("Failed to get followers: %v", err)
 		http.Error(w, "User not found", http.StatusNotFound)
 		return
 	}

@@ -11,8 +11,14 @@ type TweetDatabase struct{}
 func NewTweetDatabase() *TweetDatabase { return &TweetDatabase{} }
 
 func (repo *TweetDatabase) CreateTweetTx(tx *sql.Tx, tweet tweet.Tweet) error {
-	query := `INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES (?, ?, ?)`
-	_, err := tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText)
+	var err error
+	if tweet.ParentID == "" {
+		query := `INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES (?, ?, ?)`
+		_, err = tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText)
+	} else {
+		query := `INSERT INTO tweets (tweet_id, user_id, tweet_text, parent_id) VALUES (?, ?, ?, ?)`
+		_, err = tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText, tweet.ParentID)
+	}
 	if err != nil {
 		return err
 	}

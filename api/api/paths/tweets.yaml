@@ -16,15 +16,20 @@ tweets:
                   type: string
                 tweet_text:
                   type: string
+                parent_id:
+                  type: string
       responses:
+        tweet_id:
+          type: string
         '201':
           description: Created
+tweet_user:
     get:
       summary: Get tweets by UserID
       operationId: getTweetsByUserID
       parameters:
         - name: user_id
-          in: query
+          in: path
           required: true
           schema:
             type: string
@@ -34,13 +39,14 @@ tweets:
           content:
             application/json:
               schema:
-                $ref: '../openapi.yaml#/components/schemas/Tweet'
+                $ref: '../openapi.yaml#/components/schemas/Tweets'
+tweet_tweet_id:
     delete:
       summary: Delete a tweet by ID
       operationId: deleteTweet
       parameters:
         - name: tweet_id
-          in: query
+          in: path
           required: true
           schema:
             type: string

@@ -1,0 +1,63 @@
+goods:
+  post:
+    summary: goods to a post
+    operationId: goodsPost
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - tweet_id
+              - user_id
+            properties:
+              tweet_id:
+                type: string
+              user_id:
+                type: string
+    responses:
+      '201':
+        description: Created
+  get:
+    summary: Get goods by tweet_id
+    operationId: getGoods
+    parameters:
+      - name: tweet_id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        required: false
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Goods'
+
+goods_tweet_user:
+  delete:
+    summary: Delete a good by tweet_id and user_id
+    operationId: deleteGood
+    parameters:
+      - name: tweet_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: No Content
+      '404':
+        description: Good not found

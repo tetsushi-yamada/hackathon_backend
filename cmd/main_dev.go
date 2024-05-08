@@ -1,6 +1,9 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/tetsushi-yamada/hackathon_backend/init_query"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/database"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/handler"
@@ -8,12 +11,39 @@ import (
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
 	"log"
 	"net/http"
+	"os"
 )
+
+func CORSMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+		// プリフライトリクエストの応答
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		// 次のミドルウェアまたはハンドラを呼び出す
+		next.ServeHTTP(w, r)
+	})
+}
 
 func main() {
 
-	db := init_query.StartDB()
-	err := init_query.Init_table(db)
+	mysqlUser := os.Getenv("DB_USER")
+	mysqlPwd := os.Getenv("DB_PASSWORD")
+	mysqlHost := os.Getenv("DB_HOST")
+	mysqlDatabase := os.Getenv("DB_NAME")
+
+	connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
+	db, err := sql.Open("mysql", connStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = init_query.Init_table(db)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,7 +77,9 @@ func main() {
 	}
 
 	router := server.NewRouter(&handlers)
-	err = http.ListenAndServe(":8080", router)
+	corsRouter := CORSMiddleware(router)
+
+	err = http.ListenAndServe(":8001", corsRouter)
 	if err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}

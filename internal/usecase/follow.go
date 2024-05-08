@@ -69,3 +69,22 @@ func (fu *FollowUsecase) DeleteFollowUsecase(userID string, followID string) err
 	}
 	return nil
 }
+
+func (fu *FollowUsecase) GetFollowOrNotUsecase(userID string, followID string) (*follow.FollowOrNot, error) {
+	db := fu.sql
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback() // ensures rollback if next steps fail
+
+	follow_bool, err := fu.FollowDatabase.GetFollowOrNotTx(tx, userID, followID)
+	if err != nil {
+		return nil, err
+	}
+	err = tx.Commit() // commit the transaction
+	if err != nil {
+		return nil, err
+	}
+	return follow_bool, nil
+}
