@@ -56,6 +56,15 @@ func (repo *TweetDatabase) GetTweetsTx(tx *sql.Tx, userID string) ([]*tweet.Twee
 	return tweets, nil
 }
 
+func (repo *TweetDatabase) UpdateTweetTx(tx *sql.Tx, tweet tweet.Tweet) error {
+	query := `UPDATE tweets SET tweet_text = ? WHERE tweet_id = ?`
+	_, err := tx.Exec(query, tweet.TweetText, tweet.TweetID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (repo *TweetDatabase) DeleteTweetTx(tx *sql.Tx, tweetID string) error {
 	query := `DELETE FROM tweets WHERE tweet_id = ?`
 	_, err := tx.Exec(query, tweetID)

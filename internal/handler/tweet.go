@@ -59,6 +59,23 @@ func (th *TweetHandler) GetTweetsHandlerByUserID(w http.ResponseWriter, r *http.
 	}
 }
 
+func (th *TweetHandler) UpdateTweetHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var tweet tweet.Tweet
+	tweetID := vars["tweet_id"]
+	tweet.TweetID = tweetID
+	if err := json.NewDecoder(r.Body).Decode(&tweet); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err := th.TweetUsecase.UpdateTweetUsecase(tweet)
+	if err != nil {
+		http.Error(w, "Failed to update tweet", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func (th *TweetHandler) DeleteTweetHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	tweetID := vars["tweet_id"]
@@ -67,4 +84,5 @@ func (th *TweetHandler) DeleteTweetHandler(w http.ResponseWriter, r *http.Reques
 		http.Error(w, "User not found", http.StatusNotFound)
 		return
 	}
+	w.WriteHeader(http.StatusNoContent)
 }

@@ -9,12 +9,12 @@ users:
             schema:
               type: object
               required:
+                - user_id
                 - user_name
-                - email
               properties:
-                user_name:
+                user_id:
                   type: string
-                email:
+                user_name:
                   type: string
       responses:
         user_id:

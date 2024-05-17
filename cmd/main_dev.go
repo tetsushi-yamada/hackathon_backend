@@ -11,7 +11,6 @@ import (
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
 	"log"
 	"net/http"
-	"os"
 )
 
 func CORSMiddleware(next http.Handler) http.Handler {
@@ -33,10 +32,10 @@ func CORSMiddleware(next http.Handler) http.Handler {
 
 func main() {
 
-	mysqlUser := os.Getenv("DB_USER")
-	mysqlPwd := os.Getenv("DB_PASSWORD")
-	mysqlHost := os.Getenv("DB_HOST")
-	mysqlDatabase := os.Getenv("DB_NAME")
+	mysqlUser := "user"
+	mysqlPwd := "password"
+	mysqlHost := "localhost:3306"
+	mysqlDatabase := "testdatabase"
 
 	connStr := fmt.Sprintf("%s:%s@tcp(%s)/%s", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
 	db, err := sql.Open("mysql", connStr)

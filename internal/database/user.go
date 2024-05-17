@@ -11,7 +11,7 @@ type UserDatabase struct{}
 func NewUserDatabase() *UserDatabase { return &UserDatabase{} }
 
 func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, User user.User) error {
-	query := `INSERT INTO users (user_id, user_name) VALUES (?, ?) ON DUPLICATE KEY UPDATE user_name = VALUES(user_name)`
+	query := `INSERT INTO users (user_id, user_name) VALUES (?, ?)`
 	_, err := tx.Exec(query, User.UserID, User.UserName)
 	if err != nil {
 

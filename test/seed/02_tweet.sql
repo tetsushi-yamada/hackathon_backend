@@ -14,3 +14,4 @@ CREATE TABLE IF NOT EXISTS tweets (
 INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES ('1', '1', 'Hello, World!');
 INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES ('2', '1', 'No way!');
 INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES ('3', '2', 'I am Te!');
+INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES ('4', '10000', 'Will be updated!');

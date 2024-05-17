@@ -13,6 +13,7 @@ import (
 
 func TestCreateUserHandler(t *testing.T) {
 	type args struct {
+		UserId   string
 		UserName string
 	}
 	type User struct {
@@ -20,6 +21,7 @@ func TestCreateUserHandler(t *testing.T) {
 		UserName string `json:"user_name"`
 	}
 	type want struct {
+		UserId     string
 		statusCode int
 	}
 	tests := []struct {
@@ -30,9 +32,11 @@ func TestCreateUserHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
+				UserId:   "8989",
 				UserName: "test_user",
 			},
 			want: want{
+				UserId:     "8989",
 				statusCode: http.StatusCreated,
 			},
 		},
@@ -41,6 +45,7 @@ func TestCreateUserHandler(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			data := User{
+				UserId:   tt.args.UserId,
 				UserName: tt.args.UserName,
 			}
 			payloadBytes, err := json.Marshal(data)
@@ -65,6 +70,10 @@ func TestCreateUserHandler(t *testing.T) {
 
 			if ok := assert.Equal(t, tt.want.statusCode, resp.StatusCode); !ok {
 				t.Fatalf("invalid status code %d", resp.StatusCode)
+				return
+			}
+			if ok := assert.Equal(t, tt.want.UserId, data.UserId); !ok {
+				t.Fatalf("invalid user id %s", data.UserId)
 				return
 			}
 		})
@@ -145,7 +154,7 @@ func TestDeleteUserHandler(t *testing.T) {
 				UserID: "1",
 			},
 			want: want{
-				statusCode: http.StatusOK,
+				statusCode: http.StatusNoContent,
 			},
 		},
 	}

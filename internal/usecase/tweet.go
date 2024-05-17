@@ -51,6 +51,25 @@ func (tu *TweetUsecase) GetTweetsUsecase(userID string) ([]*tweet.Tweet, error) 
 	return tweets, nil
 }
 
+func (tu *TweetUsecase) UpdateTweetUsecase(tweet tweet.Tweet) error {
+	db := tu.sql
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback() // ensures rollback if next steps fail
+
+	err = tu.TweetDatabase.UpdateTweetTx(tx, tweet)
+	if err != nil {
+		return err
+	}
+	err = tx.Commit() // commit the transaction
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (tu *TweetUsecase) DeleteTweetUsecase(tweetID string) error {
 	db := tu.sql
 	tx, err := db.Begin()

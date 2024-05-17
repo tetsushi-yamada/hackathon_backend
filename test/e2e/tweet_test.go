@@ -163,6 +163,68 @@ func TestGetTweetsHandler(t *testing.T) {
 	}
 }
 
+func TestUpdateTweetHandler(t *testing.T) {
+	type args struct {
+		TweetID   string
+		TweetText string
+	}
+	type want struct {
+		statusCode int
+	}
+	type Tweet struct {
+		TweetID   string
+		UserID    string `json:"user_id"`
+		TweetText string `json:"tweet_text"`
+	}
+	tests := []struct {
+		name string
+		args args
+		want want
+	}{
+		{
+			name: "successful case",
+			args: args{
+				TweetID:   "4",
+				TweetText: "updated_tweet",
+			},
+			want: want{
+				statusCode: http.StatusNoContent,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			data := Tweet{
+				TweetText: tt.args.TweetText,
+			}
+			payloadBytes, err := json.Marshal(data)
+			if err != nil {
+				fmt.Println("Error marshaling data:", err)
+				return
+			}
+			body := bytes.NewReader(payloadBytes)
+
+			req, err := http.NewRequest("PUT", fmt.Sprintf("http://localhost:8000/v1/tweets/by-tweet/%s", tt.args.TweetID), body)
+			if err != nil {
+				fmt.Println("Error sending request:", err)
+				return
+			}
+			req.Header.Set("Content-Type", "application/json")
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer resp.Body.Close()
+
+			if ok := assert.Equal(t, tt.want.statusCode, resp.StatusCode); !ok {
+				t.Fatalf("invalid status code %d", resp.StatusCode)
+			}
+		})
+	}
+
+}
+
 func TestDeleteTweetHandler(t *testing.T) {
 	type args struct {
 		TweetID string
@@ -181,7 +243,7 @@ func TestDeleteTweetHandler(t *testing.T) {
 				TweetID: "2",
 			},
 			want: want{
-				statusCode: http.StatusOK,
+				statusCode: http.StatusNoContent,
 			},
 		},
 	}
