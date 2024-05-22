@@ -24,6 +24,8 @@ paths:
     $ref: './paths/tweets.yaml#/tweet_user'
   /tweets/{tweet_id}:
     $ref: './paths/tweets.yaml#/tweet_tweet_id'
+  /tweets/search/{search_word}:
+    $ref: './paths/tweets.yaml#/tweet_search'
   /follows:
     $ref: './paths/follows.yaml#/follows'
   /follows/{user_id}:

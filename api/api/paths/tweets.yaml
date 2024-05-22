@@ -80,3 +80,20 @@ tweet_tweet_id:
           description: No Content
         '404':
           description: Tweet not found
+tweet_search:
+    get:
+      summary: Search tweets by text
+      operationId: searchTweets
+      parameters:
+        - name: search_word
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi.yaml#/components/schemas/Tweets'

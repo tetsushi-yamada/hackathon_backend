@@ -11,11 +11,15 @@ import (
 	"time"
 )
 
+func stringPointer(s string) *string {
+	return &s
+}
+
 func TestCreateTweetHandler(t *testing.T) {
 	type args struct {
 		UserID    string
 		TweetText string
-		ParentID  string
+		ParentID  *string
 	}
 	type Tweet struct {
 		TweetID   string
@@ -45,7 +49,7 @@ func TestCreateTweetHandler(t *testing.T) {
 			args: args{
 				UserID:    "1",
 				TweetText: "test_reply",
-				ParentID:  "1",
+				ParentID:  stringPointer("1"),
 			},
 			want: want{
 				statusCode: http.StatusCreated,
@@ -264,6 +268,72 @@ func TestDeleteTweetHandler(t *testing.T) {
 			if ok := assert.Equal(t, tt.want.statusCode, resp.StatusCode); !ok {
 				t.Fatalf("invalid status code %d", resp.StatusCode)
 			}
+		})
+	}
+}
+
+func TestSearchTweetHandler(t *testing.T) {
+	type args struct {
+		SearchWord string
+	}
+	type Tweet struct {
+		TweetID   string `json:"tweet_id"`
+		UserID    string `json:"user_id"`
+		TweetText string `json:"tweet_text"`
+		CreatedAt string `json:"created_at"`
+		UpdatedAt string `json:"updated_at"`
+	}
+	type Tweets struct {
+		Tweets []Tweet `json:"tweets"`
+		Count  int     `json:"count"`
+	}
+	type want struct {
+		Tweets     Tweets
+		statusCode int
+	}
+	tests := []struct {
+		name string
+		args args
+		want want
+	}{
+		{
+			name: "successful case",
+			args: args{
+				SearchWord: "search",
+			},
+			want: want{
+				Tweets: Tweets{
+					Tweets: []Tweet{
+						{
+							TweetID:   "5",
+							TweetText: "Will be searched!",
+						},
+					},
+					Count: 1,
+				},
+				statusCode: http.StatusOK,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/tweets/search/%s", tt.args.SearchWord))
+			if err != nil {
+				t.Fatalf("Error making GET request: %v", err)
+			}
+			defer resp.Body.Close()
+
+			var tweets Tweets
+			if err := json.NewDecoder(resp.Body).Decode(&tweets); err != nil {
+				t.Fatalf("Error decoding response body: %v", err)
+			}
+
+			for i := 0; i < len(tweets.Tweets); i++ {
+				assert.Equal(t, tt.want.Tweets.Tweets[i].TweetID, tweets.Tweets[i].TweetID, "TweetID does not match")
+				assert.Equal(t, tt.want.Tweets.Tweets[i].TweetText, tweets.Tweets[i].TweetText, "TweetText does not match")
+			}
+			assert.Equal(t, tt.want.Tweets.Count, tweets.Count, "Count does not match")
+			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
 		})
 	}
 }

@@ -86,3 +86,19 @@ func (th *TweetHandler) DeleteTweetHandler(w http.ResponseWriter, r *http.Reques
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
+
+func (th *TweetHandler) SearchTweetsHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	searchWord := vars["search_word"]
+	tweets, err := th.TweetUsecase.SearchTweetsUsecase(searchWord)
+	if err != nil {
+		http.Error(w, "Tweet not found", http.StatusNotFound)
+		return
+	}
+	tweets_api := tweet.Tweets{Tweets: tweets, Count: len(tweets)}
+	err = json.NewEncoder(w).Encode(tweets_api)
+	if err != nil {
+		http.Error(w, "Failed to encode tweet", http.StatusInternalServerError)
+		return
+	}
+}
