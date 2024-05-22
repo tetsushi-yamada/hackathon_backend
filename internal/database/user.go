@@ -14,7 +14,6 @@ func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, User user.User) error {
 	query := `INSERT INTO users (user_id, user_name) VALUES (?, ?)`
 	_, err := tx.Exec(query, User.UserID, User.UserName)
 	if err != nil {
-
 		return err
 	}
 	return err
