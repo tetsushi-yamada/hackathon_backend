@@ -59,6 +59,21 @@ func (th *TweetHandler) GetTweetsHandlerByUserID(w http.ResponseWriter, r *http.
 	}
 }
 
+func (th *TweetHandler) GetTweetByTweetIDHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	tweetID := vars["tweet_id"]
+	tweet, err := th.TweetUsecase.GetTweetByTweetIDUsecase(tweetID)
+	if err != nil {
+		http.Error(w, "Tweet not found", http.StatusNotFound)
+		return
+	}
+	err = json.NewEncoder(w).Encode(tweet)
+	if err != nil {
+		http.Error(w, "Failed to encode tweet", http.StatusInternalServerError)
+		return
+	}
+}
+
 func (th *TweetHandler) UpdateTweetHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	var tweet tweet.Tweet
@@ -97,6 +112,22 @@ func (th *TweetHandler) SearchTweetsHandler(w http.ResponseWriter, r *http.Reque
 	}
 	tweets_api := tweet.Tweets{Tweets: tweets, Count: len(tweets)}
 	err = json.NewEncoder(w).Encode(tweets_api)
+	if err != nil {
+		http.Error(w, "Failed to encode tweet", http.StatusInternalServerError)
+		return
+	}
+}
+
+func (th *TweetHandler) GetRepliesHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	tweetID := vars["tweet_id"]
+	replies, err := th.TweetUsecase.GetRepliesUsecase(tweetID)
+	if err != nil {
+		http.Error(w, "Tweet not found", http.StatusNotFound)
+		return
+	}
+	replies_api := tweet.Tweets{Tweets: replies, Count: len(replies)}
+	err = json.NewEncoder(w).Encode(replies_api)
 	if err != nil {
 		http.Error(w, "Failed to encode tweet", http.StatusInternalServerError)
 		return

@@ -1,0 +1,13 @@
+Profile_picture:
+  type: object
+  properties:
+    user_id:
+      type: string
+    user_picrture:
+      type: string
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time

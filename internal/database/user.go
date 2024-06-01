@@ -11,8 +11,14 @@ type UserDatabase struct{}
 func NewUserDatabase() *UserDatabase { return &UserDatabase{} }
 
 func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, User user.User) error {
-	query := `INSERT INTO users (user_id, user_name) VALUES (?, ?)`
-	_, err := tx.Exec(query, User.UserID, User.UserName)
+	var err error
+	if User.UserDescription == nil || *User.UserDescription == "" {
+		query := `INSERT INTO users (user_id, user_name) VALUES (?, ?)`
+		_, err = tx.Exec(query, User.UserID, User.UserName)
+	} else {
+		query := `INSERT INTO users (user_id, user_name, user_description) VALUES (?, ?, ?)`
+		_, err = tx.Exec(query, User.UserID, User.UserName, User.UserDescription)
+	}
 	if err != nil {
 		return err
 	}
@@ -21,11 +27,17 @@ func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, User user.User) error {
 
 func (repo *UserDatabase) GetUserTx(tx *sql.Tx, userID string) (*user.User, error) {
 	user := new(user.User)
-	query := `SELECT user_id, user_name, created_at, updated_at FROM users WHERE user_id = ?`
+	query := `SELECT user_id, user_name, user_description, created_at, updated_at FROM users WHERE user_id = ?`
 	var createdAt, updatedAt []byte
-	err := tx.QueryRow(query, userID).Scan(&user.UserID, &user.UserName, &createdAt, &updatedAt)
+	var UserDescription sql.NullString
+	err := tx.QueryRow(query, userID).Scan(&user.UserID, &user.UserName, &UserDescription, &createdAt, &updatedAt)
 	if err != nil {
 		return nil, err
+	}
+	if UserDescription.Valid {
+		user.UserDescription = &UserDescription.String
+	} else {
+		user.UserDescription = nil
 	}
 	user.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
 	if err != nil {
@@ -51,9 +63,25 @@ func (repo *UserDatabase) DeleteUserTx(tx *sql.Tx, userID string) error {
 	return nil
 }
 
+func (repo *UserDatabase) UpdateUserTx(tx *sql.Tx, User user.User) error {
+	var err error
+	if User.UserDescription == nil || *User.UserDescription == "" {
+		query := `UPDATE users SET user_name = ? WHERE user_id = ?`
+		_, err = tx.Exec(query, User.UserName, User.UserID)
+	} else {
+		query := `UPDATE users SET user_name = ?, user_description = ? WHERE user_id = ?`
+		_, err = tx.Exec(query, User.UserName, User.UserDescription, User.UserID)
+	}
+	if err != nil {
+		return err
+	}
+	return nil
+
+}
+
 func (repo *UserDatabase) SearchUsersTx(tx *sql.Tx, userName string) ([]*user.User, error) {
 	var users []*user.User
-	query := `SELECT user_id, user_name, created_at, updated_at FROM users WHERE user_name LIKE ?`
+	query := `SELECT user_id, user_name, user_description, created_at, updated_at FROM users WHERE user_name LIKE ?`
 	rows, err := tx.Query(query, "%"+userName+"%")
 	if err != nil {
 		return nil, err
@@ -62,9 +90,15 @@ func (repo *UserDatabase) SearchUsersTx(tx *sql.Tx, userName string) ([]*user.Us
 	for rows.Next() {
 		user := new(user.User)
 		var createdAt, updatedAt []byte
-		err = rows.Scan(&user.UserID, &user.UserName, &createdAt, &updatedAt)
+		var UserDescription sql.NullString
+		err = rows.Scan(&user.UserID, &user.UserName, &UserDescription, &createdAt, &updatedAt)
 		if err != nil {
 			return nil, err
+		}
+		if UserDescription.Valid {
+			user.UserDescription = &UserDescription.String
+		} else {
+			user.UserDescription = nil
 		}
 		user.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
 		if err != nil {

@@ -9,12 +9,13 @@ users:
             schema:
               type: object
               required:
-                - user_id
                 - user_name
+                - user_description
               properties:
-                user_id:
-                  type: string
                 user_name:
+                  type: string
+                  required: true
+                user_description:
                   type: string
       responses:
         user_id:
@@ -52,6 +53,34 @@ user:
           description: No Content
         '404':
           description: User not found
+    put:
+        summary: Update a user by ID
+        operationId: updateUser
+        parameters:
+            - name: user_id
+              in: path
+              required: true
+              schema:
+                type: string
+        requestBody:
+            required: true
+            content:
+            application/json:
+                schema:
+                type: object
+                required:
+                    - user_name
+                    - user_description
+                properties:
+                    user_name:
+                      type: string
+                    user_description:
+                      type: string
+        responses:
+            '200':
+              description: OK
+            '404':
+              description: User not found
 
 user_search:
     get:
@@ -70,12 +99,7 @@ user_search:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: '../openapi.yaml#/components/schemas/User'
+                $ref: '../openapi.yaml#/components/schemas/Users'
         '400':
           description: Invalid request parameters
         '500':

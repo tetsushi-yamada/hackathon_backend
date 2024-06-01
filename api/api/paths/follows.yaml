@@ -15,9 +15,7 @@ follows_user:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '../openapi.yaml#/components/schemas/Follow'
+                $ref: '../openapi.yaml#/components/schemas/Follows'
       tags:
         - Follows
 

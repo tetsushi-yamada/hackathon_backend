@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/user"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
+	"log"
 	"net/http"
 )
 
@@ -57,6 +58,25 @@ func (uh *UserHandler) DeleteUserHandler(w http.ResponseWriter, r *http.Request)
 	err := uh.UserUsecase.DeleteUserUsecase(userID)
 	if err != nil {
 		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (uh *UserHandler) UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
+	var User user.User
+	vars := mux.Vars(r)
+	userID := vars["user_id"]
+	User.UserID = userID
+	if err := json.NewDecoder(r.Body).Decode(&User); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Printf("User: %v", User)
+	log.Printf("User ID: %v", User.UserName)
+	err := uh.UserUsecase.UpdateUserUsecase(User)
+	if err != nil {
+		http.Error(w, "Failed to update user", http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)

@@ -29,7 +29,7 @@ test:
 .PHONY: dev-up
 dev-up:
 	docker compose --file docker-compose.dev.yml up -d
-	sleep 60
+	sleep 30
 	go run ./cmd/main_dev.go
 
 .PHONY: dev-down

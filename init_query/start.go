@@ -36,11 +36,19 @@ func Init_table(db *sql.DB) error {
 		return err
 	}
 
+	if err := DropProfilePictureTable(db); err != nil {
+		return err
+	}
+
 	if err := DropUserTable(db); err != nil {
 		return err
 	}
 
 	if err := CreateUserTable(db); err != nil {
+		return err
+	}
+
+	if err := CreateProfilePictureTable(db); err != nil {
 		return err
 	}
 

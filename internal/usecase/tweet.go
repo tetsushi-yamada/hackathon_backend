@@ -51,6 +51,25 @@ func (tu *TweetUsecase) GetTweetsUsecase(userID string) ([]*tweet.Tweet, error) 
 	return tweets, nil
 }
 
+func (tu *TweetUsecase) GetTweetByTweetIDUsecase(tweetID string) (*tweet.Tweet, error) {
+	db := tu.sql
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback() // ensures rollback if next steps fail
+
+	tweet, err := tu.TweetDatabase.GetTweetByTweetIDTx(tx, tweetID)
+	if err != nil {
+		return nil, err
+	}
+	err = tx.Commit() // commit the transaction
+	if err != nil {
+		return nil, err
+	}
+	return tweet, nil
+}
+
 func (tu *TweetUsecase) UpdateTweetUsecase(tweet tweet.Tweet) error {
 	db := tu.sql
 	tx, err := db.Begin()
@@ -98,6 +117,25 @@ func (tu *TweetUsecase) SearchTweetsUsecase(search string) ([]*tweet.Tweet, erro
 	defer tx.Rollback() // ensures rollback if next steps fail
 
 	tweets, err := tu.TweetDatabase.SearchTweetsTx(tx, search)
+	if err != nil {
+		return nil, err
+	}
+	err = tx.Commit() // commit the transaction
+	if err != nil {
+		return nil, err
+	}
+	return tweets, nil
+}
+
+func (tu *TweetUsecase) GetRepliesUsecase(tweetID string) ([]*tweet.Tweet, error) {
+	db := tu.sql
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback() // ensures rollback if next steps fail
+
+	tweets, err := tu.TweetDatabase.GetRepliesTx(tx, tweetID)
 	if err != nil {
 		return nil, err
 	}

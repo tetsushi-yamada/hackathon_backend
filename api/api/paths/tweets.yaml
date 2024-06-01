@@ -41,6 +41,22 @@ tweet_user:
               schema:
                 $ref: '../openapi.yaml#/components/schemas/Tweets'
 tweet_tweet_id:
+    get:
+      summary: Get a tweet by ID
+      operationId: getTweetByID
+      parameters:
+        - name: tweet_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi.yaml#/components/schemas/Tweet'
     put:
         summary: Update a tweet by ID
         operationId: updateTweet
@@ -86,6 +102,23 @@ tweet_search:
       operationId: searchTweets
       parameters:
         - name: search_word
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi.yaml#/components/schemas/Tweets'
+tweet_reply:
+    get:
+      summary: Get replies to a tweet
+      operationId: getReplies
+      parameters:
+        - name: tweet_id
           in: path
           required: true
           schema:

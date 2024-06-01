@@ -3,6 +3,7 @@
 object user_settings {
     <#white>| char | user_id | PK | NOT NULL |
     <#white>| varchar | user_name | | NOT NULL |
+    <#white>| varchar | user_description | | DEFAULT NULL |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |
 }
@@ -28,10 +29,18 @@ object goods {
     <#white>| timestamp | created_at | | NOT NULL |
 }
 
+object profiles_picture {
+    <#white>| char | user_id | PK, FK | NOT NULL |
+    <#white>| varchar | profile_picture | | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+    <#white>| timestamp | updated_at | | NOT NULL |
+}
+
 user_settings ||--o{ tweets
 user_settings ||--o{ follows
 tweets ||--o{ goods
 user_settings ||--o{ goods
 tweets ||--o{ tweets : parent_tweet_id
+user_settings ||--|| profiles
 
 @enduml
