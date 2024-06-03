@@ -41,6 +41,6 @@ user_settings ||--o{ follows
 tweets ||--o{ goods
 user_settings ||--o{ goods
 tweets ||--o{ tweets : parent_tweet_id
-user_settings ||--|| profiles
+user_settings ||--o| profiles
 
 @enduml
