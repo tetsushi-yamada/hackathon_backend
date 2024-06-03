@@ -5,6 +5,8 @@ User:
           type: string
         user_name:
           type: string
+        user_description:
+          type: string
         email:
           type: string
         created_at:

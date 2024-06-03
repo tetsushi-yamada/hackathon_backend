@@ -8,3 +8,14 @@ Follow:
         created_at:
           type: string
           format: date-time
+Follows:
+    type: object
+    properties:
+      follows:
+        type: array
+        items:
+          $ref: '../openapi.yaml#/components/schemas/Follow'
+      count:
+        type: integer
+        format: int32
+        example: 1

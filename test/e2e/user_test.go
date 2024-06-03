@@ -13,13 +13,16 @@ import (
 
 func TestCreateUserHandler(t *testing.T) {
 	type args struct {
-		UserName string
+		UserId          string
+		UserName        string
+		UserDescription *string
 	}
 	type User struct {
 		UserId   string `json:"user_id"`
 		UserName string `json:"user_name"`
 	}
 	type want struct {
+		UserId     string
 		statusCode int
 	}
 	tests := []struct {
@@ -30,9 +33,23 @@ func TestCreateUserHandler(t *testing.T) {
 		{
 			name: "successful case",
 			args: args{
+				UserId:   "8989",
 				UserName: "test_user",
 			},
 			want: want{
+				UserId:     "8989",
+				statusCode: http.StatusCreated,
+			},
+		},
+		{
+			name: "successful case with description",
+			args: args{
+				UserId:          "2828",
+				UserName:        "test_user",
+				UserDescription: stringPointer("test_description"),
+			},
+			want: want{
+				UserId:     "2828",
 				statusCode: http.StatusCreated,
 			},
 		},
@@ -41,6 +58,7 @@ func TestCreateUserHandler(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			data := User{
+				UserId:   tt.args.UserId,
 				UserName: tt.args.UserName,
 			}
 			payloadBytes, err := json.Marshal(data)
@@ -67,6 +85,10 @@ func TestCreateUserHandler(t *testing.T) {
 				t.Fatalf("invalid status code %d", resp.StatusCode)
 				return
 			}
+			if ok := assert.Equal(t, tt.want.UserId, data.UserId); !ok {
+				t.Fatalf("invalid user id %s", data.UserId)
+				return
+			}
 		})
 	}
 }
@@ -80,10 +102,11 @@ func TestGetUserHandler(t *testing.T) {
 		statusCode int
 	}
 	type User struct {
-		UserId    string `json:"user_id"`
-		UserName  string `json:"user_name"`
-		CreatedAt string `json:"created_at"`
-		UpdatedAt string `json:"updated_at"`
+		UserId          string `json:"user_id"`
+		UserName        string `json:"user_name"`
+		UserDescription string `json:"user_description"`
+		CreatedAt       string `json:"created_at"`
+		UpdatedAt       string `json:"updated_at"`
 	}
 	tests := []struct {
 		name string
@@ -145,7 +168,7 @@ func TestDeleteUserHandler(t *testing.T) {
 				UserID: "1",
 			},
 			want: want{
-				statusCode: http.StatusOK,
+				statusCode: http.StatusNoContent,
 			},
 		},
 	}
@@ -170,15 +193,92 @@ func TestDeleteUserHandler(t *testing.T) {
 	}
 }
 
+func TestUpdateUserHandler(t *testing.T) {
+	type args struct {
+		UserId          string
+		UserName        string
+		UserDescription *string
+	}
+	type User struct {
+		UserId          string  `json:"user_id"`
+		UserName        string  `json:"user_name"`
+		UserDescription *string `json:"user_description"`
+	}
+	type want struct {
+		statusCode int
+	}
+	tests := []struct {
+		name string
+		args args
+		want want
+	}{
+		{
+			name: "successful Username Update case",
+			args: args{
+				UserId:   "111",
+				UserName: "test_user_updated",
+			},
+			want: want{
+				statusCode: http.StatusNoContent,
+			},
+		},
+		{
+			name: "successful Description Update case",
+			args: args{
+				UserId:          "1111",
+				UserName:        "description",
+				UserDescription: stringPointer("test_description"),
+			},
+			want: want{
+				statusCode: http.StatusNoContent,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			data := User{
+				UserId:          tt.args.UserId,
+				UserName:        tt.args.UserName,
+				UserDescription: tt.args.UserDescription,
+			}
+			payloadBytes, err := json.Marshal(data)
+			if err != nil {
+				fmt.Println("Error marshaling data:", err)
+				return
+			}
+			body := bytes.NewReader(payloadBytes)
+
+			req, err := http.NewRequest("PUT", "http://localhost:8000/v1/users/"+tt.args.UserId, body)
+			if err != nil {
+				fmt.Println("Error sending request:", err)
+				return
+			}
+			req.Header.Set("Content-Type", "application/json")
+			client := &http.Client{}
+			resp, err := client.Do(req)
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer resp.Body.Close()
+
+			if ok := assert.Equal(t, tt.want.statusCode, resp.StatusCode); !ok {
+				t.Fatalf("invalid status code %d", resp.StatusCode)
+				return
+			}
+		})
+	}
+}
+
 func TestSearchUsersHandler(t *testing.T) {
 	type args struct {
 		SearchWord string
 	}
 	type User struct {
-		UserId    string `json:"user_id"`
-		UserName  string `json:"user_name"`
-		CreatedAt string `json:"created_at"`
-		UpdatedAt string `json:"updated_at"`
+		UserId          string `json:"user_id"`
+		UserName        string `json:"user_name"`
+		UserDescription string `json:"user_description"`
+		CreatedAt       string `json:"created_at"`
+		UpdatedAt       string `json:"updated_at"`
 	}
 	type Users struct {
 		Users []User `json:"users"`

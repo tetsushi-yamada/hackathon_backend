@@ -1,0 +1,57 @@
+profile_picture:
+  get:
+    tags:
+      - profile
+    summary: Get a user's profile picture
+    operationId: getProfilePicture
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+        '200':
+            description: OK
+            content:
+            application/json:
+                schema:
+                $ref: '../openapi.yaml#/components/schemas/Profile'
+  put:
+    tags:
+      - profile
+    summary: Update a user's profile picture
+    operationId: updateProfilePicture
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - user_id
+              - profile_picture
+            properties:
+              user_id:
+                type: string
+              profile_picture:
+                type: string
+    responses:
+      '201':
+        description: Created
+    delete:
+        tags:
+            - profile
+        summary: Delete a user's profile picture
+        operationId: deleteProfilePicture
+        parameters:
+            - name: user_id
+              in: path
+              required: true
+              schema:
+                type: string
+        responses:
+            '204':
+              description: No Content
+            '404':
+              description: Profile picture not found

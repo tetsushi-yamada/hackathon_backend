@@ -41,6 +41,47 @@ tweet_user:
               schema:
                 $ref: '../openapi.yaml#/components/schemas/Tweets'
 tweet_tweet_id:
+    get:
+      summary: Get a tweet by ID
+      operationId: getTweetByID
+      parameters:
+        - name: tweet_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi.yaml#/components/schemas/Tweet'
+    put:
+        summary: Update a tweet by ID
+        operationId: updateTweet
+        parameters:
+            - name: tweet_id
+              in: path
+              required: true
+              schema:
+                  type: string
+        requestBody:
+            required: true
+            content:
+            application/json:
+                schema:
+                    type: object
+                required:
+                    - tweet_text
+                properties:
+                    tweet_text:
+                        type: string
+        responses:
+            '204':
+              description: No Content
+            '404':
+              description: Tweet not found
     delete:
       summary: Delete a tweet by ID
       operationId: deleteTweet
@@ -55,3 +96,37 @@ tweet_tweet_id:
           description: No Content
         '404':
           description: Tweet not found
+tweet_search:
+    get:
+      summary: Search tweets by text
+      operationId: searchTweets
+      parameters:
+        - name: search_word
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi.yaml#/components/schemas/Tweets'
+tweet_reply:
+    get:
+      summary: Get replies to a tweet
+      operationId: getReplies
+      parameters:
+        - name: tweet_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../openapi.yaml#/components/schemas/Tweets'

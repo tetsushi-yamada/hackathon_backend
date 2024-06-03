@@ -2,11 +2,10 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/user"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
+	"log"
 	"net/http"
 )
 
@@ -20,18 +19,11 @@ func NewUserHandler(uu *usecase.UserUsecase) *UserHandler {
 
 func (uh *UserHandler) CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 	var User user.User
-	newUUID, err := uuid.NewRandom()
-	if err != nil {
-		fmt.Printf("Failed to generate UUID: %v", err)
-		http.Error(w, "Failed to generate UUID", http.StatusInternalServerError)
-		return
-	}
 	if err := json.NewDecoder(r.Body).Decode(&User); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	User.UserID = newUUID.String()
-	err = uh.UserUsecase.CreateUserUsecase(User)
+	err := uh.UserUsecase.CreateUserUsecase(User)
 	if err != nil {
 		http.Error(w, "Failed to create user", http.StatusInternalServerError)
 		return
@@ -68,6 +60,26 @@ func (uh *UserHandler) DeleteUserHandler(w http.ResponseWriter, r *http.Request)
 		http.Error(w, "User not found", http.StatusNotFound)
 		return
 	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (uh *UserHandler) UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
+	var User user.User
+	vars := mux.Vars(r)
+	userID := vars["user_id"]
+	User.UserID = userID
+	if err := json.NewDecoder(r.Body).Decode(&User); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Printf("User: %v", User)
+	log.Printf("User ID: %v", User.UserName)
+	err := uh.UserUsecase.UpdateUserUsecase(User)
+	if err != nil {
+		http.Error(w, "Failed to update user", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func (uh *UserHandler) SearchUsersHandler(w http.ResponseWriter, r *http.Request) {
