@@ -10,6 +10,23 @@ import (
 	"net/http"
 )
 
+func CORSMiddlewareProd(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+		// プリフライトリクエストの応答
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		// 次のミドルウェアまたはハンドラを呼び出す
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 
 	db := init_query.StartDB()
@@ -51,7 +68,7 @@ func main() {
 	}
 
 	router := server.NewRouter(&handlers)
-	corsRouter := CORSMiddleware(router)
+	corsRouter := CORSMiddlewareProd(router)
 
 	err = http.ListenAndServe(":8080", corsRouter)
 	if err != nil {
