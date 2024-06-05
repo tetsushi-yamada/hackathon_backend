@@ -51,7 +51,9 @@ func main() {
 	}
 
 	router := server.NewRouter(&handlers)
-	err = http.ListenAndServe(":8080", router)
+	corsRouter := CORSMiddleware(router)
+
+	err = http.ListenAndServe(":8080", corsRouter)
 	if err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}
