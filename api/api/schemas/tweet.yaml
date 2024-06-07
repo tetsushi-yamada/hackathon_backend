@@ -31,3 +31,22 @@ Tweets:
         $ref: '../openapi.yaml#/components/schemas/Tweet'
     count:
       type: integer
+
+Tweet_picture:
+    type: object
+    properties:
+        tweet_id:
+          type: string
+        tweet_picture:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    required:
+        - tweet_id
+        - tweet_picture
+        - created_at
+        - updated_at

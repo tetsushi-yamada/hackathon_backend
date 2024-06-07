@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/tweet"
+	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/tweet_picture"
 	"time"
 )
 
@@ -177,4 +178,24 @@ func (repo *TweetDatabase) GetRepliesTx(tx *sql.Tx, tweetID string) ([]*tweet.Tw
 		return nil, err
 	}
 	return tweets, nil
+}
+
+func (repo *TweetDatabase) CreateTweetPictureTx(tx *sql.Tx, tweetPicture tweet_picture.TweetPicture) error {
+	query := `INSERT INTO tweet_pictures (tweet_id, tweet_picture) VALUES (?, ?) ON DUPLICATE KEY UPDATE tweet_picture = VALUES(tweet_picture)`
+	_, err := tx.Exec(query, tweetPicture.TweetID, tweetPicture.TweetPicture)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *TweetDatabase) GetTweetPictureTx(tx *sql.Tx, tweetID string) (*tweet_picture.TweetPicture, error) {
+	var tweetPicture tweet_picture.TweetPicture
+	query := `SELECT tweet_id, tweet_picture FROM tweet_pictures WHERE tweet_id = ?`
+	row := tx.QueryRow(query, tweetID)
+	err := row.Scan(&tweetPicture.TweetID, &tweetPicture.TweetPicture)
+	if err != nil {
+		return nil, err
+	}
+	return &tweetPicture, nil
 }

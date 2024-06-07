@@ -24,6 +24,8 @@ paths:
     $ref: './paths/tweets.yaml#/tweets'
   /tweets/{user_id}:
     $ref: './paths/tweets.yaml#/tweet_user'
+  /tweets/picture/{tweet_id}:
+    $ref: './paths/tweets.yaml#/tweet_picture'
   /tweets/by-tweet/{tweet_id}:
     $ref: './paths/tweets.yaml#/tweet_tweet_id'
   /tweets/search/{search_word}:
@@ -55,6 +57,8 @@ components:
       $ref: './schemas/profile.yaml#/Profile_picture'
     Tweet:
       $ref: './schemas/tweet.yaml#/Tweet'
+    Tweet_picture:
+      $ref: './schemas/tweet.yaml#/Tweet_picture'
     Tweets:
       $ref: './schemas/tweet.yaml#/Tweets'
     Follow:

@@ -32,6 +32,10 @@ func Init_table(db *sql.DB) error {
 		return err
 	}
 
+	if err := DropTweetPictureTable(db); err != nil {
+		return err
+	}
+
 	if err := DropTweetTable(db); err != nil {
 		return err
 	}
@@ -53,6 +57,10 @@ func Init_table(db *sql.DB) error {
 	}
 
 	if err := CreateTweetTable(db); err != nil {
+		return err
+	}
+
+	if err := CreateTweetPictureTable(db); err != nil {
 		return err
 	}
 

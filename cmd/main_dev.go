@@ -58,6 +58,7 @@ func main() {
 	userUsecase := usecase.NewUserUsecase(db, userDatabase)
 	profilePictureUsecase := usecase.NewProfilePictureUsecase(db, profilePictureDatabase)
 	tweetUsecase := usecase.NewTweetUsecase(db, tweetDatabase)
+	tweetPictureUsecase := usecase.NewTweetPictureUsecase(db, tweetDatabase)
 	followUsecase := usecase.NewFollowUsecase(db, followDatabase)
 	followerUsecase := usecase.NewFollowerUsecase(db, followDatabase)
 	goodUsecase := usecase.NewGoodUsecase(db, goodDatabase)
@@ -66,6 +67,7 @@ func main() {
 	userHandler := handler.NewUserHandler(userUsecase)
 	profilePictureHandler := handler.NewProfilePictureHandler(profilePictureUsecase)
 	tweetHandler := handler.NewTweetHandler(tweetUsecase)
+	tweetPictureHandler := handler.NewTweetPictureHandler(tweetPictureUsecase)
 	followHandler := handler.NewFollowHandler(followUsecase)
 	followerHandler := handler.NewFollowerHandler(followerUsecase)
 	goodHandler := handler.NewGoodHandler(goodUsecase)
@@ -74,6 +76,7 @@ func main() {
 		User:           userHandler,
 		ProfilePicture: profilePictureHandler,
 		Tweet:          tweetHandler,
+		TweetPicture:   tweetPictureHandler,
 		Follow:         followHandler,
 		Follower:       followerHandler,
 		Good:           goodHandler,

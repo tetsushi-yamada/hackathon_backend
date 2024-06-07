@@ -36,11 +36,19 @@ object profiles_picture {
     <#white>| timestamp | updated_at | | NOT NULL |
 }
 
+object tweet_picture {
+    <#white>| char | tweet_id | PK, FK | NOT NULL |
+    <#white>| varchar | tweet_picture | | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+    <#white>| timestamp | updated_at | | NOT NULL |
+}
+
 user_settings ||--o{ tweets
 user_settings ||--o{ follows
 tweets ||--o{ goods
 user_settings ||--o{ goods
 tweets ||--o{ tweets : parent_tweet_id
-user_settings ||--o| profiles
+user_settings ||--o| profiles_picture
+tweets ||--o| tweet_picture
 
 @enduml
