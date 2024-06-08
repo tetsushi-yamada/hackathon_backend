@@ -13,12 +13,18 @@ func NewTweetDatabase() *TweetDatabase { return &TweetDatabase{} }
 
 func (repo *TweetDatabase) CreateTweetTx(tx *sql.Tx, tweet tweet.Tweet) error {
 	var err error
-	if tweet.ParentID == nil || *tweet.ParentID == "" {
-		query := `INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES (?, ?, ?)`
-		_, err = tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText)
-	} else {
+	if tweet.ParentID != nil && *tweet.ParentID != "" && tweet.RetweetID != nil && *tweet.RetweetID != "" {
+		query := `INSERT INTO tweets (tweet_id, user_id, tweet_text, parent_id, retweet_id) VALUES (?, ?, ?, ?, ?)`
+		_, err = tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText, tweet.ParentID, tweet.RetweetID)
+	} else if tweet.ParentID != nil && *tweet.ParentID != "" {
 		query := `INSERT INTO tweets (tweet_id, user_id, tweet_text, parent_id) VALUES (?, ?, ?, ?)`
 		_, err = tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText, tweet.ParentID)
+	} else if tweet.RetweetID != nil && *tweet.RetweetID != "" {
+		query := `INSERT INTO tweets (tweet_id, user_id, tweet_text, retweet_id) VALUES (?, ?, ?, ?)`
+		_, err = tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText, tweet.RetweetID)
+	} else {
+		query := `INSERT INTO tweets (tweet_id, user_id, tweet_text) VALUES (?, ?, ?)`
+		_, err = tx.Exec(query, tweet.TweetID, tweet.UserID, tweet.TweetText)
 	}
 	if err != nil {
 		return err
@@ -28,7 +34,7 @@ func (repo *TweetDatabase) CreateTweetTx(tx *sql.Tx, tweet tweet.Tweet) error {
 
 func (repo *TweetDatabase) GetTweetsTx(tx *sql.Tx, userID string) ([]*tweet.Tweet, error) {
 	var tweets []*tweet.Tweet
-	query := `SELECT tweet_id, user_id, tweet_text, parent_id, created_at, updated_at FROM tweets WHERE user_id = ?`
+	query := `SELECT tweet_id, user_id, tweet_text, parent_id, retweet_id, created_at, updated_at FROM tweets WHERE user_id = ?`
 	rows, err := tx.Query(query, userID)
 	if err != nil {
 		return nil, err
@@ -38,14 +44,19 @@ func (repo *TweetDatabase) GetTweetsTx(tx *sql.Tx, userID string) ([]*tweet.Twee
 	for rows.Next() {
 		tweet := new(tweet.Tweet)
 		var createdAt, updatedAt []byte
-		var parentID sql.NullString
-		if err := rows.Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &createdAt, &updatedAt); err != nil {
+		var parentID, retweetID sql.NullString
+		if err := rows.Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &retweetID, &createdAt, &updatedAt); err != nil {
 			return nil, err
 		}
 		if parentID.Valid {
 			tweet.ParentID = &parentID.String
 		} else {
 			tweet.ParentID = nil
+		}
+		if retweetID.Valid {
+			tweet.RetweetID = &retweetID.String
+		} else {
+			tweet.RetweetID = nil
 		}
 		tweet.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
 		if err != nil {
@@ -66,9 +77,9 @@ func (repo *TweetDatabase) GetTweetsTx(tx *sql.Tx, userID string) ([]*tweet.Twee
 func (repo *TweetDatabase) GetTweetByTweetIDTx(tx *sql.Tx, tweetID string) (*tweet.Tweet, error) {
 	tweet := new(tweet.Tweet)
 	var createdAt, updatedAt []byte
-	var parentID sql.NullString
-	query := `SELECT tweet_id, user_id, tweet_text, parent_id, created_at, updated_at FROM tweets WHERE tweet_id = ?`
-	err := tx.QueryRow(query, tweetID).Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &createdAt, &updatedAt)
+	var parentID, retweetID sql.NullString
+	query := `SELECT tweet_id, user_id, tweet_text, parent_id, retweet_id, created_at, updated_at FROM tweets WHERE tweet_id = ?`
+	err := tx.QueryRow(query, tweetID).Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &retweetID, &createdAt, &updatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -76,6 +87,11 @@ func (repo *TweetDatabase) GetTweetByTweetIDTx(tx *sql.Tx, tweetID string) (*twe
 		tweet.ParentID = &parentID.String
 	} else {
 		tweet.ParentID = nil
+	}
+	if retweetID.Valid {
+		tweet.RetweetID = &retweetID.String
+	} else {
+		tweet.RetweetID = nil
 	}
 	tweet.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
 	if err != nil {
@@ -98,8 +114,14 @@ func (repo *TweetDatabase) UpdateTweetTx(tx *sql.Tx, tweet tweet.Tweet) error {
 }
 
 func (repo *TweetDatabase) DeleteTweetTx(tx *sql.Tx, tweetID string) error {
-	query := `DELETE FROM tweets WHERE tweet_id = ?`
+	query := `DELETE FROM tweets WHERE parent_id = ?`
 	_, err := tx.Exec(query, tweetID)
+	if err != nil {
+		return err
+	}
+
+	query = `DELETE FROM tweets WHERE tweet_id = ?`
+	_, err = tx.Exec(query, tweetID)
 	if err != nil {
 		return err
 	}
@@ -108,7 +130,7 @@ func (repo *TweetDatabase) DeleteTweetTx(tx *sql.Tx, tweetID string) error {
 
 func (repo *TweetDatabase) SearchTweetsTx(tx *sql.Tx, keyword string) ([]*tweet.Tweet, error) {
 	var tweets []*tweet.Tweet
-	query := `SELECT tweet_id, user_id, tweet_text, parent_id, created_at, updated_at FROM tweets WHERE tweet_text LIKE ?`
+	query := `SELECT tweet_id, user_id, tweet_text, parent_id, retweet_id, created_at, updated_at FROM tweets WHERE tweet_text LIKE ?`
 	rows, err := tx.Query(query, "%"+keyword+"%")
 	if err != nil {
 		return nil, err
@@ -118,14 +140,19 @@ func (repo *TweetDatabase) SearchTweetsTx(tx *sql.Tx, keyword string) ([]*tweet.
 	for rows.Next() {
 		tweet := new(tweet.Tweet)
 		var createdAt, updatedAt []byte
-		var parentID sql.NullString
-		if err := rows.Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &createdAt, &updatedAt); err != nil {
+		var parentID, retweetID sql.NullString
+		if err := rows.Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &retweetID, &createdAt, &updatedAt); err != nil {
 			return nil, err
 		}
 		if parentID.Valid {
 			tweet.ParentID = &parentID.String
 		} else {
 			tweet.ParentID = nil
+		}
+		if retweetID.Valid {
+			tweet.RetweetID = &retweetID.String
+		} else {
+			tweet.RetweetID = nil
 		}
 		tweet.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
 		if err != nil {
@@ -145,7 +172,7 @@ func (repo *TweetDatabase) SearchTweetsTx(tx *sql.Tx, keyword string) ([]*tweet.
 
 func (repo *TweetDatabase) GetRepliesTx(tx *sql.Tx, tweetID string) ([]*tweet.Tweet, error) {
 	var tweets []*tweet.Tweet
-	query := `SELECT tweet_id, user_id, tweet_text, parent_id, created_at, updated_at FROM tweets WHERE parent_id = ?`
+	query := `SELECT tweet_id, user_id, tweet_text, parent_id, retweet_id, created_at, updated_at FROM tweets WHERE parent_id = ?`
 	rows, err := tx.Query(query, tweetID)
 	if err != nil {
 		return nil, err
@@ -155,14 +182,19 @@ func (repo *TweetDatabase) GetRepliesTx(tx *sql.Tx, tweetID string) ([]*tweet.Tw
 	for rows.Next() {
 		tweet := new(tweet.Tweet)
 		var createdAt, updatedAt []byte
-		var parentID sql.NullString
-		if err := rows.Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &createdAt, &updatedAt); err != nil {
+		var parentID, retweetID sql.NullString
+		if err := rows.Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &retweetID, &createdAt, &updatedAt); err != nil {
 			return nil, err
 		}
 		if parentID.Valid {
 			tweet.ParentID = &parentID.String
 		} else {
 			tweet.ParentID = nil
+		}
+		if retweetID.Valid {
+			tweet.RetweetID = &retweetID.String
+		} else {
+			tweet.RetweetID = nil
 		}
 		tweet.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
 		if err != nil {
@@ -198,4 +230,42 @@ func (repo *TweetDatabase) GetTweetPictureTx(tx *sql.Tx, tweetID string) (*tweet
 		return nil, err
 	}
 	return &tweetPicture, nil
+}
+
+func (repo *TweetDatabase) GetRepostsTx(tx *sql.Tx, tweetID string) ([]*tweet.Tweet, error) {
+	var tweets []*tweet.Tweet
+	query := `SELECT tweet_id, user_id, tweet_text, parent_id, retweet_id, created_at, updated_at FROM tweets WHERE retweet_id = ?`
+	rows, err := tx.Query(query, tweetID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		tweet := new(tweet.Tweet)
+		var createdAt, updatedAt []byte
+		var parentID, retweetID sql.NullString
+		if err := rows.Scan(&tweet.TweetID, &tweet.UserID, &tweet.TweetText, &parentID, &retweetID, &createdAt, &updatedAt); err != nil {
+			return nil, err
+		}
+		if parentID.Valid {
+			tweet.ParentID = &parentID.String
+		} else {
+			tweet.ParentID = nil
+		}
+		if retweetID.Valid {
+			tweet.RetweetID = &retweetID.String
+		} else {
+			tweet.RetweetID = nil
+		}
+		tweet.CreatedAt, err = time.Parse("2006-01-02 15:04:05", string(createdAt))
+		if err != nil {
+			return nil, err
+		}
+		tweet.UpdatedAt, err = time.Parse("2006-01-02 15:04:05", string(updatedAt))
+		if err != nil {
+			return nil, err
+		}
+		tweets = append(tweets, tweet)
+	}
+	return tweets, nil
 }

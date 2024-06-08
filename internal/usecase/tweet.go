@@ -145,3 +145,22 @@ func (tu *TweetUsecase) GetRepliesUsecase(tweetID string) ([]*tweet.Tweet, error
 	}
 	return tweets, nil
 }
+
+func (tu *TweetUsecase) GetRepostsUsecase(tweetID string) ([]*tweet.Tweet, error) {
+	db := tu.sql
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback() // ensures rollback if next steps fail
+
+	tweets, err := tu.TweetDatabase.GetRepostsTx(tx, tweetID)
+	if err != nil {
+		return nil, err
+	}
+	err = tx.Commit() // commit the transaction
+	if err != nil {
+		return nil, err
+	}
+	return tweets, nil
+}

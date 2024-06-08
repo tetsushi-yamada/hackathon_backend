@@ -9,6 +9,8 @@ Tweet:
       type: string
     parent_id:
       type: string
+    retweet_id:
+      type: string
     created_at:
       type: string
       format: date-time

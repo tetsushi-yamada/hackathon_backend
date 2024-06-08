@@ -27,6 +27,7 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 	router.HandleFunc("/v1/tweets/by-tweet/{tweet_id}", handlers.Tweet.UpdateTweetHandler).Methods("PUT")
 	router.HandleFunc("/v1/tweets/search/{search_word}", handlers.Tweet.SearchTweetsHandler).Methods("GET")
 	router.HandleFunc("/v1/tweets/reply/{tweet_id}", handlers.Tweet.GetRepliesHandler).Methods("GET")
+	router.HandleFunc("/v1/tweets/retweet/{tweet_id}", handlers.Tweet.GetRepostsHandler).Methods("GET")
 
 	// /v1/tweet-picture
 	router.HandleFunc("/v1/tweet-picture/{tweet_id}", handlers.TweetPicture.GetTweetPictureHandler).Methods("GET")

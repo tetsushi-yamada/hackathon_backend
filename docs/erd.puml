@@ -11,7 +11,8 @@ object user_settings {
 object tweets {
     <#white>| char | tweet_id | PK | NOT NULL |
     <#white>| char | user_id | FK | NOT NULL |
-    <#white>| char | parent_tweet_id | FK | DEFAULT NULL |
+    <#white>| char | parent_id | FK | DEFAULT NULL |
+    <#white>| char | retweet_id | FK | DEFAULT NULL |
     <#white>| varchar | tweet_text | | NOT NULL |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |
@@ -47,7 +48,8 @@ user_settings ||--o{ tweets
 user_settings ||--o{ follows
 tweets ||--o{ goods
 user_settings ||--o{ goods
-tweets ||--o{ tweets : parent_tweet_id
+tweets ||--o{ tweets : parent_id
+tweets ||--o{ tweets : retweet_id
 user_settings ||--o| profiles_picture
 tweets ||--o| tweet_picture
 

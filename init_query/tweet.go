@@ -22,6 +22,7 @@ func CreateTweetTable(db *sql.DB) error {
 		user_id char(36) not null,
 		tweet_text varchar(255) not null,
 	    parent_id char(36) default null,
+	    retweet_id char(36) default null,
 		created_at timestamp not null default current_timestamp,
 		updated_at timestamp not null default current_timestamp on update current_timestamp,
 		PRIMARY KEY (tweet_id),

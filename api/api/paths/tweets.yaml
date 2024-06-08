@@ -82,20 +82,6 @@ tweet_picture:
               description: Created
             '404':
               description: Tweet not found
-    delete:
-        summary: Delete a picture of a tweet
-        operationId: deleteTweetPicture
-        parameters:
-            - name: tweet_id
-              in: path
-              required: true
-              schema:
-                  type: string
-        responses:
-            '204':
-              description: No Content
-            '404':
-              description: Tweet not found
 
 tweet_tweet_id:
     get:
@@ -187,3 +173,20 @@ tweet_reply:
             application/json:
               schema:
                 $ref: '../openapi.yaml#/components/schemas/Tweets'
+tweet_repost:
+  get:
+    summary: Get reposts of a tweet
+    operationId: getReposts
+    parameters:
+      - name: tweet_id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Tweets'

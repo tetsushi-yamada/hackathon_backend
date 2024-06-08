@@ -9,6 +9,7 @@ type Tweet struct {
 	UserID    string    `json:"user_id" db:"user_id"`
 	TweetText string    `json:"tweet_text" db:"tweet_text"`
 	ParentID  *string   `json:"parent_id" db:"parent_id"`
+	RetweetID *string   `json:"retweet_id" db:"retweet_id"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 }

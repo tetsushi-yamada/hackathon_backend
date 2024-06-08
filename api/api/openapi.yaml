@@ -32,6 +32,8 @@ paths:
     $ref: './paths/tweets.yaml#/tweet_search'
   /tweets/reply/{tweet_id}:
     $ref: './paths/tweets.yaml#/tweet_reply'
+  /tweets/retweet/{tweet_id}:
+    $ref: './paths/tweets.yaml#/tweet_repost'
   /follows:
     $ref: './paths/follows.yaml#/follows'
   /follows/{user_id}:

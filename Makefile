@@ -22,7 +22,7 @@ log:
 .PHONY: test
 test:
 	-$(MAKE) up
-	sleep 15
+	sleep 20
 	-$(MAKE) go-test
 	-$(MAKE) down
 
