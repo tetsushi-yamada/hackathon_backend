@@ -50,6 +50,10 @@ paths:
     $ref: './paths/follows.yaml#/follow_request_by_user_follow'
   /followers/{user_id}:
     $ref: './paths/followers.yaml#/followers'
+  /blocks:
+    $ref: './paths/blocks.yaml#/blocks'
+  /blocks/{user_id}/{block_id}:
+    $ref: './paths/blocks.yaml#/blocks_user_block'
   /goods:
     $ref: './paths/goods.yaml#/goods'
   /goods/{tweet_id}/{user_id}:
@@ -75,6 +79,8 @@ components:
       $ref: './schemas/follow.yaml#/Follows'
     FollowStatus:
       $ref: './schemas/follow.yaml#/Follow_Status'
+    Block:
+      $ref: './schemas/block.yaml#/Block'
     Good:
       $ref: './schemas/good.yaml#/Good'
     Goods:

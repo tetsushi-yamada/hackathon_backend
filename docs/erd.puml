@@ -25,6 +25,13 @@ object follows {
     <#white>| timestamp | created_at | | NOT NULL |
 }
 
+object blocks {
+    <#white>| char | user_id | PK, FK | NOT NULL |
+    <#white>| char | block_id | PK, FK | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+
+}
+
 object follow_requests {
     <#white>| char | user_id | PK, FK | NOT NULL |
     <#white>| char | follow_id | PK, FK | NOT NULL |
@@ -55,6 +62,7 @@ object tweet_picture {
 user_settings ||--o{ tweets
 user_settings ||--o{ follows
 user_settings ||--o{ follow_requests
+user_settings ||--o{ blocks
 tweets ||--o{ goods
 user_settings ||--o{ goods
 tweets ||--o{ tweets : parent_id

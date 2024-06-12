@@ -5,52 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/init_query/follow_request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/database/follow_request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/domain/follow/follow_request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/seed/05_follow_request.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/api/paths/blocks.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/api/schemas/block.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/api/openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/openapi.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/paths/follows.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/paths/follows.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/schemas/follow.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/schemas/follow.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/schemas/user.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/schemas/user.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/main_dev.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main_dev.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/erd.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/erd.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/erd.puml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/erd.puml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/openapi.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/init_query/start.go" beforeDir="false" afterPath="$PROJECT_DIR$/init_query/start.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init_query/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/init_query/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/database/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/domain/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/user/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/handler/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/follow.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/usecase/follow.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/usecase/follow.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/e2e/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/e2e/main_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/seed/01_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/test/seed/01_user.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/0d19b44f-5cdf-44bc-b277-14aa5c5d6641.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/2aca3751-ab54-43de-a363-85bebeebaa78.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/37aa5610-665e-43ef-bb6f-ab3bd7467fec.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/3c437881-d7d4-4b66-a5be-6deb10a645bc.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/4b8e1673-e606-49d0-84fc-50abc3b8e5be.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/62867aa5-3dc2-43bb-9e09-c66f44807277.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/6725e6d6-6612-4963-99ef-60667d6bdcea.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/6fe5dab6-1954-47ac-815e-843e55264f59.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/7e04a0a4-7853-4bea-94cf-c0aee8b713bd.JPEG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/9e4fc8dc-5484-46a2-95a0-68782bb89a4b.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/a.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/b.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/b46b267b-994d-438e-aa96-4a3817a0c465.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/c5bbd493-33ab-44f6-9864-5930e8050078.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/c8f3a85f-5680-42a5-80b1-d77af65ea222.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/cfb835e4-4a8c-4849-96f5-506bfd68f571.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/dfd46abb-144d-49db-ae70-78620604697f.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/e75aceea-5994-44c2-a26f-035c9ce272ce.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/ee6d67c7-124b-4687-94f1-2e427ec4fbd6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/f973ccb5-24ae-4cc2-a7e1-13f11098b41a.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/スクリーンショット 2024-03-31 12.56.29.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/スクリーンショット 2024-03-31 12.57.27.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploads/スクリーンショット 2024-05-16 14.28.00.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

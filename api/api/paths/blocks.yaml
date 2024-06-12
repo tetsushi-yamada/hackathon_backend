@@ -1,0 +1,124 @@
+blocks:
+    post:
+        tags:
+        - blocks
+        summary: ブロックする
+        description: ブロックする
+        operationId: block
+        requestBody:
+        content:
+            application/json:
+            schema:
+                type: object
+                properties:
+                user_id:
+                    type: string
+                    description: ブロックするユーザーのID
+                block_id:
+                    type: string
+                    description: ブロックされるユーザーのID
+                required:
+                - user_id
+                - block_id
+        responses:
+        '200':
+            description: ブロック成功
+            content:
+            application/json:
+                schema:
+                type: object
+                properties:
+                    message:
+                    type: string
+                    description: ブロック成功
+        '400':
+            description: ブロック失敗
+            content:
+            application/json:
+                schema:
+                type: object
+                properties:
+                    message:
+                    type: string
+                    description: ブロック失敞
+blocks_user_block:
+    delete:
+            tags:
+            - blocks
+            summary: ブロック解除
+            description: ブロック解除
+            operationId: unblock
+            parameters:
+            - name: user_id
+              in: path
+              description: ブロックするユーザーのID
+              required: true
+              schema:
+              type: string
+            - name: block_id
+              in: path
+              description: ブロックされるユーザーのID
+              required: true
+              schema:
+              type: string
+            responses:
+            '200':
+                description: ブロック解除成功
+                content:
+                application/json:
+                schema:
+                type: object
+                properties:
+                    message:
+                    type: string
+                    description: ブロック解除成功
+            '400':
+                description: ブロック解除失敗
+                content:
+                application/json:
+                schema:
+                type: object
+                properties:
+                    message:
+                    type: string
+                    description: ブロック解除失敗
+
+    get:
+        tags:
+        - block
+        　summary: ブロック取得
+        　description: ブロック取得
+        　operationId: blocks
+        　parameters:
+        - name: user_id
+          in: path
+          description: ブロックするユーザーのID
+          required: true
+          schema:
+            type: string
+            responses:
+            '200':
+                description: ブロック一覧取得成功
+                content:
+                application/json:
+                schema:
+                type: object
+                properties:
+                    blocks:
+                      type: object
+                      items:
+                          $ref: '../openapi.yaml#/components/schemas/Block'
+                    count:
+                    type: integer
+                    format: int32
+                    example: 1
+            '400':
+                description: ブロック取得失敗
+                content:
+                application/json:
+                schema:
+                    type: object
+                    properties:
+                        message:
+                        type: string
+                        description: ブロック取得失敗

@@ -1,0 +1,10 @@
+Block:
+  type: object
+  properties:
+      user_id:
+        type: string
+      block_id:
+        type: string
+      created_at:
+        type: string
+        format: date-time
