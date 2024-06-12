@@ -52,6 +52,7 @@ func main() {
 	profilePictureDatabase := database.NewProfilePictureDatabase()
 	tweetDatabase := database.NewTweetDatabase()
 	followDatabase := database.NewFollowDatabase()
+	followRequestDatabase := database.NewFollowRequestDatabase()
 	goodDatabase := database.NewGoodDatabase()
 
 	//usecase層
@@ -59,7 +60,7 @@ func main() {
 	profilePictureUsecase := usecase.NewProfilePictureUsecase(db, profilePictureDatabase)
 	tweetUsecase := usecase.NewTweetUsecase(db, tweetDatabase)
 	tweetPictureUsecase := usecase.NewTweetPictureUsecase(db, tweetDatabase)
-	followUsecase := usecase.NewFollowUsecase(db, followDatabase)
+	followUsecase := usecase.NewFollowUsecase(db, followDatabase, followRequestDatabase, userDatabase)
 	followerUsecase := usecase.NewFollowerUsecase(db, followDatabase)
 	goodUsecase := usecase.NewGoodUsecase(db, goodDatabase)
 

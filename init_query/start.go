@@ -27,23 +27,21 @@ func Init_table(db *sql.DB) error {
 	if err := DropGoodTable(db); err != nil {
 		return err
 	}
-
+	if err := DropFollowRequestTable(db); err != nil {
+		return err
+	}
 	if err := DropFollowTable(db); err != nil {
 		return err
 	}
-
 	if err := DropTweetPictureTable(db); err != nil {
 		return err
 	}
-
 	if err := DropTweetTable(db); err != nil {
 		return err
 	}
-
 	if err := DropProfilePictureTable(db); err != nil {
 		return err
 	}
-
 	if err := DropUserTable(db); err != nil {
 		return err
 	}
@@ -51,23 +49,21 @@ func Init_table(db *sql.DB) error {
 	if err := CreateUserTable(db); err != nil {
 		return err
 	}
-
 	if err := CreateProfilePictureTable(db); err != nil {
 		return err
 	}
-
 	if err := CreateTweetTable(db); err != nil {
 		return err
 	}
-
 	if err := CreateTweetPictureTable(db); err != nil {
 		return err
 	}
-
 	if err := CreateFollowTable(db); err != nil {
 		return err
 	}
-
+	if err := CreateFollowRequestTable(db); err != nil {
+		return err
+	}
 	if err := CreateGoodTable(db); err != nil {
 		return err
 	}

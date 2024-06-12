@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/domain/follow"
 	"github.com/tetsushi-yamada/hackathon_backend/internal/usecase"
+	"log"
 	"net/http"
 )
 
@@ -71,6 +72,53 @@ func (fh *FollowHandler) GetFollowOrNotHandler(w http.ResponseWriter, r *http.Re
 		return
 	}
 	err = json.NewEncoder(w).Encode(follow_bool)
+	if err != nil {
+		http.Error(w, "Failed to encode user", http.StatusInternalServerError)
+		return
+	}
+}
+
+func (fh *FollowHandler) UpdateFollowRequestHandler(w http.ResponseWriter, r *http.Request) {
+	var followRequest follow.FollowRequest
+	if err := json.NewDecoder(r.Body).Decode(&followRequest); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	err := fh.FollowUsecase.UpdateFollowRequestUsecase(followRequest)
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func (fh *FollowHandler) GetFollowRequestsHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userID := vars["follow_id"]
+	followRequests, err := fh.FollowUsecase.GetFollowRequestsUsecase(userID)
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+	followRequestsApi := follow.FollowRequests{FollowRequests: followRequests, Count: len(followRequests)}
+	err = json.NewEncoder(w).Encode(followRequestsApi)
+	if err != nil {
+		http.Error(w, "Failed to encode user", http.StatusInternalServerError)
+		return
+	}
+}
+
+func (fh *FollowHandler) GetFollowRequestHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userID := vars["user_id"]
+	followID := vars["follow_id"]
+	followRequest, err := fh.FollowUsecase.GetFollowRequestUsecase(userID, followID)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+	err = json.NewEncoder(w).Encode(followRequest)
 	if err != nil {
 		http.Error(w, "Failed to encode user", http.StatusInternalServerError)
 		return

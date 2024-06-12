@@ -38,6 +38,9 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 	router.HandleFunc("/v1/follows/{user_id}", handlers.Follow.GetFollowsHandler).Methods("GET")
 	router.HandleFunc("/v1/follows/{user_id}/{follow_id}", handlers.Follow.DeleteFollowHandler).Methods("DELETE")
 	router.HandleFunc("/v1/follows/{user_id}/{follow_id}/check", handlers.Follow.GetFollowOrNotHandler).Methods("GET")
+	router.HandleFunc("/v1/follows/request", handlers.Follow.UpdateFollowRequestHandler).Methods("PUT")
+	router.HandleFunc("/v1/follows/request/{follow_id}", handlers.Follow.GetFollowRequestsHandler).Methods("GET")
+	router.HandleFunc("/v1/follows/request/{user_id}/{follow_id}", handlers.Follow.GetFollowRequestHandler).Methods("GET")
 
 	// /v1/followers
 	router.HandleFunc("/v1/followers/{follow_id}", handlers.Follower.GetFollowersHandler).Methods("GET")

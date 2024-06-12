@@ -4,6 +4,7 @@ object user_settings {
     <#white>| char | user_id | PK | NOT NULL |
     <#white>| varchar | user_name | | NOT NULL |
     <#white>| varchar | user_description | | DEFAULT NULL |
+    <#white>| boolean | is_private | | DEFAULT false |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |
 }
@@ -21,6 +22,13 @@ object tweets {
 object follows {
     <#white>| char | user_id | PK, FK | NOT NULL |
     <#white>| char | follow_id | PK, FK | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+}
+
+object follow_requests {
+    <#white>| char | user_id | PK, FK | NOT NULL |
+    <#white>| char | follow_id | PK, FK | NOT NULL |
+    <#white>| varchar | status | | DEFAULT 'pending' |
     <#white>| timestamp | created_at | | NOT NULL |
 }
 
@@ -46,6 +54,7 @@ object tweet_picture {
 
 user_settings ||--o{ tweets
 user_settings ||--o{ follows
+user_settings ||--o{ follow_requests
 tweets ||--o{ goods
 user_settings ||--o{ goods
 tweets ||--o{ tweets : parent_id
