@@ -11,6 +11,8 @@ Tweet:
       type: string
     retweet_id:
       type: string
+    is_inappropriate:
+      type: boolean
     created_at:
       type: string
       format: date-time

@@ -54,6 +54,7 @@ func main() {
 	followDatabase := database.NewFollowDatabase()
 	followRequestDatabase := database.NewFollowRequestDatabase()
 	goodDatabase := database.NewGoodDatabase()
+	blockDatabase := database.NewBlockDatabase()
 
 	//usecase層
 	userUsecase := usecase.NewUserUsecase(db, userDatabase)
@@ -63,6 +64,7 @@ func main() {
 	followUsecase := usecase.NewFollowUsecase(db, followDatabase, followRequestDatabase, userDatabase)
 	followerUsecase := usecase.NewFollowerUsecase(db, followDatabase)
 	goodUsecase := usecase.NewGoodUsecase(db, goodDatabase)
+	blockUsecase := usecase.NewBlockUsecase(db, blockDatabase)
 
 	//handler層
 	userHandler := handler.NewUserHandler(userUsecase)
@@ -72,6 +74,7 @@ func main() {
 	followHandler := handler.NewFollowHandler(followUsecase)
 	followerHandler := handler.NewFollowerHandler(followerUsecase)
 	goodHandler := handler.NewGoodHandler(goodUsecase)
+	blockHandler := handler.NewBlockHandler(blockUsecase)
 
 	handlers := handler.Handlers{
 		User:           userHandler,
@@ -81,6 +84,7 @@ func main() {
 		Follow:         followHandler,
 		Follower:       followerHandler,
 		Good:           goodHandler,
+		Block:          blockHandler,
 	}
 
 	router := server.NewRouter(&handlers)

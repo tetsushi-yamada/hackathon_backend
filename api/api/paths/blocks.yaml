@@ -98,7 +98,7 @@ blocks_user_block:
             type: string
             responses:
             '200':
-                description: ブロック一覧取得成功
+                description: ブロック取得成功
                 content:
                 application/json:
                 schema:

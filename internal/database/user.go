@@ -27,10 +27,10 @@ func (repo *UserDatabase) CreateUserTx(tx *sql.Tx, User user.User) error {
 
 func (repo *UserDatabase) GetUserTx(tx *sql.Tx, userID string) (*user.User, error) {
 	user := new(user.User)
-	query := `SELECT user_id, user_name, user_description, is_private, created_at, updated_at FROM users WHERE user_id = ?`
+	query := `SELECT user_id, user_name, user_description, is_private, is_suspended, created_at, updated_at FROM users WHERE user_id = ?`
 	var createdAt, updatedAt []byte
 	var UserDescription sql.NullString
-	err := tx.QueryRow(query, userID).Scan(&user.UserID, &user.UserName, &UserDescription, &user.IsPrivate, &createdAt, &updatedAt)
+	err := tx.QueryRow(query, userID).Scan(&user.UserID, &user.UserName, &UserDescription, &user.IsPrivate, &user.IsSuspended, &createdAt, &updatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -66,11 +66,11 @@ func (repo *UserDatabase) DeleteUserTx(tx *sql.Tx, userID string) error {
 func (repo *UserDatabase) UpdateUserTx(tx *sql.Tx, User user.User) error {
 	var err error
 	if User.UserDescription == nil || *User.UserDescription == "" {
-		query := `UPDATE users SET user_name = ?, is_private = ? WHERE user_id = ?`
-		_, err = tx.Exec(query, User.UserName, User.IsPrivate, User.UserID)
+		query := `UPDATE users SET user_name = ?, is_private = ?, is_suspended = ? WHERE user_id = ?`
+		_, err = tx.Exec(query, User.UserName, User.IsPrivate, User.IsSuspended, User.UserID)
 	} else {
-		query := `UPDATE users SET user_name = ?, user_description = ? , is_private = ? WHERE user_id = ?`
-		_, err = tx.Exec(query, User.UserName, User.UserDescription, User.IsPrivate, User.UserID)
+		query := `UPDATE users SET user_name = ?, user_description = ? , is_private = ?, is_suspended = ? WHERE user_id = ?`
+		_, err = tx.Exec(query, User.UserName, User.UserDescription, User.IsPrivate, User.IsSuspended, User.UserID)
 	}
 	if err != nil {
 		return err

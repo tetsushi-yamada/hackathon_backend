@@ -8,4 +8,5 @@ type Handlers struct {
 	Follow         *FollowHandler
 	Follower       *FollowerHandler
 	Good           *GoodHandler
+	Block          *BlockHandler
 }

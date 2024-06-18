@@ -30,6 +30,9 @@ func Init_table(db *sql.DB) error {
 	if err := DropFollowRequestTable(db); err != nil {
 		return err
 	}
+	if err := DropBlockTable(db); err != nil {
+		return err
+	}
 	if err := DropFollowTable(db); err != nil {
 		return err
 	}
@@ -65,6 +68,9 @@ func Init_table(db *sql.DB) error {
 		return err
 	}
 	if err := CreateGoodTable(db); err != nil {
+		return err
+	}
+	if err := CreateBlockTable(db); err != nil {
 		return err
 	}
 

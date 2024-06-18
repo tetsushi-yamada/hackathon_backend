@@ -5,6 +5,7 @@ object user_settings {
     <#white>| varchar | user_name | | NOT NULL |
     <#white>| varchar | user_description | | DEFAULT NULL |
     <#white>| boolean | is_private | | DEFAULT false |
+    <#white>| boolean | is_suspended | | DEFAULT false |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |
 }
@@ -14,6 +15,7 @@ object tweets {
     <#white>| char | user_id | FK | NOT NULL |
     <#white>| char | parent_id | FK | DEFAULT NULL |
     <#white>| char | retweet_id | FK | DEFAULT NULL |
+    <#white>| boolean | is_inappropriate | | DEFAULT false |
     <#white>| varchar | tweet_text | | NOT NULL |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |

@@ -50,5 +50,10 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 	router.HandleFunc("/v1/goods", handlers.Good.GetGoodsHandler).Methods("GET")
 	router.HandleFunc("/v1/goods/{tweet_id}/{user_id}", handlers.Good.DeleteGoodHandler).Methods("DELETE")
 
+	// /v1/blocks
+	router.HandleFunc("/v1/blocks", handlers.Block.CreateBlockHandler).Methods("POST")
+	router.HandleFunc("/v1/blocks/{user_id}/{block_id}", handlers.Block.DeleteBlockHandler).Methods("DELETE")
+	router.HandleFunc("/v1/blocks/{user_id}/{block_id}", handlers.Block.GetBlockHandler).Methods("GET")
+
 	return router
 }
