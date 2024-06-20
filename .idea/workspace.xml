@@ -5,30 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="108a69d0-a589-449a-82ec-c06b8f54affd" name="変更" comment="">
-      <change afterPath="$PROJECT_DIR$/init_query/block.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/database/block.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/domain/block/block.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/handler/block.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/usecase/block.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/29db9cb2-00ae-493e-863b-bc7fd709b186.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/29db9cb2-00ae-493e-863b-bc7fd709b186.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/paths/blocks.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/paths/blocks.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/schemas/tweet.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/schemas/tweet.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api/schemas/user.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/api/schemas/user.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/main_dev.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main_dev.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/erd.puml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/erd.puml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init_query/start.go" beforeDir="false" afterPath="$PROJECT_DIR$/init_query/start.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init_query/tweet.go" beforeDir="false" afterPath="$PROJECT_DIR$/init_query/tweet.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init_query/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/init_query/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/database/tweet.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/tweet.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/database/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/database/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/domain/tweet/tweet.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/tweet/tweet.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/domain/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/domain/user/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/handler/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handler/handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/erd.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/erd.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
