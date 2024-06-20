@@ -96,3 +96,69 @@ follow_check:
         description: User not found
       '500':
         description: Internal server error
+
+follow_request_by_follow:
+    get:
+        summary: Get all follow requests for a specific user
+        operationId: getFollowRequestsForUser
+        parameters:
+        - name: user_id
+          in: query
+          required: true
+          description: The ID of the user to retrieve follow requests for
+          schema:
+            type: string
+        responses:
+        '200':
+            description: A list of follow requests
+            content:
+            application/json:
+                schema:
+                $ref: '../openapi.yaml#/components/schemas/FollowStatus'
+        tags:
+        - Follows
+follow_request_by_user_follow:
+    get:
+        summary: Get follow request
+        operationId: getFollowRequestsByUser
+        parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: The ID of the user to retrieve follow requests sent by
+          schema:
+            type: string
+        - name: follow_id
+          in: path
+          required: true
+          description: The ID of the user to retrieve follow requests sent to
+          schema:
+            type: string
+        responses:
+        '200':
+            description: A follow request
+            content:
+            application/json:
+                schema:
+                $ref: '../openapi.yaml#/components/schemas/FollowStatus'
+follow_request:
+    put:
+        summary: Accept or reject a follow request
+        operationId: acceptOrRejectFollowRequest
+        requestBody:
+        required: true
+        content:
+            application/json:
+            schema:
+                type: object
+                required:
+                - user_id
+                - follow_id
+                - status
+                properties:
+                user_id:
+                    type: string
+                follow_id:
+                    type: string
+                status:
+                    type: string

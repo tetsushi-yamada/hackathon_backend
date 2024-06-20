@@ -24,12 +24,16 @@ paths:
     $ref: './paths/tweets.yaml#/tweets'
   /tweets/{user_id}:
     $ref: './paths/tweets.yaml#/tweet_user'
+  /tweets/picture/{tweet_id}:
+    $ref: './paths/tweets.yaml#/tweet_picture'
   /tweets/by-tweet/{tweet_id}:
     $ref: './paths/tweets.yaml#/tweet_tweet_id'
   /tweets/search/{search_word}:
     $ref: './paths/tweets.yaml#/tweet_search'
   /tweets/reply/{tweet_id}:
     $ref: './paths/tweets.yaml#/tweet_reply'
+  /tweets/retweet/{tweet_id}:
+    $ref: './paths/tweets.yaml#/tweet_repost'
   /follows:
     $ref: './paths/follows.yaml#/follows'
   /follows/{user_id}:
@@ -38,8 +42,18 @@ paths:
     $ref: './paths/follows.yaml#/follows_user_follow_id'
   /follows/{user_id}/{follow_id}/check:
     $ref: './paths/follows.yaml#/follow_check'
+  /follows/request:
+    $ref: './paths/follows.yaml#/follow_request'
+  /follows/request/{follow_id}:
+    $ref: './paths/follows.yaml#/follow_request_by_follow'
+  /follow/request/{user_id}/{follow_id}:
+    $ref: './paths/follows.yaml#/follow_request_by_user_follow'
   /followers/{user_id}:
     $ref: './paths/followers.yaml#/followers'
+  /blocks:
+    $ref: './paths/blocks.yaml#/blocks'
+  /blocks/{user_id}/{block_id}:
+    $ref: './paths/blocks.yaml#/blocks_user_block'
   /goods:
     $ref: './paths/goods.yaml#/goods'
   /goods/{tweet_id}/{user_id}:
@@ -55,12 +69,18 @@ components:
       $ref: './schemas/profile.yaml#/Profile_picture'
     Tweet:
       $ref: './schemas/tweet.yaml#/Tweet'
+    Tweet_picture:
+      $ref: './schemas/tweet.yaml#/Tweet_picture'
     Tweets:
       $ref: './schemas/tweet.yaml#/Tweets'
     Follow:
       $ref: './schemas/follow.yaml#/Follow'
     Follows:
       $ref: './schemas/follow.yaml#/Follows'
+    FollowStatus:
+      $ref: './schemas/follow.yaml#/Follow_Status'
+    Block:
+      $ref: './schemas/block.yaml#/Block'
     Good:
       $ref: './schemas/good.yaml#/Good'
     Goods:

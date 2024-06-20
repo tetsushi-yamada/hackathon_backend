@@ -133,3 +133,19 @@ func (th *TweetHandler) GetRepliesHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 }
+
+func (th *TweetHandler) GetRepostsHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	tweetID := vars["tweet_id"]
+	reposts, err := th.TweetUsecase.GetRepostsUsecase(tweetID)
+	if err != nil {
+		http.Error(w, "Tweet not found", http.StatusNotFound)
+		return
+	}
+	reposts_api := tweet.Tweets{Tweets: reposts, Count: len(reposts)}
+	err = json.NewEncoder(w).Encode(reposts_api)
+	if err != nil {
+		http.Error(w, "Failed to encode tweet", http.StatusInternalServerError)
+		return
+	}
+}

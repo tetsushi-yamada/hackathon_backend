@@ -19,3 +19,13 @@ Follows:
         type: integer
         format: int32
         example: 1
+Follow_Status:
+    type: object
+    properties:
+      user_id:
+        type: string
+      follow_id:
+        type: string
+      status:
+        type: string
+        example: 'pending'

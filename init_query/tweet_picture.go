@@ -2,9 +2,9 @@ package init_query
 
 import "database/sql"
 
-func DropTweetTable(db *sql.DB) error {
+func DropTweetPictureTable(db *sql.DB) error {
 	// テーブル削除用のSQL文
-	dropTableSQL := `DROP TABLE IF EXISTS tweets;`
+	dropTableSQL := `DROP TABLE IF EXISTS tweet_pictures;`
 
 	// SQL文の実行
 	_, err := db.Exec(dropTableSQL)
@@ -14,20 +14,16 @@ func DropTweetTable(db *sql.DB) error {
 	return nil
 }
 
-func CreateTweetTable(db *sql.DB) error {
+func CreateTweetPictureTable(db *sql.DB) error {
 	// テーブル作成用のSQL文
 	createTableSQL := `
-	CREATE TABLE IF NOT EXISTS tweets (
+	CREATE TABLE IF NOT EXISTS tweet_pictures (
 		tweet_id char(36) not null,
-		user_id char(36) not null,
-		tweet_text varchar(255) not null,
-	    parent_id char(36) default null,
-	    retweet_id char(36) default null,
-	    is_inappropriate boolean not null default false,
+		tweet_picture varchar(255) not null,
 		created_at timestamp not null default current_timestamp,
 		updated_at timestamp not null default current_timestamp on update current_timestamp,
 		PRIMARY KEY (tweet_id),
-		FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+		FOREIGN KEY (tweet_id) REFERENCES tweets(tweet_id) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 	`
 

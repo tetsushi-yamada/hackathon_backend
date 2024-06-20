@@ -10,6 +10,23 @@ import (
 	"net/http"
 )
 
+func CORSMiddlewareProd(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+		// プリフライトリクエストの応答
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		// 次のミドルウェアまたはハンドラを呼び出す
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 
 	db := init_query.StartDB()
@@ -23,35 +40,45 @@ func main() {
 	profilePictureDatabase := database.NewProfilePictureDatabase()
 	tweetDatabase := database.NewTweetDatabase()
 	followDatabase := database.NewFollowDatabase()
+	followRequestDatabase := database.NewFollowRequestDatabase()
 	goodDatabase := database.NewGoodDatabase()
+	blockDatabase := database.NewBlockDatabase()
 
 	//usecase層
 	userUsecase := usecase.NewUserUsecase(db, userDatabase)
 	profilePictureUsecase := usecase.NewProfilePictureUsecase(db, profilePictureDatabase)
 	tweetUsecase := usecase.NewTweetUsecase(db, tweetDatabase)
-	followUsecase := usecase.NewFollowUsecase(db, followDatabase)
+	tweetPictureUsecase := usecase.NewTweetPictureUsecase(db, tweetDatabase)
+	followUsecase := usecase.NewFollowUsecase(db, followDatabase, followRequestDatabase, userDatabase)
 	followerUsecase := usecase.NewFollowerUsecase(db, followDatabase)
 	goodUsecase := usecase.NewGoodUsecase(db, goodDatabase)
+	blockUsecase := usecase.NewBlockUsecase(db, blockDatabase)
 
 	//handler層
 	userHandler := handler.NewUserHandler(userUsecase)
 	profilePictureHandler := handler.NewProfilePictureHandler(profilePictureUsecase)
 	tweetHandler := handler.NewTweetHandler(tweetUsecase)
+	tweetPictureHandler := handler.NewTweetPictureHandler(tweetPictureUsecase)
 	followHandler := handler.NewFollowHandler(followUsecase)
 	followerHandler := handler.NewFollowerHandler(followerUsecase)
 	goodHandler := handler.NewGoodHandler(goodUsecase)
+	blockHandler := handler.NewBlockHandler(blockUsecase)
 
 	handlers := handler.Handlers{
 		User:           userHandler,
 		ProfilePicture: profilePictureHandler,
 		Tweet:          tweetHandler,
+		TweetPicture:   tweetPictureHandler,
 		Follow:         followHandler,
 		Follower:       followerHandler,
 		Good:           goodHandler,
+		Block:          blockHandler,
 	}
 
 	router := server.NewRouter(&handlers)
-	err = http.ListenAndServe(":8080", router)
+	corsRouter := CORSMiddlewareProd(router)
+
+	err = http.ListenAndServe(":8080", corsRouter)
 	if err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}

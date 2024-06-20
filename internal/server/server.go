@@ -27,12 +27,20 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 	router.HandleFunc("/v1/tweets/by-tweet/{tweet_id}", handlers.Tweet.UpdateTweetHandler).Methods("PUT")
 	router.HandleFunc("/v1/tweets/search/{search_word}", handlers.Tweet.SearchTweetsHandler).Methods("GET")
 	router.HandleFunc("/v1/tweets/reply/{tweet_id}", handlers.Tweet.GetRepliesHandler).Methods("GET")
+	router.HandleFunc("/v1/tweets/retweet/{tweet_id}", handlers.Tweet.GetRepostsHandler).Methods("GET")
+
+	// /v1/tweet-picture
+	router.HandleFunc("/v1/tweet-picture/{tweet_id}", handlers.TweetPicture.GetTweetPictureHandler).Methods("GET")
+	router.HandleFunc("/v1/tweet-picture", handlers.TweetPicture.UploadTweetPictureHandler).Methods("PUT")
 
 	// /v1/follows
 	router.HandleFunc("/v1/follows", handlers.Follow.CreateFollowHandler).Methods("POST")
 	router.HandleFunc("/v1/follows/{user_id}", handlers.Follow.GetFollowsHandler).Methods("GET")
 	router.HandleFunc("/v1/follows/{user_id}/{follow_id}", handlers.Follow.DeleteFollowHandler).Methods("DELETE")
 	router.HandleFunc("/v1/follows/{user_id}/{follow_id}/check", handlers.Follow.GetFollowOrNotHandler).Methods("GET")
+	router.HandleFunc("/v1/follows/request", handlers.Follow.UpdateFollowRequestHandler).Methods("PUT")
+	router.HandleFunc("/v1/follows/request/{follow_id}", handlers.Follow.GetFollowRequestsHandler).Methods("GET")
+	router.HandleFunc("/v1/follows/request/{user_id}/{follow_id}", handlers.Follow.GetFollowRequestHandler).Methods("GET")
 
 	// /v1/followers
 	router.HandleFunc("/v1/followers/{follow_id}", handlers.Follower.GetFollowersHandler).Methods("GET")
@@ -41,6 +49,11 @@ func NewRouter(handlers *handler.Handlers) *mux.Router {
 	router.HandleFunc("/v1/goods", handlers.Good.CreateGoodHandler).Methods("POST")
 	router.HandleFunc("/v1/goods", handlers.Good.GetGoodsHandler).Methods("GET")
 	router.HandleFunc("/v1/goods/{tweet_id}/{user_id}", handlers.Good.DeleteGoodHandler).Methods("DELETE")
+
+	// /v1/blocks
+	router.HandleFunc("/v1/blocks", handlers.Block.CreateBlockHandler).Methods("POST")
+	router.HandleFunc("/v1/blocks/{user_id}/{block_id}", handlers.Block.DeleteBlockHandler).Methods("DELETE")
+	router.HandleFunc("/v1/blocks/{user_id}/{block_id}", handlers.Block.GetBlockHandler).Methods("GET")
 
 	return router
 }

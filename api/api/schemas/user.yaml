@@ -7,8 +7,10 @@ User:
           type: string
         user_description:
           type: string
-        email:
-          type: string
+        is_private:
+          type: boolean
+        is_suspend:
+          type: boolean
         created_at:
           type: string
           format: date-time

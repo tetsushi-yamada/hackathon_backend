@@ -3,11 +3,11 @@ SHELL=/bin/bash
 OS   := $(shell go env GOOS)
 ARCH := $(shell go env GOARCH)
 
-.PHONY: up
+.PHONY: test-up
 up:
 	docker compose up -d
 
-.PHONY: down
+.PHONY: test-down
 down:
 	docker compose down -v
 
@@ -21,10 +21,10 @@ log:
 
 .PHONY: test
 test:
-	-$(MAKE) up
-	sleep 15
+	-$(MAKE) test-up
+	sleep 20
 	-$(MAKE) go-test
-	-$(MAKE) down
+	-$(MAKE) test-down
 
 .PHONY: dev-up
 dev-up:
@@ -35,9 +35,3 @@ dev-up:
 .PHONY: dev-down
 dev-down:
 	docker compose --file docker-compose.dev.yml down -v
-
-.PHONY: add-to-push
-add-to-push:
-	git add .
-	git commit -m "push"
-	git push git@github.com:tetsushi-yamada/hackathon_backend.git

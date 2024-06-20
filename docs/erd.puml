@@ -4,6 +4,8 @@ object user_settings {
     <#white>| char | user_id | PK | NOT NULL |
     <#white>| varchar | user_name | | NOT NULL |
     <#white>| varchar | user_description | | DEFAULT NULL |
+    <#white>| boolean | is_private | | DEFAULT false |
+    <#white>| boolean | is_suspended | | DEFAULT false |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |
 }
@@ -11,7 +13,9 @@ object user_settings {
 object tweets {
     <#white>| char | tweet_id | PK | NOT NULL |
     <#white>| char | user_id | FK | NOT NULL |
-    <#white>| char | parent_tweet_id | FK | DEFAULT NULL |
+    <#white>| char | parent_id | FK | DEFAULT NULL |
+    <#white>| char | retweet_id | FK | DEFAULT NULL |
+    <#white>| boolean | is_inappropriate | | DEFAULT false |
     <#white>| varchar | tweet_text | | NOT NULL |
     <#white>| timestamp | created_at | | NOT NULL |
     <#white>| timestamp | updated_at | | NOT NULL |
@@ -20,6 +24,20 @@ object tweets {
 object follows {
     <#white>| char | user_id | PK, FK | NOT NULL |
     <#white>| char | follow_id | PK, FK | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+}
+
+object blocks {
+    <#white>| char | user_id | PK, FK | NOT NULL |
+    <#white>| char | block_id | PK, FK | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+
+}
+
+object follow_requests {
+    <#white>| char | user_id | PK, FK | NOT NULL |
+    <#white>| char | follow_id | PK, FK | NOT NULL |
+    <#white>| varchar | status | | DEFAULT 'pending' |
     <#white>| timestamp | created_at | | NOT NULL |
 }
 
@@ -36,11 +54,22 @@ object profiles_picture {
     <#white>| timestamp | updated_at | | NOT NULL |
 }
 
+object tweet_picture {
+    <#white>| char | tweet_id | PK, FK | NOT NULL |
+    <#white>| varchar | tweet_picture | | NOT NULL |
+    <#white>| timestamp | created_at | | NOT NULL |
+    <#white>| timestamp | updated_at | | NOT NULL |
+}
+
 user_settings ||--o{ tweets
 user_settings ||--o{ follows
+user_settings ||--o{ follow_requests
+user_settings ||--o{ blocks
 tweets ||--o{ goods
 user_settings ||--o{ goods
-tweets ||--o{ tweets : parent_tweet_id
-user_settings ||--o| profiles
+tweets ||--o{ tweets : parent_id
+tweets ||--o{ tweets : retweet_id
+user_settings ||--o| profiles_picture
+tweets ||--o| tweet_picture
 
 @enduml

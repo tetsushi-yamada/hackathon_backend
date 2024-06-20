@@ -460,3 +460,69 @@ func TestGetRepliesHandler(t *testing.T) {
 		})
 	}
 }
+
+func TestGetRetweetsHandler(t *testing.T) {
+	type args struct {
+		TweetID string
+	}
+	type Tweet struct {
+		TweetID   string `json:"tweet_id"`
+		UserID    string `json:"user_id"`
+		TweetText string `json:"tweet_text"`
+		CreatedAt string `json:"created_at"`
+		UpdatedAt string `json:"updated_at"`
+	}
+	type Tweets struct {
+		Tweets []Tweet `json:"tweets"`
+		Count  int     `json:"count"`
+	}
+	type want struct {
+		Tweets     Tweets
+		statusCode int
+	}
+	tests := []struct {
+		name string
+		args args
+		want want
+	}{
+		{
+			name: "successful case",
+			args: args{
+				TweetID: "8",
+			},
+			want: want{
+				Tweets: Tweets{
+					Tweets: []Tweet{
+						{
+							TweetID:   "9",
+							TweetText: "RETWEET",
+						},
+					},
+					Count: 1,
+				},
+				statusCode: http.StatusOK,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resp, err := http.Get(fmt.Sprintf("http://localhost:8000/v1/tweets/retweet/%s", tt.args.TweetID))
+			if err != nil {
+				t.Fatalf("Error making GET request: %v", err)
+			}
+			defer resp.Body.Close()
+
+			var tweets Tweets
+			if err := json.NewDecoder(resp.Body).Decode(&tweets); err != nil {
+				t.Fatalf("Error decoding response body: %v", err)
+			}
+
+			for i := 0; i < len(tweets.Tweets); i++ {
+				assert.Equal(t, tt.want.Tweets.Tweets[i].TweetID, tweets.Tweets[i].TweetID, "TweetID does not match")
+				assert.Equal(t, tt.want.Tweets.Tweets[i].TweetText, tweets.Tweets[i].TweetText, "TweetText does not match")
+			}
+			assert.Equal(t, tt.want.Tweets.Count, tweets.Count, "Count does not match")
+			assert.Equal(t, tt.want.statusCode, resp.StatusCode, "Status code does not match")
+		})
+	}
+}

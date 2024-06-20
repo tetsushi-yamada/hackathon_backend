@@ -39,19 +39,3 @@ profile_picture:
     responses:
       '201':
         description: Created
-    delete:
-        tags:
-            - profile
-        summary: Delete a user's profile picture
-        operationId: deleteProfilePicture
-        parameters:
-            - name: user_id
-              in: path
-              required: true
-              schema:
-                type: string
-        responses:
-            '204':
-              description: No Content
-            '404':
-              description: Profile picture not found

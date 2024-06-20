@@ -40,6 +40,49 @@ tweet_user:
             application/json:
               schema:
                 $ref: '../openapi.yaml#/components/schemas/Tweets'
+tweet_picture:
+    get:
+      summary: Get a picture of a tweet
+      operationId: getTweetPicture
+      parameters:
+        - name: tweet_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Tweet_picture'
+    put:
+        summary: Upload a picture for a tweet
+        operationId: uploadTweetPicture
+        parameters:
+            - name: tweet_id
+              in: path
+              required: true
+              schema:
+                  type: string
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        type: object
+                    required:
+                        - tweet_picture
+                    properties:
+                        tweet_picture:
+                            type: string
+        responses:
+            '201':
+              description: Created
+            '404':
+              description: Tweet not found
+
 tweet_tweet_id:
     get:
       summary: Get a tweet by ID
@@ -130,3 +173,20 @@ tweet_reply:
             application/json:
               schema:
                 $ref: '../openapi.yaml#/components/schemas/Tweets'
+tweet_repost:
+  get:
+    summary: Get reposts of a tweet
+    operationId: getReposts
+    parameters:
+      - name: tweet_id
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/Tweets'
