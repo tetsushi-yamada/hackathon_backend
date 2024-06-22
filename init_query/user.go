@@ -22,6 +22,7 @@ func CreateUserTable(db *sql.DB) error {
 		user_id char(36) not null,
 		user_name varchar(32) not null,
 	    user_description char(36) default null,
+	    age int not null,
 	    is_private boolean not null default false,
 	    is_suspended boolean not null default false,
 		created_at timestamp not null default current_timestamp,

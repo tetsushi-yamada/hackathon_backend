@@ -5,6 +5,8 @@ User:
           type: string
         user_name:
           type: string
+        age:
+          type: integer
         user_description:
           type: string
         is_private:
