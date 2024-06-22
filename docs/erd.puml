@@ -3,6 +3,7 @@
 object user_settings {
     <#white>| char | user_id | PK | NOT NULL |
     <#white>| varchar | user_name | | NOT NULL |
+    <#white>| int | age | | NOT NULL |
     <#white>| varchar | user_description | | DEFAULT NULL |
     <#white>| boolean | is_private | | DEFAULT false |
     <#white>| boolean | is_suspended | | DEFAULT false |
